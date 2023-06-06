@@ -59,6 +59,10 @@ Route::middleware('auth')->group(function () {
         Route::resource('workstation', 'App\Http\Controllers\WorkstationController');
         Route::resource('occupation', 'App\Http\Controllers\OccupationController');
     });
+    //******** employee *******//
+    Route::prefix(config('app.hr'))->group(function () {
+        Route::resource('generalInformations', 'App\Http\Controllers\GeneralInformationController');
+    });
     
     //******** Human Resource *******//
     Route::prefix(config('app.hr'))->group(function () {

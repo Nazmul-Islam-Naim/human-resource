@@ -164,6 +164,21 @@
                                         </ul>
                                     </div>
                                 </li>
+                                <!-------------- employee inforamation part ------------>
+                                <li class="default-sidebar-dropdown {{(
+                                    $url==config('app.hr').'/generalInformations' || $url==config('app.hr').'/generalInformations/create' || $url==(request()->is(config('app.hr').'/generalInformations/*/edit')) ) ? 'active':''}}">
+                                    <a href="javascript::void(0)">
+                                        <i class="icon-user"></i>
+                                        <span class="menu-text">মানব সম্পদ</span>
+                                    </a>
+                                    <div class="default-sidebar-submenu">
+                                        <ul>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.hr').'/generalInformations'}}" class="{{($url==config('app.hr').'/generalInformations' || $url==config('app.hr').'/generalInformations/create' || $url==(request()->is(config('app.hr').'/generalInformations/*/edit'))) ? 'current-page':''}}"> সাধারন তথ্য </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
                                 <!-------------- employee part ------------>
                                 <li class="default-sidebar-dropdown {{(
                                    $url==config('app.hr').'/employee-list' || $url==config('app.hr').'/employee-list/create' || $url==(request()->is(config('app.hr').'/employee-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-pofile/*')) ||

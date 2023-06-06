@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\MaritialStatusEnum;
+use App\Enum\SexEnum;
 use App\Models\GeneralInformation;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -59,8 +61,6 @@ class EmployeeController extends Controller
             })->make(True);
         }
         return view ('employee.index');
-        // $data['alldata']= User::where('user_type', '3')->paginate(250);
-        // return view('employee.index', $data);
     }
 
     /**
@@ -75,6 +75,8 @@ class EmployeeController extends Controller
         $data['all_salary_scale'] = SalaryScale::all();
         $data['all_district'] = District::all();
         $data['all_workstation'] = Workstation::all();
+        $data['sexes'] = SexEnum::getEnum();
+        $data['maritialStatus'] = MaritialStatusEnum::getEnum();
         return view('employee.form',$data);
     }
 

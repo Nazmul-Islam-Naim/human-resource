@@ -54,18 +54,6 @@
                 <div class="field-placeholder">কর্মকর্তা/কর্মচারীর নাম <span class="text-danger">*</span></div>
               </div>
             </div>
-            <!--<div class="col-md-3">
-              <div class="field-wrapper">
-                <div class="input-group">
-                  <select name="user_type" class="form-control" required="">
-                    {{-- @foreach($all_user_type as $type)
-                    <option value="{{$type->id}}" {{(!empty($single_data->user_type) && $single_data->user_type==$type->id)?'selected':''}}>{{$type->user_type}}</option>
-                    @endforeach --}}
-                  </select>
-                </div>
-                <div class="field-placeholder">Role <span class="text-danger">*</span></div>
-              </div>
-            </div>-->
             <div class="col-md-3">
               <div class="field-wrapper">
                 <div class="input-group">
@@ -187,9 +175,9 @@
             <div class="col-md-3">
               <div class="field-wrapper">
                 <div class="input-group">
-                  <select name="gender" class="form-control select-single select2 js-state" data-live-search="true">
-                    @foreach(genders() as $key=>$value)
-                    <option value="{{$key}}" {{(!empty($single_data->gender) && $single_data->gender==$key)?'selected':''}}>{{$value}}</option>
+                  <select name="sex" class="form-control select-single select2 js-state" data-live-search="true">
+                    @foreach($sexes as $key=>$sex)
+                    <option value="{{$key}}" {{(!empty($single_data) && $single_data->sex==$sex)?'selected':''}}>{{$sex}}</option>
                     @endforeach
                   </select>
                 </div>
@@ -232,8 +220,8 @@
               <div class="field-wrapper">
                 <div class="input-group">
                   <select name="marital_status" class="form-control select-single select2 js-state" data-live-search="true">
-                    @foreach(maritalStatus() as $key=>$value)
-                    <option value="{{$key}}" {{(!empty($single_data->marital_status) && $single_data->marital_status==$key)?'selected':''}}>{{$value}}</option>
+                    @foreach($maritialStatus as $key=>$status)
+                    <option value="{{$key}}" {{(!empty($single_data->marital_status) && $single_data->marital_status==$key)?'selected':''}}>{{$status}}</option>
                     @endforeach
                   </select>
                 </div>
@@ -286,7 +274,6 @@ $(document).ready(function () {
   $('#salary_scale_id').change(function (e) { 
     e.preventDefault();
     var scale = $(this).val();
-    // alert(scale);
   });
 });
 </script>

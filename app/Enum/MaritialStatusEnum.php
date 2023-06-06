@@ -4,11 +4,12 @@ namespace App\Enum;
 
 use ReflectionEnum;
 
-enum SexEnum: int
+enum MaritialStatusEnum: int
 {
-    case Male       =   1;
-    case Female     =   2;
-    case Others     =   3;
+    case Single      =   1;
+    case Married     =   2;
+    case Divorece    =   3;
+    case Widowed     =   4;
 
     /**
      * [Will return cases name list]
@@ -33,6 +34,20 @@ enum SexEnum: int
         return $arr;
     }
 
+    
+   /**
+     * [return cases list with name and value]
+     *
+     * @return [array]
+     *
+     */
+    public static function getEnum(){
+        foreach(array_column(self::cases(), 'value') as $item){
+            $arr[$item]=self::getFromValue($item)->toString();
+        }
+        return $arr;
+    }
+    
      /**
      * [get case object by name]
      *
@@ -67,9 +82,10 @@ enum SexEnum: int
      */
     public function toString(){
         return match($this){
-            self::Male=>"Male",
-            self::Female=>"Female",
-            self::Others=>"Others",
+            self::Single=>"Single",
+            self::Married=>"Married",
+            self::Divorece=>"Divorece",
+            self::Widowed=>"Widowed",
         };
     }
 
