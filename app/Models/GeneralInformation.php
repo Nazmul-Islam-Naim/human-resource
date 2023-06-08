@@ -11,9 +11,10 @@ class GeneralInformation extends Model
     use HasFactory, SoftDeletes;
     protected $table = 'general_information';
     protected $fillable = [
-        'psc_merit_serial', 'name_in_bangla', 'name_in_english', 'district_id', 'birth_date', 'posting', 'location', 'sex', 'maritial_status', 'nid', 
-        'fathers_name_in_bangla', 'fathers_name_in_english', 'mothers_name_in_bangla', 'mothers_name_in_english', 'joining_date', 'go_date', 'religion',
-        'freedom_fighter', 'freedom_fighter_child', 'photo', 'signature', 'status'
+        'employee_id', 'name_in_bangla', 'name_in_english', 'fathers_name_in_bangla', 'mothers_name_in_bangla', 'district_id', 'maritial_status', 'birth_date', 
+        'prl_date', 'present_designation_id', 'present_workstation_id', 'salary_scale_id', 'joining_date', 'joining_designation_id', 'permanent_date', 'order_no',
+        'permanent_address', 'present_address', 'mobile', 'email', 'sex', 'maritial_status', 'spouse_name_in_bangla', 'occupation_id', 'spouse_district_id',
+        'photo', 'signature', 'status'
     ];
 
     // relationship
@@ -22,24 +23,28 @@ class GeneralInformation extends Model
         return $this->belongsTo(District::class);
     }
 
-    public function spouseInformation(){
-        return $this->hasOne(SpouseInformation::class);
+    public function presentDesignation(){
+        return $this->belongsTo(Designation::class,'present_designation_id');
     }
 
-    public function permanentAddress(){
-        return $this->hasOne(PermanentAddress::class);
+    public function presentWorkStation(){
+        return $this->belongsTo(Workstation::class,'present_workstation_id');
     }
 
-    public function presentAddress(){
-        return $this->hasOne(PresentAddress::class);
+    public function salaryScale(){
+        return $this->belongsTo(SalaryScale::class,'salary_scale_id');
     }
 
-    public function childrenInformation(){
-        return $this->hasMany(ChildrenInformation::class);
+    public function joiningDesignation(){
+        return $this->belongsTo(Designation::class,'joining_designation_id');
     }
 
-    public function visitingPower(){
-        return $this->hasMany(VisitingPowerCRP::class);
+    public function occupation(){
+        return $this->belongsTo(Occupation::class,'occupation_id');
+    }
+
+    public function spouseDistrict(){
+        return $this->belongsTo(District::class,'spouse_district_id');
     }
 
     public function educationalQualification(){

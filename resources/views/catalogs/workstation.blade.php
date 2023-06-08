@@ -45,7 +45,7 @@
                     {{-- <input class="form-control" type="text" name="description" value="{{(!empty($single_data->name))?$single_data->name:''}}" required="" autocomplete="off"> --}}
                     <textarea class="form-control" name="description" >{{(!empty($single_data->description))?$single_data->description:''}}</textarea>
                   </div>
-                  <div class="field-placeholder">Description <span class="text-danger">*</span></div>
+                  <div class="field-placeholder">Description</div>
                 </div>
                 <!-- Field wrapper end -->
               </div>

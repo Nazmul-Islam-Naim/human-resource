@@ -42,7 +42,7 @@
                 <!-- Field wrapper start -->
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input class="form-control" type="number" name="salary" value="{{(!empty($single_data->salary))?$single_data->salary:''}}" required="" autocomplete="off">
+                    <input class="form-control" type="text" name="salary" value="{{(!empty($single_data->salary))?$single_data->salary:''}}" required="" autocomplete="off">
                   </div>
                   <div class="field-placeholder">Salary <span class="text-danger">*</span></div>
                 </div>
