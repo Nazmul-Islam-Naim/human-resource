@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "13333744a80ebb8f1f63e1b21642fdaf",
+    "content-hash": "6e8be978adce364244d23c14f9b2e0a6",
     "packages": [
         {
             "name": "brick/math",
@@ -3078,6 +3078,56 @@
                 }
             ],
             "time": "2023-04-15T23:01:58+00:00"
+        },
+        {
+            "name": "s1k3/bangla-date",
+            "version": "1.07",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/s1k3/laravel_bangla_date.git",
+                "reference": "bfdbddbc4444fd7bb314b190764cb315c6bcbe3e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/s1k3/laravel_bangla_date/zipball/bfdbddbc4444fd7bb314b190764cb315c6bcbe3e",
+                "reference": "bfdbddbc4444fd7bb314b190764cb315c6bcbe3e",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0||^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "S1K3\\Bangla\\Date\\BanglaDateServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helper/bangla_date.php"
+                ],
+                "psr-4": {
+                    "S1K3\\Bangla\\Date\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Robin Khan",
+                    "email": "sk118420@gmail.com"
+                }
+            ],
+            "description": "Laravel Library for converting English date to corresponding Bangla Date",
+            "support": {
+                "issues": "https://github.com/s1k3/laravel_bangla_date/issues",
+                "source": "https://github.com/s1k3/laravel_bangla_date/tree/1.07"
+            },
+            "time": "2022-02-21T08:26:45+00:00"
         },
         {
             "name": "symfony/console",

@@ -94,9 +94,10 @@ class GeneralInformationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        return 'under construction';
+        $data['generalInformation'] = GeneralInformation::findOrFail($id);
+        return view('employee.generalInformation.show',$data);
     }
 
     /**
