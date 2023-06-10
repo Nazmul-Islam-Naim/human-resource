@@ -59,9 +59,17 @@ Route::middleware('auth')->group(function () {
         Route::resource('workstation', 'App\Http\Controllers\WorkstationController');
         Route::resource('occupation', 'App\Http\Controllers\OccupationController');
     });
+    //******** educational information *******//
+    Route::prefix(config('app.education'))->group(function () {
+        Route::resource('degrees', 'App\Http\Controllers\DegreeController');
+        Route::resource('passingYears', 'App\Http\Controllers\PassingYearController');
+        Route::resource('readingSubjects', 'App\Http\Controllers\ReadingSubjectController');
+        Route::resource('boards', 'App\Http\Controllers\BoardController');
+    });
     //******** employee *******//
     Route::prefix(config('app.hr'))->group(function () {
         Route::resource('generalInformations', 'App\Http\Controllers\GeneralInformationController');
+        Route::resource('educationalInformations', 'App\Http\Controllers\EducationalInformationController');
     });
     
     //******** Human Resource *******//

@@ -11,6 +11,7 @@
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
         "laravelcollective/html": "^6.4",
+        "rakibhstu/number-to-bangla": "^1.5",
         "s1k3/bangla-date": "^1.07",
         "yajra/laravel-datatables": "9.0"
     },

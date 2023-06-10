@@ -1,5 +1,5 @@
 @extends('layouts.layout')
-@section('title', 'কর্মকর্তা/কর্মচারীর তালিকা')
+@section('title', 'কর্মকর্তা/কর্মচারীর শিক্ষাসংক্রান্ত তথ্যাদির তালিকা')
 @section('content')
 <!-- Content Header (Page header) -->
 <?php
@@ -20,8 +20,8 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card card-primary">
           <div class="card-header d-flex justify-content-between align-items-center">
-              <h3 class="card-title">কর্মকর্তা/কর্মচারীর তালিকা</h3>
-              <a href="{{route('generalInformations.create')}}" class="btn btn-success btn-sm pull-right"><i class="icon-plus-circle"></i> <b>কর্মকর্তা/কর্মচারীর যোগ করুন</b></a>
+              <h3 class="card-title">কর্মকর্তা/কর্মচারীর শিক্ষাসংক্রান্ত তথ্যাদির তালিকা</h3>
+              <a href="{{route('educationalInformations.create')}}" class="btn btn-success btn-sm pull-right"><i class="icon-plus-circle"></i> <b>তথ্য যোগ করুন</b></a>
             </div>
           <!-- /.box-header -->
           <div class="card-body">
@@ -32,14 +32,15 @@
                     <thead> 
                       <tr> 
                         <th>সিঃ</th>
-                        <th>ছবি</th>
                         <th>নাম</th>
-                        <th>জেলা</th>
-                        <th>মোবাইল</th>
                         <th>বর্তমান পদবী</th> 
                         <th>বর্তমান কর্মস্থল</th> 
-                        <th>বেতন স্কেল</th>
-                        <th>যোগদান</th>
+                        <th>ডিগ্রী </th> 
+                        <th>পাসের সন </th> 
+                        <th>পাঠিত বিষয় </th> 
+                        <th>বোর্ড/বিশ্ববিদ্যালয় </th> 
+                        <th>ফলাফল </th> 
+                        <th>ডকুমেন্ট </th> 
                         <th width="15%">একশন</th>
                       </tr>
                     </thead>
@@ -88,7 +89,7 @@
 			serverSide: true,
 			processing: true,
 			ajax: {
-        url: "{{route('generalInformations.index')}}",
+        url: "{{route('educationalInformations.index')}}",
       },
       "lengthMenu": [[ 100, 150, 250, -1 ],[ '100', '150', '250', 'All' ]],
       dom: 'Blfrtip',
@@ -123,15 +124,6 @@
                 },
                 exportOptions: {
                     columns: [ 0, 1, 2, 3,4,5,6,7,8],
-                    format: {
-                    body: function (data, row, column, node) {
-                        // Include image HTML tag if applicable
-                        if (column === 'photo' && row.photo !== '') {
-                            return '<img src="' + row.photo + '">';
-                        }
-                        return data;
-                    }
-                  }
                 },
                 messageBottom: null
             }
@@ -141,35 +133,30 @@
 			columns: [
         {data: 'DT_RowIndex'},
 				{
-          data: 'photo',
-          render:function(data, type, row){
-            if (row.photo != null) {
-              return '<img src="{{asset("storage")}}/'+data+'" width="50" height="50" >';
-            }
-            return ''
-          },
-          escape: false
-        },
-				{
-          data: 'name_in_bangla',
+          data: 'general_information.name',
           render: function(data, type, row) {
             var url = "/hr/employee-transferred-history/"+ row.id; 
 						return '<a href=' + url +'>'+ data +'</a>';
 					}
         },
-				{data: 'district.name'},
-				{data: 'mobile'},
-				{data: 'present_designation.title'},
-				{data: 'present_work_station.name'},
-				{data: 'salary_scale.name'},
+				{data: 'general_information.present_designation.name'},
+				{data: 'general_information.present_workstation.name'},
+				{data: 'degree.name'},
+				{data: 'passing_year.name'},
+				{data: 'reading_subject.name'},
+				{data: 'board.name'},
+				{data: 'result'},
 				{
-          data: 'joining_date',
-          render: function(data, type, full, meta) {
-						if (data != null) {
-              const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
-							return toBn(dateFormat(new Date(data)).toString());
-						}
-					}
+          data: 'document',
+          render:function(data, type, row){
+            if (data != null) {
+              var url = '{{asset("storage/".":doc")}}'; 
+              var url = url.replace(':doc', data);
+              return "<a href='"+ url +"' class='btn btn-sm btn-default btn-status-active' target='_blank' data-id='" + row.id + "'><i class='fa fa-file-pdf-o'  aria-hidden='true'></i></a>";
+            } else {
+              return ''
+            }
+          }
         },
 				{
           data: 'action',
@@ -188,7 +175,7 @@
           return false;
         }
         var id = $(this).data('id');
-        var link = '{{route("generalInformations.destroy",":id")}}';
+        var link = '{{route("educationalInformations.destroy",":id")}}';
         var link = link.replace(':id', id);
         var token = '{{csrf_token()}}';
         $.ajax({

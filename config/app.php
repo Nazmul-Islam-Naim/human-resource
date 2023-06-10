@@ -60,6 +60,7 @@ return [
     'asset_url' => env('ASSET_URL'),
     'user' => 'user',
     'cat' => 'catelog',
+    'education' => 'educational-information',
     'hr' => 'hr',
 
     /*

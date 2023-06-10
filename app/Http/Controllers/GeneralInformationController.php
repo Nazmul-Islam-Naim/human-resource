@@ -37,7 +37,7 @@ class GeneralInformationController extends Controller
 
                 <ul class="list-inline m-0">
                     <li class="list-inline-item">
-                        <a href="<?php echo route('generalInformations.show',$row->id); ?>" class="badge bg-primary badge-sm" data-id="<?php echo $row->id; ?>" title="Profile"><i class="icon-eye"></i></a>
+                        <a href="<?php echo route('generalInformations.show',$row->id); ?>" target="_blank" class="badge bg-primary badge-sm" data-id="<?php echo $row->id; ?>" title="Profile"><i class="icon-eye"></i></a>
                     </li>
                     <li class="list-inline-item">
                         <a href="<?php echo route('generalInformations.edit',$row->id); ?>" class="badge bg-info badge-sm" data-id="<?php echo $row->id; ?>" title="Edit"><i class="icon-edit1"></i></a>
