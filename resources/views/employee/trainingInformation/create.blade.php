@@ -1,5 +1,5 @@
 @extends('layouts.layout')
-@section('title', 'শিক্ষাসংক্রান্ত তথ্যাদি সংরক্ষন করুন')
+@section('title', 'প্রশিক্ষন সম্পর্কিত তথ্যাদি সংরক্ষন করুন')
 @section('content')
 <!-- Content Header (Page header) -->
 <?php
@@ -18,9 +18,9 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card">
           <div class="card-header">
-            <div class="card-title">শিক্ষাসংক্রান্ত তথ্যাদি সংরক্ষন করুন</div>
+            <div class="card-title">রশিক্ষন সম্পর্কিত তথ্যাদি সংরক্ষন করুন</div>
           </div>
-          {!! Form::open(array('route' =>['educationalInformations.store'],'method'=>'POST','files'=>true)) !!}
+          {!! Form::open(array('route' =>['trainingInformations.store'],'method'=>'POST','files'=>true)) !!}
           <div class="card-body">
             <div class="col-md-12">
               <div class="form-inline">
@@ -57,11 +57,11 @@
                   <thead>
                     <tr>
                       <th  style="text-align: center; border:none">সিঃ</th>
-                      <th  style="text-align: center; border:none">ডিগ্রী </th>
-                      <th  style="text-align: center; border:none">পাসের সন</th>
-                      <th  style="text-align: center; border:none">পাঠিত বিষয় </th>
-                      <th  style="text-align: center; border:none">বোর্ড/বিশ্ববিদ্যালয়</th>
-                      <th  style="text-align: center; border:none">ফলাফল</th>
+                      <th  style="text-align: center; border:none">কোর্স </th>
+                      <th  style="text-align: center; border:none">ইনস্টিটিউট</th>
+                      <th  style="text-align: center; border:none">হতে </th>
+                      <th  style="text-align: center; border:none">পর্যন্ত</th>
+                      <th  style="text-align: center; border:none">মন্তব্য</th>
                       <th  style="text-align: center; border:none">ডকুমেন্ট</th>
                       <th  style="text-align: center; border:none">একশন</th>
                     </tr>
@@ -72,39 +72,29 @@
                           <span>1</span>
                         </td>
                         <td style="border: 1px solid #fff; width:15%">
-                            <select  name="addmore[0][degree_id]" id="degree_id_0"  class="form-control degree_id" required="">
+                            <select  name="addmore[0][course_id]" id="course_id_0"  class="form-control course_id" required="">
                               <option value="">Select</option>
-                              @foreach ($degrees as $degree)
-                                  <option value="{{$degree->id}}">{{$degree->name}}</option>
+                              @foreach ($courses as $course)
+                                  <option value="{{$course->id}}">{{$course->name}}</option>
                               @endforeach
                            </select>
                         </td>
                         <td style="border: 1px solid #fff; width:15%">
-                            <select  name="addmore[0][passing_year_id]" id="passing_year_id_0"  class="form-control passing_year_id" required="">
+                            <select  name="addmore[0][institute_id]" id="institute_id_0"  class="form-control institute_id" required="">
                               <option value="">Select</option>
-                              @foreach ($passingYears as $passingYear)
-                                  <option value="{{$passingYear->id}}">{{$passingYear->name}}</option>
+                              @foreach ($institutes as $institute)
+                                  <option value="{{$institute->id}}">{{$institute->name}}</option>
                               @endforeach
                            </select>
                         </td>
                         <td style="border: 1px solid #fff; width:15%">
-                            <select  name="addmore[0][reading_subject_id]" id="reading_subject_id_0"  class="form-control reading_subject_id" required="">
-                              <option value="">Select</option>
-                              @foreach ($readingSubjects as $readingSubject)
-                                  <option value="{{$readingSubject->id}}">{{$readingSubject->name}}</option>
-                              @endforeach
-                           </select>
+                          <input type="date" class="form-control" name="addmore[0][date_from]" value="{{date("Y-m-d")}}" autocomplete="off" required>
                         </td>
                         <td style="border: 1px solid #fff; width:15%">
-                            <select  name="addmore[0][board_id]" id="board_id_0"  class="form-control board_id" required="">
-                              <option value="">Select</option>
-                              @foreach ($boards as $board)
-                                  <option value="{{$board->id}}">{{$board->name}}</option>
-                              @endforeach
-                           </select>
+                          <input type="date" class="form-control" name="addmore[0][date_to]" value="{{date("Y-m-d")}}" autocomplete="off" required>
                         </td>
                         <td style="border: 1px solid #fff; width:15%">
-                          <input type="text" class="form-control" name="addmore[0][result]" autocomplete="off" required>
+                          <input type="text" class="form-control" name="addmore[0][comment]" autocomplete="off" required>
                         </td>
                         <td style="border: 1px solid #fff; width:20%">
                           <input type="file" class="form-control" name="addmore[0][document]" autocomplete="off">
@@ -130,29 +120,19 @@
 </div>
 <!-- Content wrapper scroll end -->
 @php
-$availableDegrees = "";
-$availablePassingYears = "";
-$availableReadingSubjects = "";
-$availableBoards = "";
-  foreach ($degrees as $key => $degree) {
-    $availableDegrees .= '<option value="'.$degree->id.'">'.$degree->name.'</option>';
+$availableCoures = "";
+$availableInstitutes = "";
+  foreach ($courses as $key => $course) {
+    $availableCoures .= '<option value="'.$course->id.'">'.$course->name.'</option>';
   }
-  foreach ($passingYears as $key => $passingYear) {
-    $availablePassingYears .= '<option value="'.$passingYear->id.'">'.$passingYear->name.'</option>';
-  }
-  foreach ($readingSubjects as $key => $readingSubject) {
-    $availableReadingSubjects .= '<option value="'.$readingSubject->id.'">'.$readingSubject->name.'</option>';
-  }
-  foreach ($boards as $key => $board) {
-    $availableBoards .= '<option value="'.$board->id.'">'.$board->name.'</option>';
+  foreach ($institutes as $key => $institute) {
+    $availableInstitutes .= '<option value="'.$institute->id.'">'.$institute->name.'</option>';
   }
 @endphp
 {!!Html::script('custom/js/jquery.min.js')!!}
 <script type="text/javascript"> 
-var AvailableDegrees = '<?php echo $availableDegrees;?>';
-var AvailablePassingYears = '<?php echo $availablePassingYears;?>';
-var AvailableReadingSubjects = '<?php echo $availableReadingSubjects;?>';
-var AvailableBoards = '<?php echo $availableBoards;?>';
+var AvailableCourses = '<?php echo $availableCoures;?>';
+var AvailableInstitutes = '<?php echo $availableInstitutes;?>';
 var i=0;
 var rowcount=1;
 function addrow() {
@@ -163,27 +143,23 @@ function addrow() {
       row += ' <span>'+rowcount+'</span>';
       row += '</td>';
       row += '<td style="border: 1px solid #fff; width:15%">';
-      row += '<select  name="addmore['+i+'][degree_id]" id="degree_id_'+i+'"  class="form-control degree_id" required="">';
-      row += '<option value="">Select</option>'+AvailableDegrees;
+      row += '<select  name="addmore['+i+'][course_id]" id="course_id_'+i+'"  class="form-control course_id" required="">';
+      row += '<option value="">Select</option>'+AvailableCourses;
       row += '</select>';
       row += '</td>';
       row += '<td style="border: 1px solid #fff; width:15%">';
-      row += '<select  name="addmore['+i+'][passing_year_id]" id="passing_year_id_'+i+'"  class="form-control passing_year_id" required="">';
-      row += '<option value="">Select</option>'+AvailablePassingYears;
+      row += '<select  name="addmore['+i+'][institute_id]" id="institute_id_'+i+'"  class="form-control institute_id" required="">';
+      row += '<option value="">Select</option>'+AvailableInstitutes;
       row += '</select>';
       row += '</td>';
       row += '<td style="border: 1px solid #fff; width:15%">';
-      row += '<select  name="addmore['+i+'][reading_subject_id]" id="reading_subject_id_'+i+'"  class="form-control reading_subject_id" required="">';
-      row += '<option value="">Select</option>'+AvailableReadingSubjects;
-      row += '</select>';
+      row += ' <input type="date" class="form-control" name="addmore['+i+'][date_from]" value="{{date("Y-m-d")}}" autocomplete="off" required>';
       row += '</td>';
       row += '<td style="border: 1px solid #fff; width:15%">';
-      row += '<select  name="addmore['+i+'][board_id]" id="board_id_'+i+'"  class="form-control board_id" required="">';
-      row += '<option value="">Select</option>'+AvailableBoards;
-      row += '</select>';
+      row += ' <input type="date" class="form-control" name="addmore['+i+'][date_to]" value="{{date("Y-m-d")}}" autocomplete="off" required>';
       row += '</td>';
       row += '<td style="border: 1px solid #fff; width:15%">';
-      row += ' <input type="text" class="form-control" name="addmore['+i+'][result]" autocomplete="off" required>';
+      row += ' <input type="text" class="form-control" name="addmore['+i+'][comment]" autocomplete="off" required>';
       row += '</td>';
       row += '<td style="border: 1px solid #fff; width:20%">';
       row += ' <input type="file" class="form-control" name="addmore['+i+'][document]" autocomplete="off">';

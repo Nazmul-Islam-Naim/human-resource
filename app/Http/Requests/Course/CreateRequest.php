@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Requests\EducationalInformation;
+namespace App\Http\Requests\Course;
 
+use App\Models\Course;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class UpdateRequest extends FormRequest
+class CreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,12 +24,7 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'degree_id' => ['required'],
-            'passing_year_id' => ['required'],
-            'reading_subject_id' => ['required'],
-            'board_id' => ['required'],
-            'result' => ['required', 'max:15'],
-            'document' => ['nullable', 'mimes:pdf,jpg,jpeg,png'],
+            'name' => ['required', 'max:150', Rule::unique(Course::class)]
         ];
     }
 }

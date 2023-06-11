@@ -47,12 +47,12 @@ class GeneralInformation extends Model
         return $this->belongsTo(District::class,'spouse_district_id');
     }
 
-    public function educationalQualification(){
-        return $this->hasMany(EducationalQualification::class);
+    public function educationalInformation(){
+        return $this->hasMany(EducationalInformation::class);
     }
 
-    public function localTraining(){
-        return $this->hasMany(LocalTraining::class);
+    public function trainingInformation(){
+        return $this->hasMany(TrainingInformation::class);
     }
 
 }

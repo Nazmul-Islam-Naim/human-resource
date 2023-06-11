@@ -65,11 +65,14 @@ Route::middleware('auth')->group(function () {
         Route::resource('passingYears', 'App\Http\Controllers\PassingYearController');
         Route::resource('readingSubjects', 'App\Http\Controllers\ReadingSubjectController');
         Route::resource('boards', 'App\Http\Controllers\BoardController');
+        Route::resource('courses', 'App\Http\Controllers\CourseController');
+        Route::resource('institutes', 'App\Http\Controllers\InstituteController');
     });
     //******** employee *******//
     Route::prefix(config('app.hr'))->group(function () {
         Route::resource('generalInformations', 'App\Http\Controllers\GeneralInformationController');
         Route::resource('educationalInformations', 'App\Http\Controllers\EducationalInformationController');
+        Route::resource('trainingInformations', 'App\Http\Controllers\TrainingInformationController');
     });
     
     //******** Human Resource *******//

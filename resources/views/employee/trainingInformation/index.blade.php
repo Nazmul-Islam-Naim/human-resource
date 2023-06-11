@@ -1,5 +1,5 @@
 @extends('layouts.layout')
-@section('title', 'কর্মকর্তা/কর্মচারীর শিক্ষাসংক্রান্ত তথ্যাদির তালিকা')
+@section('title', 'কর্মকর্তা/কর্মচারীর প্রশিক্ষন সম্পর্কিত তথ্যাদির তালিকা')
 @section('content')
 <!-- Content Header (Page header) -->
 <?php
@@ -20,8 +20,8 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card card-primary">
           <div class="card-header d-flex justify-content-between align-items-center">
-              <h3 class="card-title">কর্মকর্তা/কর্মচারীর শিক্ষাসংক্রান্ত তথ্যাদির তালিকা</h3>
-              <a href="{{route('educationalInformations.create')}}" class="btn btn-success btn-sm pull-right"><i class="icon-plus-circle"></i> <b>তথ্য যোগ করুন</b></a>
+              <h3 class="card-title">কর্মকর্তা/কর্মচারীর প্রশিক্ষন সম্পর্কিত তথ্যাদির তালিকা</h3>
+              <a href="{{route('trainingInformations.create')}}" class="btn btn-success btn-sm pull-right"><i class="icon-plus-circle"></i> <b>তথ্য যোগ করুন</b></a>
             </div>
           <!-- /.box-header -->
           <div class="card-body">
@@ -35,11 +35,11 @@
                         <th>নাম</th>
                         <th>বর্তমান পদবী</th> 
                         <th>বর্তমান কর্মস্থল</th> 
-                        <th>ডিগ্রী </th> 
-                        <th>পাসের সন </th> 
-                        <th>পাঠিত বিষয় </th> 
-                        <th>বোর্ড/বিশ্ববিদ্যালয় </th> 
-                        <th>ফলাফল </th> 
+                        <th>কোর্স </th> 
+                        <th>ইনস্টিটিউট</th> 
+                        <th>থেকে </th> 
+                        <th>পর্যন্ত</th> 
+                        <th>মন্তব্য </th> 
                         <th>ডকুমেন্ট </th> 
                         <th width="15%">একশন</th>
                       </tr>
@@ -85,11 +85,11 @@
 		'use strict';
 
    
-    var table = $('#example').DataTable({
+    var table = $('#example').DataTable({ 
 			serverSide: true,
 			processing: true,
 			ajax: {
-        url: "{{route('educationalInformations.index')}}",
+        url: "{{route('trainingInformations.index')}}",
       },
       "lengthMenu": [[ 100, 150, 250, -1 ],[ '100', '150', '250', 'All' ]],
       dom: 'Blfrtip',
@@ -142,11 +142,23 @@
         },
 				{data: 'general_information.present_designation.title'},
 				{data: 'general_information.present_workstation.name'},
-				{data: 'degree.name'},
-				{data: 'passing_year.name'},
-				{data: 'reading_subject.name'},
-				{data: 'board.name'},
-				{data: 'result'},
+				{data: 'course.name'},
+				{data: 'institute.name'},
+				{
+          data: 'date_from',
+          render:function(data, type, row){
+            const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
+            return toBn(dateFormat(new Date(data)).toString());
+          }
+        },
+				{
+          data: 'date_to',
+          render:function(data, type, row){
+            const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
+            return toBn(dateFormat(new Date(data)).toString());
+          }
+        },
+				{data: 'comment'},
 				{
           data: 'document',
           render:function(data, type, row){
@@ -176,7 +188,7 @@
           return false;
         }
         var id = $(this).data('id');
-        var link = '{{route("educationalInformations.destroy",":id")}}';
+        var link = '{{route("trainingInformations.destroy",":id")}}';
         var link = link.replace(':id', id);
         var token = '{{csrf_token()}}';
         $.ajax({

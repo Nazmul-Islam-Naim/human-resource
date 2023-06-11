@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\EducationalInformation;
+namespace App\Http\Requests\TrainingInformation;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -22,11 +22,11 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'degree_id' => ['required'],
-            'passing_year_id' => ['required'],
-            'reading_subject_id' => ['required'],
-            'board_id' => ['required'],
-            'result' => ['required', 'max:15'],
+            'course_id' => ['required'],
+            'institute_id' => ['required'],
+            'date_from' => ['required', 'date', 'date_format:Y-m-d'],
+            'date_to' => ['required', 'date', 'date_format:Y-m-d'],
+            'comment' => ['nullable', 'max:255'],
             'document' => ['nullable', 'mimes:pdf,jpg,jpeg,png'],
         ];
     }

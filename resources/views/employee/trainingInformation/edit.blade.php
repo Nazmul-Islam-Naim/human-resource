@@ -1,5 +1,5 @@
 @extends('layouts.layout')
-@section('title', 'শিক্ষাসংক্রান্ত তথ্যা সংশোধন করুন')
+@section('title', 'প্রশিক্ষন সম্পর্কিত তথ্যা সংশোধন করুন')
 @section('content')
 <!-- Content Header (Page header) -->
 <?php
@@ -19,10 +19,10 @@
   
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card card-primary">
-          {!! Form::open(array('route' =>['educationalInformations.update',$educationalInformation->id],'method'=>'PUT','enctype'=>'multipart/form-data')) !!}
+          {!! Form::open(array('route' =>['trainingInformations.update',$trainingInformation->id],'method'=>'PUT','enctype'=>'multipart/form-data')) !!}
           <div class="card-header d-flex justify-content-between align-items-center">
-            <h2 class="card-title text-success">শিক্ষাসংক্রান্ত তথ্যা সংশোধন করুন</h2>
-            <a href="{{route('educationalInformations.index')}}" class="btn btn-primary btn-sm pull-right"><i class="icon-list"></i> <b>শিক্ষাসংক্রান্ত তথ্যের তালিকা</b></a>
+            <h2 class="card-title text-success">প্রশিক্ষন সম্পর্কিত তথ্যা সংশোধন করুন</h2>
+            <a href="{{route('trainingInformations.index')}}" class="btn btn-primary btn-sm pull-right"><i class="icon-list"></i> <b>শিক্ষাসংক্রান্ত তথ্যের তালিকা</b></a>
           </div>
           <!-- /.box-header -->
           <div class="card-body">
@@ -33,7 +33,7 @@
                     <input type="text"  
                     name="name_in_bangla"
                     class="form-control" 
-                    value="{{$educationalInformation->generalInformation->name_in_bangla}}"
+                    value="{{$trainingInformation->generalInformation->name_in_bangla}}"
                     readonly>
                   </div>
                   <div class="field-placeholder">নাম</div>
@@ -42,72 +42,66 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <select name="degree_id" 
-                    class="form-control select2 @error('degree_id') is-invalid @enderror" 
+                    <select name="course_id" 
+                    class="form-control select2 @error('course_id') is-invalid @enderror" 
                     required="">
                       <option value="">Select</option>
-                      @foreach($degrees as $degree)
-                      <option value="{{$degree->id}}" {{(($educationalInformation->degree_id == $degree->id) ?? (old('degree_id') == $degree->id)) ? 'selected' : ''}}>{{$degree->name}}</option>
+                      @foreach($courses as $course)
+                      <option value="{{$course->id}}" {{(($trainingInformation->course_id == $course->id) ?? (old('course_id') == $course->id)) ? 'selected' : ''}}>{{$course->name}}</option>
                       @endforeach
                     </select>
                   </div>
-                  <div class="field-placeholder">ডিগ্রী <span class="text-danger">*</span></div>
+                  <div class="field-placeholder">কোর্স <span class="text-danger">*</span></div> 
                 </div>
-                @error('degree_id')
+                @error('course_id')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
               </div>
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <select name="passing_year_id" 
-                    class="form-control select2 @error('passing_year_id') is-invalid @enderror" 
+                    <select name="institute_id" 
+                    class="form-control select2 @error('institute_id') is-invalid @enderror" 
                     required="">
                       <option value="">Select</option>
-                      @foreach($passingYears as $passingYear)
-                      <option value="{{$passingYear->id}}" {{(($educationalInformation->passing_year_id == $passingYear->id) ?? (old('passing_year_id') == $passingYear->id)) ? 'selected' : ''}}>{{$passingYear->name}}</option>
+                      @foreach($institutes as $institute)
+                      <option value="{{$institute->id}}" {{(($trainingInformation->institute_id == $institute->id) ?? (old('institute_id') == $institute->id)) ? 'selected' : ''}}>{{$institute->name}}</option>
                       @endforeach
                     </select>
                   </div>
-                  <div class="field-placeholder">পাসের সন <span class="text-danger">*</span></div>
+                  <div class="field-placeholder">ইনস্টিটিউট<span class="text-danger">*</span></div>
                 </div>
-                @error('passing_year_id')
+                @error('institute_id')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
               </div>
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <select name="reading_subject_id" 
-                    class="form-control select2 @error('reading_subject_id') is-invalid @enderror" 
-                    required="">
-                      <option value="">Select</option>
-                      @foreach($readingSubjects as $readingSubject)
-                      <option value="{{$readingSubject->id}}" {{(($educationalInformation->reading_subject_id == $readingSubject->id) ?? (old('reading_subject_id') == $readingSubject->id)) ? 'selected' : ''}}>{{$readingSubject->name}}</option>
-                      @endforeach
-                    </select>
+                    <input type="date" 
+                    name="date_from"  
+                    class="form-control" 
+                    value="{{$trainingInformation->date_from}}"
+                    autocomplete="off" required>
                   </div>
-                  <div class="field-placeholder">পাঠিত বিষয় <span class="text-danger">*</span></div>
+                  <div class="field-placeholder">হতে <span class="text-danger">*</span></div>
                 </div>
-                @error('reading_subject_id')
+                @error('date_from')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
               </div>
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <select name="board_id" 
-                    class="form-control select2 @error('board_id') is-invalid @enderror" 
-                    required="">
-                      <option value="">Select</option>
-                      @foreach($boards as $board)
-                      <option value="{{$board->id}}" {{(($educationalInformation->board_id == $board->id) ?? (old('board_id') == $board->id)) ? 'selected' : ''}}>{{$board->name}}</option>
-                      @endforeach
-                    </select>
+                    <input type="date" 
+                    name="date_to"  
+                    class="form-control" 
+                    value="{{$trainingInformation->date_to}}"
+                    autocomplete="off" required>
                   </div>
-                  <div class="field-placeholder">বোর্ড/বিশ্ববিদ্যালয় <span class="text-danger">*</span></div>
+                  <div class="field-placeholder">পর্যন্ত <span class="text-danger">*</span></div>
                 </div>
-                @error('board_id')
+                @error('date_to')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
               </div>
@@ -115,14 +109,14 @@
                 <div class="field-wrapper">
                   <div class="input-group">
                     <input type="text" 
-                    name="result" 
+                    name="comment" 
                     class="form-control" 
-                    value="{{$educationalInformation->result}}"
+                    value="{{$trainingInformation->comment}}"
                     autocomplete="off" required>
                   </div>
                   <div class="field-placeholder">ফলাফল <span class="text-danger">*</span></div>
                 </div>
-                @error('result')
+                @error('comment')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
               </div>
@@ -146,14 +140,4 @@
   </div>
 </div>
 <!-- /.content -->
-{!!Html::script('custom/js/jquery.min.js')!!}
-{!!Html::script('custom/ninja/jquery.min.3.6.0.js')!!}
-<script>
-$(document).ready(function () {
-  $('#salary_scale_id').change(function (e) { 
-    e.preventDefault();
-    var scale = $(this).val();
-  });
-});
-</script>
 @endsection 

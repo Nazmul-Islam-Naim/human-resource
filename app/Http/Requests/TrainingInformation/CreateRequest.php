@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\EducationalInformation;
+namespace App\Http\Requests\TrainingInformation;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,11 +24,11 @@ class CreateRequest extends FormRequest
         return [
             'general_information_id' => ['required'],
             'addmore'            =>  ['required', 'array'],
-            'addmore.*.degree_id' => ['required'],
-            'addmore.*.passing_year_id' => ['required'],
-            'addmore.*.reading_subject_id' => ['required'],
-            'addmore.*.board_id' => ['required'],
-            'addmore.*.result' => ['required', 'max:15'],
+            'addmore.*.course_id' => ['required'],
+            'addmore.*.institute_id' => ['required'],
+            'addmore.*.date_from' => ['required', 'date', 'date_format:Y-m-d'],
+            'addmore.*.date_to' => ['required', 'date', 'date_format:Y-m-d'],
+            'addmore.*.comment' => ['nullable', 'max:255'],
             'addmore.*.document' => ['nullable', 'mimes:pdf,jpg,jpeg,png'],
         ];
     }
