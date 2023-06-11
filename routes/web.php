@@ -1,22 +1,8 @@
 <?php
 
-use App\Http\Controllers\Pages\AboutUsController;
-use App\Http\Controllers\Pages\BlogCategoryController;
-use App\Http\Controllers\Pages\BlogPostController;
-use App\Http\Controllers\Pages\CustomerReviewController;
-use App\Http\Controllers\Pages\ProjectController;
-use App\Http\Controllers\Pages\ProjectTypeController;
-use App\Http\Controllers\Pages\ServiceController;
-use App\Http\Controllers\Pages\ServiceTypeController;
-use App\Http\Controllers\Pages\TeamController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\SiteSettings\ContactController;
-use App\Http\Controllers\SiteSettings\LogoController;
-use App\Http\Controllers\SiteSettings\SliderController;
-use App\Http\Controllers\SiteSettings\SocialLinkController;
-use App\Http\Controllers\Website\WebsiteController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\DesignationController;
 use Illuminate\Support\Facades\Route;
@@ -67,12 +53,14 @@ Route::middleware('auth')->group(function () {
         Route::resource('boards', 'App\Http\Controllers\BoardController');
         Route::resource('courses', 'App\Http\Controllers\CourseController');
         Route::resource('institutes', 'App\Http\Controllers\InstituteController');
+        Route::resource('publications', 'App\Http\Controllers\PublicationController');
     });
     //******** employee *******//
     Route::prefix(config('app.hr'))->group(function () {
         Route::resource('generalInformations', 'App\Http\Controllers\GeneralInformationController');
         Route::resource('educationalInformations', 'App\Http\Controllers\EducationalInformationController');
         Route::resource('trainingInformations', 'App\Http\Controllers\TrainingInformationController');
+        Route::resource('publicationInformations', 'App\Http\Controllers\PublicationInformationController');
     });
     
     //******** Human Resource *******//

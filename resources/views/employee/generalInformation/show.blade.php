@@ -96,8 +96,8 @@
                                 <td colspan="4" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:justify; ">স্বামী/স্ত্রীর নাম ও পেশাঃ  {{$generalInformation->spouse_name_in_bangla}}, {{$generalInformation->occupation->name ?? ''}}</td>
                                 <td colspan="4" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:justify; ">বৈবাহিক অবস্থাঃ {{$generalInformation->spouseDistrict->name ?? ''}}</td>
                               </tr>
-                              <tr>
-                                <td colspan="8" style="text-align: center">খ. শিক্ষাসংক্রান্ত তথ্যাদি</td>
+                              <tr style="border:none; text-align: center; height:50px">
+                                <td colspan="8" style="border:none; text-align: center;">খ. শিক্ষাসংক্রান্ত তথ্যাদি</td>
                               </tr>
                               @if (count($generalInformation->educationalInformation)>0)
                               <tr>
@@ -125,8 +125,8 @@
                                   </tr>
                                   @endforeach
                                 @endif
-                                <tr>
-                                  <td colspan="8" style="text-align: center">গ. প্রশিক্ষন সম্পর্কিত তথ্যাদি</td>
+                                <tr style="border:none; text-align: center; height:50px">
+                                  <td colspan="8" style="border:none; text-align: center">গ. প্রশিক্ষন সম্পর্কিত তথ্যাদি</td>
                                 </tr>
                                 @if (count($generalInformation->trainingInformation)>0)
                                 <tr>
@@ -151,6 +151,34 @@
                                       <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">
                                         @if (!empty($trainingInformation->document))
                                         <a href="{{asset('storage/'.$trainingInformation->document)}}" target="_blank"><i class="icon-documents"></i></a>
+                                        @endif
+                                      </td>
+                                    </tr>
+                                    @endforeach
+                                  @endif
+                                <tr style="border:none; text-align: center; height:50px">
+                                  <td colspan="8" style="border:none; text-align: center">ঘ. প্রকাশনা সম্পর্কিত তথ্যাদি</td>
+                                </tr>
+                                @if (count($generalInformation->publicationInformation)>0)
+                                <tr>
+                                  <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ক্রম.</td>
+                                  <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">প্রকাশনার শিরোনাম</td>
+                                  <td colspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">জার্নালের নাম/বইয়ের নামে</td>
+                                  <td colspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">প্রকাশকাল</td>
+                                  <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">মন্তব্য</td>
+                                  <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ডকুমেন্ট</td>
+                                </tr>
+                                    @foreach ($generalInformation->publicationInformation as $key => $publicationInformation)
+                                    <tr>
+                                      <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$numTo->bnNum($key+1)}}</td>
+                                      <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$publicationInformation->publication->name ?? ''}}</td>
+                                      <td colspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$publicationInformation->books_name}}</td>
+                                      <td colspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$numTo->bnNum(date('d',strtotime($publicationInformation->publication_date)))}}/
+                                        {{$numTo->bnNum(date('m',strtotime($publicationInformation->publication_date)))}}/{{$numTo->bnNum(date('Y',strtotime($publicationInformation->publication_date)))}} খ্রিঃ </td>
+                                      <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$publicationInformation->comment}}</td>
+                                      <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">
+                                        @if (!empty($publicationInformation->document))
+                                        <a href="{{asset('storage/'.$publicationInformation->document)}}" target="_blank"><i class="icon-documents"></i></a>
                                         @endif
                                       </td>
                                     </tr>

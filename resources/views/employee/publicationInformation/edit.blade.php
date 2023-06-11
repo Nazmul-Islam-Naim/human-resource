@@ -1,5 +1,5 @@
 @extends('layouts.layout')
-@section('title', 'প্রশিক্ষন সম্পর্কিত তথ্যা সংশোধন করুন')
+@section('title', 'প্রকাশনা সম্পর্কিত তথ্যা সংশোধন করুন')
 @section('content')
 <!-- Content Header (Page header) -->
 <?php
@@ -19,10 +19,10 @@
   
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card card-primary">
-          {!! Form::open(array('route' =>['trainingInformations.update',$trainingInformation->id],'method'=>'PUT','enctype'=>'multipart/form-data')) !!}
+          {!! Form::open(array('route' =>['publicationInformations.update',$publicationInformation->id],'method'=>'PUT','enctype'=>'multipart/form-data')) !!}
           <div class="card-header d-flex justify-content-between align-items-center">
-            <h2 class="card-title text-success">প্রশিক্ষন সম্পর্কিত তথ্যা সংশোধন করুন</h2>
-            <a href="{{route('trainingInformations.index')}}" class="btn btn-primary btn-sm pull-right"><i class="icon-list"></i> <b>প্রশিক্ষন তথ্যের তালিকা</b></a>
+            <h2 class="card-title text-success">প্রকাশনা সম্পর্কিত তথ্যা সংশোধন করুন</h2>
+            <a href="{{route('publicationInformations.index')}}" class="btn btn-primary btn-sm pull-right"><i class="icon-list"></i> <b>প্রকাশনা তথ্যের তালিকা</b></a>
           </div>
           <!-- /.box-header -->
           <div class="card-body">
@@ -33,7 +33,7 @@
                     <input type="text"  
                     name="name_in_bangla"
                     class="form-control" 
-                    value="{{$trainingInformation->generalInformation->name_in_bangla}}"
+                    value="{{$publicationInformation->generalInformation->name_in_bangla}}"
                     readonly>
                   </div>
                   <div class="field-placeholder">নাম</div>
@@ -42,36 +42,33 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <select name="course_id" 
-                    class="form-control select2 @error('course_id') is-invalid @enderror" 
+                    <select name="publication_id" 
+                    class="form-control select2 @error('publication_id') is-invalid @enderror" 
                     required="">
                       <option value="">Select</option>
-                      @foreach($courses as $course)
-                      <option value="{{$course->id}}" {{(($trainingInformation->course_id == $course->id) ?? (old('course_id') == $course->id)) ? 'selected' : ''}}>{{$course->name}}</option>
+                      @foreach($publications as $publication)
+                      <option value="{{$publication->id}}" {{(($publicationInformation->publication_id == $publication->id) ?? (old('publication_id') == $publication->id)) ? 'selected' : ''}}>{{$publication->name}}</option>
                       @endforeach
                     </select>
                   </div>
-                  <div class="field-placeholder">কোর্স <span class="text-danger">*</span></div> 
+                  <div class="field-placeholder">প্রকাশনার শিরোনাম <span class="text-danger">*</span></div> 
                 </div>
-                @error('course_id')
+                @error('publication_id')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
               </div>
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <select name="institute_id" 
-                    class="form-control select2 @error('institute_id') is-invalid @enderror" 
-                    required="">
-                      <option value="">Select</option>
-                      @foreach($institutes as $institute)
-                      <option value="{{$institute->id}}" {{(($trainingInformation->institute_id == $institute->id) ?? (old('institute_id') == $institute->id)) ? 'selected' : ''}}>{{$institute->name}}</option>
-                      @endforeach
-                    </select>
+                    <input type="text" 
+                    name="books_name"  
+                    class="form-control" 
+                    value="{{$publicationInformation->books_name}}"
+                    autocomplete="off" required>
                   </div>
-                  <div class="field-placeholder">ইনস্টিটিউট<span class="text-danger">*</span></div>
+                  <div class="field-placeholder">জার্নালের নাম/বইয়ের নাম <span class="text-danger">*</span></div>
                 </div>
-                @error('institute_id')
+                @error('books_name')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
               </div>
@@ -79,29 +76,14 @@
                 <div class="field-wrapper">
                   <div class="input-group">
                     <input type="date" 
-                    name="date_from"  
+                    name="publication_date"  
                     class="form-control" 
-                    value="{{$trainingInformation->date_from}}"
+                    value="{{$publicationInformation->publication_date}}"
                     autocomplete="off" required>
                   </div>
-                  <div class="field-placeholder">হতে <span class="text-danger">*</span></div>
+                  <div class="field-placeholder">প্রকাশকাল <span class="text-danger">*</span></div>
                 </div>
-                @error('date_from')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
-              </div>
-              <div class="col-md-4">
-                <div class="field-wrapper">
-                  <div class="input-group">
-                    <input type="date" 
-                    name="date_to"  
-                    class="form-control" 
-                    value="{{$trainingInformation->date_to}}"
-                    autocomplete="off" required>
-                  </div>
-                  <div class="field-placeholder">পর্যন্ত <span class="text-danger">*</span></div>
-                </div>
-                @error('date_to')
+                @error('publication_date')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
               </div>
@@ -111,7 +93,7 @@
                     <input type="text" 
                     name="comment" 
                     class="form-control" 
-                    value="{{$trainingInformation->comment}}"
+                    value="{{$publicationInformation->comment}}"
                     autocomplete="off">
                   </div>
                   <div class="field-placeholder">মন্তব্য</div>

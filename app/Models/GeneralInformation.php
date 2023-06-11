@@ -55,4 +55,8 @@ class GeneralInformation extends Model
         return $this->hasMany(TrainingInformation::class);
     }
 
+    public function publicationInformation(){
+        return $this->hasMany(PublicationInformation::class);
+    }
+
 }
