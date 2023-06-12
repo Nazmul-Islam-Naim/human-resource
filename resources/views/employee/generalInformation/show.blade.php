@@ -184,6 +184,29 @@
                                     </tr>
                                     @endforeach
                                   @endif
+                                  <tr style="border:none; text-align: center; height:50px">
+                                    <td colspan="8" style="border:none; text-align: center">ঘ. পদোন্নতি সম্পর্কিত তথ্যাদি</td>
+                                  </tr>
+                                  @if (count($generalInformation->publicationInformation)>0)
+                                <tr>
+                                  <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ক্রম.</td>
+                                  <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">পদোন্নতি প্রাপ্ত পদের নাম</td>
+                                  <td colspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">পদোন্নতি প্রাপ্তির তারিখ</td>
+                                  <td colspan="3" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">আদেশ নং ও তারিখ</td>
+                                  <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">পে-স্কেল</td>
+                                </tr>
+                                    @foreach ($generalInformation->promotionInformation as $key => $promotionInformation)
+                                    <tr>
+                                      <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$numTo->bnNum($key+1)}}</td>
+                                      <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$promotionInformation->promotionDesignation->title ?? ''}}</td>
+                                      <td colspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$numTo->bnNum(date('d',strtotime($promotionInformation->promotion_date)))}}/
+                                        {{$numTo->bnNum(date('m',strtotime($promotionInformation->promotion_date)))}}/{{$numTo->bnNum(date('Y',strtotime($promotionInformation->promotion_date)))}} খ্রিঃ</td>
+                                      <td colspan="3" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$promotionInformation->order_no}} <br> {{$numTo->bnNum(date('d',strtotime($promotionInformation->date)))}}/
+                                        {{$numTo->bnNum(date('m',strtotime($promotionInformation->date)))}}/{{$numTo->bnNum(date('Y',strtotime($promotionInformation->date)))}} খ্রিঃ </td>
+                                      <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$promotionInformation->salaryScale->salary ?? ''}}</td>
+                                    </tr>
+                                    @endforeach
+                                  @endif
                             </tbody>
                           </table>
                         </div>

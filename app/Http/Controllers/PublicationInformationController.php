@@ -110,7 +110,6 @@ class PublicationInformationController extends Controller
             Session::flash('flash_message','Information Successfully Updated !');
             return redirect()->route('publicationInformations.index')->with('status_color','success');
         } catch (\Exception $exception) {
-            dd($exception->getMessage());
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }

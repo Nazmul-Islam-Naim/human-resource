@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\TrainingInformation\CreateRequest;
-use App\Http\Requests\TrainingInformation\UpdateRequest;
-use App\Models\Course;
+use App\Http\Requests\PromotionInformation\CreateRequest;
+use App\Http\Requests\PromotionInformation\UpdateRequest;
+use App\Models\Designation;
 use App\Models\GeneralInformation;
-use App\Models\Institute;
-use App\Models\TrainingInformation;
+use App\Models\PromotionInformation;
+use App\Models\SalaryScale;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\DataTables;
 
-class TrainingInformationController extends Controller
+class PromotionInformationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -21,7 +21,7 @@ class TrainingInformationController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $alldata= TrainingInformation::with(['generalInformation','generalInformation.presentDesignation','generalInformation.presentWorkstation','course','institute'])
+            $alldata= PromotionInformation::with(['generalInformation','generalInformation.presentDesignation','generalInformation.presentWorkstation','promotionDesignation','salaryScale'])
                             ->get();
             return DataTables::of($alldata)
             ->addIndexColumn()
@@ -30,7 +30,7 @@ class TrainingInformationController extends Controller
 
                 <ul class="list-inline m-0">
                     <li class="list-inline-item">
-                        <a href="<?php echo route('trainingInformations.edit',$row->id); ?>" class="badge bg-info badge-sm" data-id="<?php echo $row->id; ?>" title="Edit"><i class="icon-edit1"></i></a>
+                        <a href="<?php echo route('promotionInformations.edit',$row->id); ?>" class="badge bg-info badge-sm" data-id="<?php echo $row->id; ?>" title="Edit"><i class="icon-edit1"></i></a>
                     </li>
                     <li class="list-inline-item">
                         <button data-id="<?php echo $row->id; ?>" class="badge bg-danger badge-sm button-delete"><i class="icon-delete"></i></button>
@@ -40,7 +40,7 @@ class TrainingInformationController extends Controller
 <?php return ob_get_clean();
             })->make(True);
         }
-        return view ('employee.trainingInformation.index');
+        return view ('employee.promotionInformation.index');
     }
 
     /**
@@ -49,9 +49,9 @@ class TrainingInformationController extends Controller
     public function create()
     {
         $data['generalInformations'] = GeneralInformation::all();
-        $data['courses'] = Course::all();
-        $data['institutes'] = Institute::all();
-        return view('employee.trainingInformation.create',$data);
+        $data['promotionDesignations'] = Designation::all();
+        $data['salaryScales'] = SalaryScale::all();
+        return view('employee.promotionInformation.create',$data);
     }
 
     /**
@@ -61,14 +61,10 @@ class TrainingInformationController extends Controller
     {
         $employee = GeneralInformation::findOrFail($request->general_information_id);
         try {
-            foreach ($request->addmore as $data) {
-                if(Arr::has($data, 'document')){
-                    $data['document'] = (Arr::pull($data, 'document'))->store('training-documents');
-                }
-                $employee->trainingInformation()->create($data);
-            }
+            $employee->promotionInformation()->create($request->all());
+            $employee->update(['present_designation_id'=>$request->designation_id]);
             Session::flash('flash_message','Information Successfully Added !');
-            return redirect()->route('trainingInformations.index')->with('status_color','success');
+            return redirect()->route('promotionInformations.index')->with('status_color','success');
         } catch (\Exception $exception) {
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
@@ -80,8 +76,8 @@ class TrainingInformationController extends Controller
      */
     public function show($id)
     {
-        $data['trainingInformation'] = TrainingInformation::findOrFail($id);
-        return view('employee.trainingInformation.show',$data);
+        $data['promotionInformation'] = PromotionInformation::findOrFail($id);
+        return view('employee.promotionInformation.show',$data);
     }
 
     /**
@@ -90,10 +86,10 @@ class TrainingInformationController extends Controller
     public function edit($id)
     { 
         $data['generalInformations'] = GeneralInformation::all();
-        $data['courses'] = Course::all();
-        $data['institutes'] = Institute::all();
-        $data['trainingInformation'] = TrainingInformation::findOrFail($id);
-        return view('employee.trainingInformation.edit',$data);
+        $data['promotionDesignations'] = Designation::all();
+        $data['salaryScales'] = SalaryScale::all();
+        $data['promotionInformation'] = PromotionInformation::findOrFail($id);
+        return view('employee.promotionInformation.edit',$data);
     }
 
     /**
@@ -103,15 +99,14 @@ class TrainingInformationController extends Controller
     {
         try {
             $data = $request->all();
-            if(Arr::has($data, 'document')){
-                $data['document'] = (Arr::pull($data, 'document'))->store('training-documents');
-            }
             $method = Arr::pull($data, '_method');
             $token = Arr::pull($data, '_token');
             $name = Arr::pull($data, 'name_in_bangla');
-            TrainingInformation::where('id',$id)->update($data);
+            $employee = PromotionInformation::where('id',$id)->first();
+            $employee->update($data);
+            $employee->generalInformation()->update(['present_designation_id'=>$request->designation_id]);
             Session::flash('flash_message','Information Successfully Updated !');
-            return redirect()->route('trainingInformations.index')->with('status_color','success');
+            return redirect()->route('promotionInformations.index')->with('status_color','success');
         } catch (\Exception $exception) {
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
@@ -124,9 +119,12 @@ class TrainingInformationController extends Controller
     public function destroy(string $id)
     {
         try {
-            TrainingInformation::where('id',$id)->delete($id);
+            $employee = PromotionInformation::findOrFail($id);
+            $employee->delete();
+            $lastDesigantion = PromotionInformation::where('general_information_id',$employee->general_information_id)->orderBy('id','desc')->first();
+            $employee->generalInformation()->update(['present_designation_id' => $lastDesigantion->designation_id]);
             Session::flash('flash_message','Record Successfully Deleted.');
-            return redirect()->route('trainingInformations.index')->with('status_color','success');
+            return redirect()->route('promotionInformations.index')->with('status_color','success');
         } catch (\Exception $exception) {
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
