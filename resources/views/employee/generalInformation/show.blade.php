@@ -99,7 +99,6 @@
                               <tr style="border:none; text-align: center; height:50px">
                                 <td colspan="8" style="border:none; text-align: center;">খ. শিক্ষাসংক্রান্ত তথ্যাদি</td>
                               </tr>
-                              @if (count($generalInformation->educationalInformation)>0)
                               <tr>
                                 <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ক্রম.</td>
                                 <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ডিগ্রী</td>
@@ -109,6 +108,7 @@
                                 <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ফলাফল</td>
                                 <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ডকুমেন্ট</td>
                               </tr>
+                              @if (count($generalInformation->educationalInformation)>0)
                                   @foreach ($generalInformation->educationalInformation as $key => $educationalInformation)
                                   <tr>
                                     <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$numTo->bnNum($key+1)}}</td>
@@ -124,11 +124,14 @@
                                     </td>
                                   </tr>
                                   @endforeach
+                                @else
+                                  <tr>
+                                    <td colspan="8" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center;  color:#ddd">কোন তথ্য পাওয়া যায়নি। </td>
+                                  </tr>
                                 @endif
                                 <tr style="border:none; text-align: center; height:50px">
                                   <td colspan="8" style="border:none; text-align: center">গ. প্রশিক্ষন সম্পর্কিত তথ্যাদি</td>
                                 </tr>
-                                @if (count($generalInformation->trainingInformation)>0)
                                 <tr>
                                   <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ক্রম.</td>
                                   <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">কোর্সের নাম</td>
@@ -138,6 +141,7 @@
                                   <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">মন্তব্য</td>
                                   <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ডকুমেন্ট</td>
                                 </tr>
+                                @if (count($generalInformation->trainingInformation)>0)
                                     @foreach ($generalInformation->trainingInformation as $key => $trainingInformation)
                                     <tr>
                                       <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$numTo->bnNum($key+1)}}</td>
@@ -155,11 +159,14 @@
                                       </td>
                                     </tr>
                                     @endforeach
+                                  @else
+                                    <tr>
+                                      <td colspan="8" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center;  color:#ddd">কোন তথ্য পাওয়া যায়নি। </td>
+                                    </tr>
                                   @endif
                                 <tr style="border:none; text-align: center; height:50px">
                                   <td colspan="8" style="border:none; text-align: center">ঘ. প্রকাশনা সম্পর্কিত তথ্যাদি</td>
                                 </tr>
-                                @if (count($generalInformation->publicationInformation)>0)
                                 <tr>
                                   <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ক্রম.</td>
                                   <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">প্রকাশনার শিরোনাম</td>
@@ -168,6 +175,7 @@
                                   <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">মন্তব্য</td>
                                   <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ডকুমেন্ট</td>
                                 </tr>
+                                @if (count($generalInformation->publicationInformation)>0)
                                     @foreach ($generalInformation->publicationInformation as $key => $publicationInformation)
                                     <tr>
                                       <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$numTo->bnNum($key+1)}}</td>
@@ -183,18 +191,22 @@
                                       </td>
                                     </tr>
                                     @endforeach
+                                  @else
+                                    <tr>
+                                      <td colspan="8" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center;  color:#ddd">কোন তথ্য পাওয়া যায়নি। </td>
+                                    </tr>
                                   @endif
                                   <tr style="border:none; text-align: center; height:50px">
-                                    <td colspan="8" style="border:none; text-align: center">ঘ. পদোন্নতি সম্পর্কিত তথ্যাদি</td>
+                                    <td colspan="8" style="border:none; text-align: center">ঙ. পদোন্নতি সম্পর্কিত তথ্যাদি</td>
+                                  </tr>
+                                  <tr>
+                                    <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ক্রম.</td>
+                                    <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">পদোন্নতি প্রাপ্ত পদের নাম</td>
+                                    <td colspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">পদোন্নতি প্রাপ্তির তারিখ</td>
+                                    <td colspan="3" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">আদেশ নং ও তারিখ</td>
+                                    <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">পে-স্কেল</td>
                                   </tr>
                                   @if (count($generalInformation->publicationInformation)>0)
-                                <tr>
-                                  <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ক্রম.</td>
-                                  <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">পদোন্নতি প্রাপ্ত পদের নাম</td>
-                                  <td colspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">পদোন্নতি প্রাপ্তির তারিখ</td>
-                                  <td colspan="3" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">আদেশ নং ও তারিখ</td>
-                                  <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">পে-স্কেল</td>
-                                </tr>
                                     @foreach ($generalInformation->promotionInformation as $key => $promotionInformation)
                                     <tr>
                                       <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$numTo->bnNum($key+1)}}</td>
@@ -206,6 +218,47 @@
                                       <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$promotionInformation->salaryScale->salary ?? ''}}</td>
                                     </tr>
                                     @endforeach
+                                  @else
+                                  <tr>
+                                    <td colspan="8" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center;  color:#ddd">কোন তথ্য পাওয়া যায়নি। </td>
+                                  </tr>
+                                  @endif
+                                  <tr style="border:none; text-align: center; height:50px">
+                                    <td colspan="8" style="border:none; text-align: center">চ. বিভাগীয়/ফৌজদারি মামলা সম্পর্কিত তথ্যাদি</td>
+                                  </tr>
+                                  <tr>
+                                    <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ক্রম.</td>
+                                    <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">বিভাগীয়/ফৌজদারি মামলা নং</td>
+                                    <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">শাস্তি</td>
+                                    <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">আদেশের তারিখ</td>
+                                    <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">অব্যাহতি</td>
+                                    <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">আদেশের তারিখ</td>
+                                    <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">মন্তব্য</td>
+                                    <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ডকুমেন্ট</td>
+                                  </tr>
+                                  @if (count($generalInformation->caseInformation)>0)
+                                    @foreach ($generalInformation->caseInformation as $key => $caseInformation)
+                                    <tr>
+                                      <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$numTo->bnNum($key+1)}}</td>
+                                      <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$caseInformation->case_no}}</td>
+                                      <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$caseInformation->punishment}}</td>
+                                      <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{($caseInformation->punishment_order_date != null) ? $numTo->bnNum(date('d',strtotime($caseInformation->punishment_order_date))).'/'.
+                                        $numTo->bnNum(date('m',strtotime($caseInformation->punishment_order_date))).'/'.$numTo->bnNum(date('Y',strtotime($caseInformation->punishment_order_date))). ' খ্রিঃ' : ''}}</td>
+                                      <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$caseInformation->release}}</td>
+                                      <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{ ($caseInformation->release_order_date != null) ? $numTo->bnNum(date('d',strtotime($caseInformation->release_order_date))).'/'.
+                                        $numTo->bnNum(date('m',strtotime($caseInformation->release_order_date))).'/'.$numTo->bnNum(date('Y',strtotime($caseInformation->release_order_date))).' খ্রিঃ ' : ''}}</td>
+                                      <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$caseInformation->comment}}</td>
+                                      <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">
+                                        @if (!empty($caseInformation->document))
+                                        <a href="{{asset('storage/'.$caseInformation->document)}}" target="_blank"><i class="icon-documents"></i></a>
+                                        @endif
+                                      </td>
+                                    </tr>
+                                    @endforeach
+                                  @else
+                                  <tr>
+                                    <td colspan="8" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center;  color:#ddd">কোন তথ্য পাওয়া যায়নি। </td>
+                                  </tr>
                                   @endif
                             </tbody>
                           </table>

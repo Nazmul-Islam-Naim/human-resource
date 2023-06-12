@@ -62,6 +62,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('trainingInformations', 'App\Http\Controllers\TrainingInformationController');
         Route::resource('publicationInformations', 'App\Http\Controllers\PublicationInformationController');
         Route::resource('promotionInformations', 'App\Http\Controllers\PromotionInformationController');
+        Route::resource('caseInformations', 'App\Http\Controllers\CaseInformationController');
     });
     
     //******** Human Resource *******//

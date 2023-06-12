@@ -63,4 +63,8 @@ class GeneralInformation extends Model
         return $this->hasMany(PromotionInformation::class);
     }
 
+    public function caseInformation(){
+        return $this->hasMany(CaseInformation::class);
+    }
+
 }

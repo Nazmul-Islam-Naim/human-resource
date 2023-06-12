@@ -1,5 +1,5 @@
 @extends('layouts.layout')
-@section('title', 'প্রকাশনা সম্পর্কিত তথ্যাদি সংরক্ষন করুন')
+@section('title', 'বিভাগীয়/ফৌজদারি মামলা সম্পর্কিত তথ্যাদি সংরক্ষন করুন') 
 @section('content')
 <!-- Content Header (Page header) -->
 <?php
@@ -18,9 +18,9 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card">
           <div class="card-header">
-            <div class="card-title">প্রকাশনা সম্পর্কিত তথ্যাদি সংরক্ষন করুন</div>
+            <div class="card-title">বিভাগীয়/ফৌজদারি মামলা সম্পর্কিত তথ্যাদি সংরক্ষন করুন</div>
           </div>
-          {!! Form::open(array('route' =>['publicationInformations.store'],'method'=>'POST','files'=>true)) !!}
+          {!! Form::open(array('route' =>['caseInformations.store'],'method'=>'POST','files'=>true)) !!}
           <div class="card-body">
             <div class="col-md-12">
               <div class="form-inline">
@@ -56,10 +56,11 @@
                 <table id="myTableID" class="table ">
                   <thead>
                     <tr>
-                      <th  style="text-align: center; border:none">সিঃ</th>
-                      <th  style="text-align: center; border:none">প্রকাশনার শিরোনাম <span class="text-danger">*</span></th>
-                      <th  style="text-align: center; border:none">জার্নালের নাম/বইয়ের নাম<span class="text-danger">*</span></th>
-                      <th  style="text-align: center; border:none">প্রকাশকাল <span class="text-danger">*</span></th>
+                      <th  style="text-align: center; border:none">মামলা নং <span class="text-danger">*</span></th>
+                      <th  style="text-align: center; border:none">শাস্তি </th>
+                      <th  style="text-align: center; border:none">আদেশের তারিখ</th>
+                      <th  style="text-align: center; border:none">অব্যাহতি </th>
+                      <th  style="text-align: center; border:none">আদেশের তারিখ</th>
                       <th  style="text-align: center; border:none">মন্তব্য</th>
                       <th  style="text-align: center; border:none">ডকুমেন্ট</th>
                       <th  style="text-align: center; border:none">একশন</th>
@@ -67,22 +68,20 @@
                   </thead>
                   <tbody class= "body" id="yourtableid" >
                       <tr id="row_0" data-rowid="0">
-                        <td style="border: 1px solid #fff; width:5%">
-                          <span>1</span>
+                        <td style="border: 1px solid #fff; width:10%">
+                          <input type="text" class="form-control" name="addmore[0][case_no]" autocomplete="off" required>
+                        </td>
+                        <td style="border: 1px solid #fff; width:10%">
+                          <input type="text" class="form-control" name="addmore[0][punishment]" autocomplete="off">
                         </td>
                         <td style="border: 1px solid #fff; width:15%">
-                            <select  name="addmore[0][publication_id]" id="publication_id_0"  class="form-control publication_id" required="">
-                              <option value="">Select</option>
-                              @foreach ($publications as $publication)
-                                  <option value="{{$publication->id}}">{{$publication->name}}</option>
-                              @endforeach
-                           </select>
+                          <input type="date" class="form-control" name="addmore[0][punishment_order_date]" autocomplete="off">
                         </td>
-                        <td style="border: 1px solid #fff; width:25%">
-                          <input type="text" class="form-control" name="addmore[0][books_name]" autocomplete="off" required>
+                        <td style="border: 1px solid #fff; width:10%">
+                          <input type="text" class="form-control" name="addmore[0][release]" autocomplete="off">
                         </td>
                         <td style="border: 1px solid #fff; width:15%">
-                          <input type="date" class="form-control" name="addmore[0][publication_date]" value="{{date("Y-m-d")}}" autocomplete="off" required>
+                          <input type="date" class="form-control" name="addmore[0][release_order_date]" autocomplete="off">
                         </td>
                         <td style="border: 1px solid #fff; width:15%">
                           <input type="text" class="form-control" name="addmore[0][comment]" autocomplete="off">
@@ -110,34 +109,28 @@
   <!-- Content wrapper end -->
 </div>
 <!-- Content wrapper scroll end -->
-@php
-$availablePublications = "";
-  foreach ($publications as $key => $publication) {
-    $availablePublications .= '<option value="'.$publication->id.'">'.$publication->name.'</option>';
-  }
-@endphp
 {!!Html::script('custom/js/jquery.min.js')!!}
 <script type="text/javascript"> 
-var AvailablePublications = '<?php echo $availablePublications;?>';
 var i=0;
 var rowcount=1;
 function addrow() {
   i++;
   rowcount++;
   var row = '<tr id="row_'+i+'" data-rowid="'+i+'">';
-      row += '<td style="border: 1px solid #fff";  width:5%">';
-      row += ' <span>'+rowcount+'</span>';
+      row += '<td style="border: 1px solid #fff; width:10%">';
+      row += ' <input type="text" class="form-control" name="addmore['+i+'][case_no]" autocomplete="off" required>';
+      row += '</td>';
+      row += '<td style="border: 1px solid #fff; width:10%">';
+      row += ' <input type="text" class="form-control" name="addmore['+i+'][punishment]" autocomplete="off">';
       row += '</td>';
       row += '<td style="border: 1px solid #fff; width:15%">';
-      row += '<select  name="addmore['+i+'][publication_id]" id="publication_id_'+i+'"  class="form-control publication_id" required="">';
-      row += '<option value="">Select</option>'+AvailablePublications;
-      row += '</select>';
+      row += ' <input type="date" class="form-control" name="addmore['+i+'][punishment_order_date]" autocomplete="off">';
       row += '</td>';
-      row += '<td style="border: 1px solid #fff; width:25%">';
-      row += ' <input type="text" class="form-control" name="addmore['+i+'][books_name]" autocomplete="off" required>';
+      row += '<td style="border: 1px solid #fff; width:10%">';
+      row += ' <input type="text" class="form-control" name="addmore['+i+'][release]" autocomplete="off">';
       row += '</td>';
       row += '<td style="border: 1px solid #fff; width:15%">';
-      row += ' <input type="date" class="form-control" name="addmore['+i+'][publication_date]" value="{{date("Y-m-d")}}" autocomplete="off" required>';
+      row += ' <input type="date" class="form-control" name="addmore['+i+'][release_order_date]" autocomplete="off">';
       row += '</td>';
       row += '<td style="border: 1px solid #fff; width:15%">';
       row += ' <input type="text" class="form-control" name="addmore['+i+'][comment]" autocomplete="off">';

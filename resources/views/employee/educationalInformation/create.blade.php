@@ -57,11 +57,11 @@
                   <thead>
                     <tr>
                       <th  style="text-align: center; border:none">সিঃ</th>
-                      <th  style="text-align: center; border:none">ডিগ্রী </th>
-                      <th  style="text-align: center; border:none">পাসের সন</th>
-                      <th  style="text-align: center; border:none">পাঠিত বিষয় </th>
-                      <th  style="text-align: center; border:none">বোর্ড/বিশ্ববিদ্যালয়</th>
-                      <th  style="text-align: center; border:none">ফলাফল</th>
+                      <th  style="text-align: center; border:none">ডিগ্রী <span class="text-danger">*</span> </th>
+                      <th  style="text-align: center; border:none">পাসের সন <span class="text-danger">*</span></th>
+                      <th  style="text-align: center; border:none">পাঠিত বিষয়  <span class="text-danger">*</span></th>
+                      <th  style="text-align: center; border:none">বোর্ড/বিশ্ববিদ্যালয় <span class="text-danger">*</span></th>
+                      <th  style="text-align: center; border:none">ফলাফল <span class="text-danger">*</span></th>
                       <th  style="text-align: center; border:none">ডকুমেন্ট</th>
                       <th  style="text-align: center; border:none">একশন</th>
                     </tr>

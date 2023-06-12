@@ -22,7 +22,7 @@
           {!! Form::open(array('route' =>['promotionInformations.update',$promotionInformation->id],'method'=>'PUT','enctype'=>'multipart/form-data')) !!}
           <div class="card-header d-flex justify-content-between align-items-center">
             <h2 class="card-title text-success">পদোন্নতি সম্পর্কিত তথ্যা সংশোধন করুন</h2>
-            <a href="{{route('promotionInformations.index')}}" class="btn btn-primary btn-sm pull-right"><i class="icon-list"></i> <b>প্রশিক্ষন তথ্যের তালিকা</b></a>
+            <a href="{{route('promotionInformations.index')}}" class="btn btn-primary btn-sm pull-right"><i class="icon-list"></i> <b>পদোন্নতির তালিকা</b></a>
           </div>
           <!-- /.box-header -->
           <div class="card-body">

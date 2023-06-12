@@ -56,11 +56,11 @@
                 <table id="myTableID" class="table ">
                   <thead>
                     <tr>
-                      <th  style="text-align: center; border:none">সিঃ</th>
-                      <th  style="text-align: center; border:none">কোর্স </th>
-                      <th  style="text-align: center; border:none">ইনস্টিটিউট</th>
-                      <th  style="text-align: center; border:none">হতে </th>
-                      <th  style="text-align: center; border:none">পর্যন্ত</th>
+                      <th  style="text-align: center; border:none">সিঃ </th>
+                      <th  style="text-align: center; border:none">কোর্স  <span class="text-danger">*</span></th>
+                      <th  style="text-align: center; border:none">ইনস্টিটিউট <span class="text-danger">*</span></th>
+                      <th  style="text-align: center; border:none">হতে  <span class="text-danger">*</span></th>
+                      <th  style="text-align: center; border:none">পর্যন্ত <span class="text-danger">*</span></th>
                       <th  style="text-align: center; border:none">মন্তব্য</th>
                       <th  style="text-align: center; border:none">ডকুমেন্ট</th>
                       <th  style="text-align: center; border:none">একশন</th>
