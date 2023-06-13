@@ -260,6 +260,38 @@
                                     <td colspan="8" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center;  color:#ddd">কোন তথ্য পাওয়া যায়নি। </td>
                                   </tr>
                                   @endif
+                                  <tr style="border:none; text-align: center; height:50px">
+                                    <td colspan="8" style="border:none; text-align: center">ছ. পদায়ন সম্পর্কিত তথ্যাদি</td>
+                                  </tr>
+                                  <tr>
+                                    <td rowspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ক্রম.</td>
+                                    <td rowspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">পদের নাম</td>
+                                    <td rowspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">কর্মস্থলের নাম</td>
+                                    <td colspan="3" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">কার্যকাল</td>
+                                    <td rowspan="2" colspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">মন্তব্য</td> 
+                                  </tr>
+                                  <tr>
+                                    <td colspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">হতে</td>
+                                    <td colspan="1" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">পর্যন্ত</td>
+                                  </tr>
+                                  @if (count($generalInformation->employeeTransfer)>0)
+                                    @foreach ($generalInformation->employeeTransfer as $key => $employeeTransfer)
+                                    <tr>
+                                      <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$numTo->bnNum($key+1)}}</td>
+                                      <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$employeeTransfer->designation->title ?? ''}}</td>
+                                      <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$employeeTransfer->workstation->name ?? ''}}</td>
+                                      <td colspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{($employeeTransfer->joining_date != null) ? $numTo->bnNum(date('d',strtotime($employeeTransfer->joining_date))).'/'.
+                                        $numTo->bnNum(date('m',strtotime($employeeTransfer->joining_date))).'/'.$numTo->bnNum(date('Y',strtotime($employeeTransfer->joining_date))). ' খ্রিঃ' : ''}}</td>
+                                      <td colspan="1" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{ ($employeeTransfer->release_date != null) ? $numTo->bnNum(date('d',strtotime($employeeTransfer->release_date))).'/'.
+                                        $numTo->bnNum(date('m',strtotime($employeeTransfer->release_date))).'/'.$numTo->bnNum(date('Y',strtotime($employeeTransfer->release_date))).' খ্রিঃ ' : 'চলমান'}}</td>
+                                      <td colspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$employeeTransfer->comment}}</td>
+                                    </tr>
+                                    @endforeach
+                                  @else
+                                  <tr>
+                                    <td colspan="8" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center;  color:#ddd">কোন তথ্য পাওয়া যায়নি। </td>
+                                  </tr>
+                                  @endif
                             </tbody>
                           </table>
                         </div>

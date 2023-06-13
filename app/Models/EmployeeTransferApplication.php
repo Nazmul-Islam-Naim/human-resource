@@ -8,67 +8,39 @@ use Illuminate\Database\Eloquent\Model;
 class EmployeeTransferApplication extends Model
 {
     use HasFactory;
-
-    protected $table = "employee_transfers_applications";
+    protected $table = "employee_transfer_applications";
     protected $fillable = [
+    	'employee_transfer_id',
     	'transfer_number',
     	'first_paragraph',
-    	'employee_id',
-        'main_designation_id',
-        'present_workstation_designation_id',
+        'present_designation_id',
         'present_workstation_id',
-        'transferred_workstation_designation_id',
-        'transferred_workstation_id',
+        'trans_designation_id',
+        'trans_workstation_id',
         'transferred_workstation_date',
         'editordata1',
         'editordata2',
-        'status'
     ];
 
-    public function user_department_object()
-    {
-        return $this->hasOne('App\Models\Department', 'id', 'department_id');
-    }
-   
-    public function user_main_designation_object()
-    {
-        return $this->hasOne('App\Models\Designation', 'id', 'main_designation_id');
-    }
-    public function user_salary_scale_object()
-    {
-        return $this->hasOne('App\Models\SalaryScale', 'id', 'salary_scale_id');
-    }
-    public function user_district_object()
-    {
-        return $this->hasOne('App\Models\District', 'id', 'district_id');
-    }
-    public function user_type_object()
-    {
-        return $this->hasOne('App\Models\User', 'id', 'employee_id');
+    //relationship
+    
+    public function employeeTransfer(){
+        return $this->belongsTo(EmployeeTransfer::class);
     }
 
-    // ============== present data ===========
-
-    public function user_present_designation_object()
-    {
-        return $this->hasOne('App\Models\Designation', 'id', 'transferred_workstation_designation_id');
+    public function presentDesignation(){
+        return $this->belongsTo(Designation::class, 'present_designation_id');
     }
 
-    public function user_present_workstation_object()
-    {
-        return $this->hasOne('App\Models\Workstation', 'id', 'transferred_workstation_id');
+    public function presentWorkstation(){
+        return $this->belongsTo(Workstation::class, 'present_workstation_id');
     }
 
-    // ============== previous data ===========
-
-    public function user_previous_designation_object()
-    {
-        return $this->hasOne('App\Models\Designation', 'id', 'present_workstation_designation_id');
+    public function transferredDesignation(){
+        return $this->belongsTo(Designation::class, 'trans_designation_id');
     }
 
-    public function user_previous_workstation_object()
-    {
-        return $this->hasOne('App\Models\Workstation', 'id', 'present_workstation_id');
+    public function transferredWorkstation(){
+        return $this->belongsTo(Workstation::class, 'trans_workstation_id');
     }
-
 }

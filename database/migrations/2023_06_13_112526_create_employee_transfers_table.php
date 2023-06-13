@@ -25,6 +25,7 @@ return new class extends Migration
             $table->date('transferred_date');
             $table->date('joining_date');
             $table->date('release_date')->nullable();
+            $table->string('comment')->nullable();
             $table->timestamps();
         });
     }

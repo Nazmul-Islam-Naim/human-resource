@@ -181,7 +181,8 @@
 				{
           data: 'general_information.name_in_bangla',
           render: function(data, type, row) {
-            var url = "/hr/employee-transferred-history/"+ row.employee_id; 
+            var url = '{{route("generalInformations.show",":id")}}'; 
+            var url = url.replace(':id', row.general_information.id);
 						return '<a href=' + url +'>'+ data +'</a>';
 					}
         },

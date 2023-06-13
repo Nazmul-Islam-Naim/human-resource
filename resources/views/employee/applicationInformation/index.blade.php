@@ -20,7 +20,7 @@
         <!-- general form elements -->
         <div class="card card-primary">
           <div class="card-header">
-            <h3 class="card-title">বদলীর তারিখ অনুযায়ী কর্মকর্তা/কর্মচারী খুজুন</h3>
+            <h3 class="card-title">কর্মকর্তা/কর্মচারী বদলীর তারিখ অনুযায়ী দরখস্ত খুজুন</h3>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
@@ -30,7 +30,7 @@
                     <div class="col-md-3">
                       <div class="field-wrapper">
                         <div class="input-group">
-                          <input class="form-control datepicker" type="text" name="start_date" id="start_date" value="<?php echo date('Y-m-d');?>" autocomplete="off">
+                          <input class="form-control" type="date" name="start_date" id="start_date" value="<?php echo date('Y-m-d');?>" autocomplete="off">
                         </div>
                         <div class="field-placeholder">শুরুর তারিখ  </div>
                       </div>
@@ -38,7 +38,7 @@
                     <div class="col-md-3">
                       <div class="field-wrapper">
                         <div class="input-group">
-                          <input class="form-control datepicker" type="text" name="end_date" id="end_date" value="<?php echo date('Y-m-d');?>" autocomplete="off">
+                          <input class="form-control" type="date" name="end_date" id="end_date" value="<?php echo date('Y-m-d');?>" autocomplete="off">
                         </div>
                         <div class="field-placeholder">শেষ তারিখ  </div>
                       </div>
@@ -75,7 +75,6 @@
                         <th>সিঃ</th>
                         <th>বদলীর তারিখ</th>
                         <th>কর্মকর্তা/কর্মচারীর নাম</th>
-                        <th>মূল পদবী</th>
                         <th>বর্তমান পদবী</th>
                         <th>বর্তমান কর্মস্থল</th>
                         <th>পূর্বের পদবী</th>
@@ -151,17 +150,17 @@
 					}
         },
 				{
-          data: 'user_type_object.name',
+          data: 'employee_transfer.general_information.name_in_bangla',
           render: function(data, type, row) {
-            var url = "/hr/employee-transferred-history/"+ row.employee_id; 
+            var url = '{{route("generalInformations.show",":id")}}'; 
+            var url = url.replace(':id', row.employee_transfer.general_information.id);
 						return '<a href=' + url +'>'+ data +'</a>';
 					}
         },
-				{data: 'user_main_designation_object.name'},
-				{data: 'user_present_designation_object.name'},
-				{data: 'user_present_workstation_object.name'},
-				{data: 'user_previous_designation_object.name'},
-				{data: 'user_previous_workstation_object.name'},
+				{data: 'present_designation.title'},
+				{data: 'present_workstation.name'},
+				{data: 'transferred_designation.title'},
+				{data: 'transferred_workstation.name'},
 				{
           data: 'action',
           orderable:true,

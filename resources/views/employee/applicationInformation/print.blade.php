@@ -3,21 +3,9 @@
 @section('content')
 <!-- Content Header (Page header) -->
 <style>
-  /* .sacretary{
-    margin-right: 100px;
-    margin-top: 100px;
-    width: 203px;
-    height: 128px;
-    display: block;
-    margin-left: 656px;
-    text-align: center;
-  }
-  .sacretary p{
-    margin: 0px;
-  } */
-  .paragraph .editor2 p{
-    font-size: 20px;
-  }
+  table th, .table td {
+    white-space: break-spaces;
+}
 </style>
 <?php
   $baseUrl = URL::to('/');
@@ -35,10 +23,9 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <!-- general form elements -->
         <div class="card card-primary">
-          <div class="card-header d-flex justify-content-between align-items-center">
-           <!-- <h3 class="card-title">Employee Information</h3>-->
-                
-            <a onclick="printApplication();" href="javascript:0;"><img class="img-thumbnail" style="width:30px;" src='{{asset("custom/img/print.png")}}'></a>
+          <div class="card-header">
+            <div class="card-title"></div>
+            <a onclick="printApplication();" href="javascript:0;"><i class="icon-print"></i></a>
           </div>
           <!-- /.card-header -->
           <div class="card-body" id="printApplication">
@@ -46,7 +33,7 @@
               <table class="table" style="width: 100%">
                 <tr>
                   <td style="width: 20%; text-align:right">
-                    <img src="{{asset('logo')}}/logo.png" width="50px" height="50px" alt="">
+                    <img src="{{asset('custom/img')}}/logo.png" width="50px" height="50px" alt="">
                   </td>
                   <td style="width: 60%">
                     <center><h5 style="margin: 0px">ইসলামিক ফাউন্ডেশন</h5></center>
@@ -56,24 +43,24 @@
                     <center><h5 style="margin: 0px">আগারগাঁও, শেরেবাংলা নগর, ঢাকা-১২০৭</h5></center>
                   </td>
                   <td style="width: 20%">
-                    <img src="{{asset('logo')}}/logo.png" width="50px" height="50px" alt="">
+                    <img src="{{asset('custom/img')}}/logo.png" width="50px" height="50px" alt="">
                   </td>
                 </tr>
               </table>
               <table class="table" style="width: 100%">
                 <tr style="height: 60px">
-                  <td style="width: 50%"><p style="font-size: 15px">নাম্বারঃ {{$single_data->transfer_number}}</p></td>
+                  <td style="width: 50%"><p style="font-size: 15px">নাম্বারঃ {{$employeeTransferApplication->transfer_number}}</p></td>
                   <td style="width: 50%; text-align:right">
-                    <p style="margin-bottom: -10px">{{bangla_date(strtotime($single_data->transferred_workstation_date))}}</p>
+                    <p style="margin-bottom: -10px">{{bangla_date(strtotime($employeeTransferApplication->transferred_workstation_date))}}</p>
                     <p style="margin-right: 65px; margin-top: -10px">তারিখঃ---------</p>
-                    <p style="margin-top: -15px">{{bangla_date(strtotime($single_data->transferred_workstation_date),"en")}}</p>
+                    <p style="margin-top: -15px">{{bangla_date(strtotime($employeeTransferApplication->transferred_workstation_date),"en")}}</p>
                   </td>
                 </tr>
                 <tr style="height: 40px">
                   <td colspan="2" style="text-align: center"><p>অফিস আদেশ</p></td>
                 </tr>
                 <tr style="height: 40px">
-                  <td colspan="2"><p>{{$single_data->first_paragraph}}</p></td>
+                  <td colspan="2"><p>{{$employeeTransferApplication->first_paragraph}}</p></td>
                 </tr>
               </table>
               <table class="table" style="width: 100%">
@@ -88,22 +75,22 @@
                     ০১. 
                   </td>
                   <td style="border: 1px solid #ddd">
-                    <p style="margin:0px">{{$single_data->user_type_object->name}}</p>
-                    <p style="margin:0px">{{$single_data->user_main_designation_object->name}}</p>
+                    <p style="margin:0px">{{$employeeTransferApplication->employeeTransfer->generalInformation->name_in_bangla ?? ''}}</p>
+                    <p style="margin:0px">{{$employeeTransferApplication->presentDesignation->title ?? ''}}</p>
                   </td>
                   <td style="border: 1px solid #ddd">
-                    <p style="margin:0px">{{$single_data->user_previous_designation_object->name}}</p>
-                    <p style="margin:0px">{{$single_data->user_previous_workstation_object->name}}</p>
+                    <p style="margin:0px">{{$employeeTransferApplication->presentDesignation->title ?? ''}}</p>
+                    <p style="margin:0px">{{$employeeTransferApplication->presentWorkstation->name ?? ''}}</p>
                   </td>
                   <td style="border: 1px solid #ddd">
-                    <p style="margin:0px">{{$single_data->user_present_designation_object->name}}</p>
-                    <p style="margin:0px">{{$single_data->user_present_workstation_object->name}}</p>
+                    <p style="margin:0px">{{$employeeTransferApplication->transferredDesignation->title ?? ''}}</p>
+                    <p style="margin:0px">{{$employeeTransferApplication->transferredWorkstation->name ?? ''}}</p>
                   </td>
                 </tr>
               </table>
               <table class="table" style="width: 100%">
                 <tr style="height: 40px">
-                  <td colspan="2" style="white-space: unset">{!! $single_data->editordata1 !!}</td>
+                  <td colspan="2" style="white-space: unset">{!! $employeeTransferApplication->editordata1 !!}</td>
                 </tr>
                 <tr style="height: 40px">
                   <td colspan="2">
@@ -119,17 +106,17 @@
               </table>
               <table class="table" style="width: 100%">
                 <tr style="height: 60px">
-                  <td style="width: 50%"><p style="font-size: 15px">নাম্বারঃ {{$single_data->transfer_number}}</p></td>
+                  <td style="width: 50%"><p style="font-size: 15px">নাম্বারঃ {{$employeeTransferApplication->transfer_number}}</p></td>
                   <td style="width: 50%; text-align:right">
-                    <p style="margin-bottom: -10px">{{bangla_date(strtotime($single_data->transferred_workstation_date))}}</p>
+                    <p style="margin-bottom: -10px">{{bangla_date(strtotime($employeeTransferApplication->transferred_workstation_date))}}</p>
                     <p style="margin-right: 65px; margin-top: -10px">তারিখঃ---------</p>
-                    <p style="margin-top: -15px">{{bangla_date(strtotime($single_data->transferred_workstation_date),"en")}}</p>
+                    <p style="margin-top: -15px">{{bangla_date(strtotime($employeeTransferApplication->transferred_workstation_date),"en")}}</p>
                   </td>
                 </tr>
               </table>
               <table class="table paragraph" style="width: 100%">
                 <tr style="height: 40px">
-                  <td colspan="2" ><div style="font-size: 25px" class="editor2">{!! $single_data->editordata2 !!}</div></td>
+                  <td colspan="2" ><div style="font-size: 25px" class="editor2">{!! $employeeTransferApplication->editordata2 !!}</div></td>
                 </tr>
                 <tr style="height: 40px">
                   <td colspan="2">

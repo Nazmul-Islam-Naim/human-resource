@@ -6,6 +6,8 @@ use App\Enum\MaritialStatusEnum;
 use App\Enum\SexEnum;
 use App\Http\Requests\EmployeeTransfer\CreateRequest;
 use App\Http\Requests\EmployeeTransfer\UpdateRequest;
+use App\Http\Requests\TransferApplication\ApplicationCreateRequest;
+use App\Http\Requests\TransferApplication\ApplicationUpdateRequest;
 use App\Models\GeneralInformation;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -19,6 +21,7 @@ use App\Models\EmployeePensionPrl;
 use App\Models\EmployeeTransferApplication;
 use DataTables;
 use BanglaDateTime;
+use Illuminate\Support\Arr;
 use Validator;
 use Response;
 use Session;
@@ -171,40 +174,17 @@ class EmployeeController extends Controller
     }
     public function employeeTransferApplicationForm($id)
     {
-        $data['single_data'] = EmployeeTransfer::findOrFail($id);
-        return view('employee.transferApplicationForm',$data);
+        $data['employeeTransfer'] = EmployeeTransfer::findOrFail($id);
+        return view('employee.applicationInformation.create',$data);
     }
-    public function employeeTransferApplicationFormStore(Request $request)
+    public function employeeTransferApplicationFormStore(ApplicationCreateRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'transfer_number' => 'required',
-            'first_paragraph' => 'required',
-            'editordata1' => 'required',
-            'editordata2' => 'required',
-        ]);
-        if ($validator->fails()) {
-            Session::flash('flash_message', $validator->errors());
-            return redirect()->back()->with('status_color','warning');
-        }
 
-        $input = $request->all();
-        $input['status'] = 1;
-        $input['transferred_workstation_date'] = dateFormateForDB($request->transferred_workstation_date);
-
-        DB::beginTransaction();
         try{
-            $bug=0;
-            $insert= EmployeeTransferApplication::create($input);
-            DB::commit();
-        }catch(\Exception $e){
-            $bug=$e->errorInfo[1];
-            DB::rollback();
-        }
-
-        if($bug==0){
+            EmployeeTransferApplication::create($request->all());
             Session::flash('flash_message','Application Successfully Done !');
-            return redirect()->back()->with('status_color','success');
-        }else{
+            return redirect()->route('employee-transfer-application-list')->with('status_color','success');
+        }catch(\Exception $e){
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
@@ -212,8 +192,7 @@ class EmployeeController extends Controller
     public function employeeTransferApplicationList(Request $request){
         if ($request->ajax()) {
             if(!empty($request->start_date) && !empty($request->end_date)){
-                $alldata= EmployeeTransferApplication::with(['user_type_object','user_main_designation_object','user_present_designation_object','user_present_workstation_object','user_previous_designation_object','user_previous_workstation_object'])
-                            ->where([['status', '1']])
+                $alldata= EmployeeTransferApplication::with(['employeeTransfer','presentDesignation','presentWorkstation','transferredDesignation','transferredWorkstation'])
                             ->whereBetween('transferred_workstation_date',array($request->start_date,$request->end_date))
                             ->orderBy('id','desc')
                             ->get();
@@ -224,7 +203,7 @@ class EmployeeController extends Controller
 
                 <ul class="list-inline m-0">
                     <li class="list-inline-item">
-                        <a href="<?php echo route('employee-transfer-application-print',$row->id); ?>" class="badge badge-primary badge-sm" data-id="<?php echo $row->id; ?>">প্রিন্ট</i></a>
+                        <a href="<?php echo route('employee-transfer-application-print',$row->id); ?>" target="_blank" class="badge badge-primary badge-sm" data-id="<?php echo $row->id; ?>">প্রিন্ট</i></a>
                     </li>
                     <li class="list-inline-item">
                         <a href="<?php echo route('employee-transfer-application-edit',$row->id); ?>" class="badge bg-info badge-sm" data-id="<?php echo $row->id; ?>">সংশোধন</i></a>
@@ -237,8 +216,7 @@ class EmployeeController extends Controller
 <?php return ob_get_clean();
                 })->make(True);
             }else{
-                $alldata= EmployeeTransferApplication::with(['user_type_object','user_main_designation_object','user_present_designation_object','user_present_workstation_object','user_previous_designation_object','user_previous_workstation_object'])
-                            ->where([['status', '1']])
+                $alldata= EmployeeTransferApplication::with(['employeeTransfer', 'employeeTransfer.generalInformation', 'presentDesignation','presentWorkstation','transferredDesignation','transferredWorkstation'])
                             ->orderBy('id','desc')
                             ->get();
                 return DataTables::of($alldata)
@@ -248,7 +226,7 @@ class EmployeeController extends Controller
 
                 <ul class="list-inline m-0">
                     <li class="list-inline-item">
-                        <a href="<?php echo route('employee-transfer-application-print',$row->id); ?>" class="badge bg-primary badge-sm" data-id="<?php echo $row->id; ?>">প্রিন্ট</i></a>
+                        <a href="<?php echo route('employee-transfer-application-print',$row->id); ?>" target="_blank" class="badge bg-primary badge-sm" data-id="<?php echo $row->id; ?>">প্রিন্ট</i></a>
                     </li>
                     <li class="list-inline-item">
                         <a href="<?php echo route('employee-transfer-application-edit',$row->id); ?>" class="badge bg-info badge-sm" data-id="<?php echo $row->id; ?>">সংশোধন</i></a>
@@ -262,70 +240,41 @@ class EmployeeController extends Controller
                 })->make(True);
             }
         }
-        return view ('employee.employeeTransferredApplicationList');
+        return view ('employee.applicationInformation.index');
     }
     public function employeeTransferApplicationPrint($id)
     {
-        $data['single_data'] = EmployeeTransferApplication::findOrFail($id);
-        return view('employee.transferApplicationPrint',$data);
+        $data['employeeTransferApplication'] = EmployeeTransferApplication::findOrFail($id);
+        return view('employee.applicationInformation.print',$data);
     }
     public function employeeTransferApplicationEdit($id)
     {
-        $data['single_data'] = EmployeeTransferApplication::findOrFail($id);
-        return view('employee.transferApplicationFormEdit',$data);
+        $data['employeeTransferApplication'] = EmployeeTransferApplication::findOrFail($id);
+        return view('employee.applicationInformation.edit',$data);
     }
-    public function employeeTransferApplicationUpdate(Request $request, $id)
+    public function employeeTransferApplicationUpdate(ApplicationUpdateRequest $request, $id)
     {
-        $transferApplication = EmployeeTransferApplication::findOrFail($id);
-        $validator = Validator::make($request->all(), [
-            'employee_id' => 'required',
-            // 'designation_id' => 'required',
-        ]);
-        if ($validator->fails()) {
-            Session::flash('flash_message', $validator->errors());
-            return redirect()->back()->with('status_color','warning');
-        }
-
-        $input = $request->all();
-        $input['status'] = 1;
-        $input['transferred_workstation_date'] = dateFormateForDB($request->transferred_workstation_date);
-
-        DB::beginTransaction();
         try{
-            $bug=0;
-            $insert= $transferApplication->update($input);
-            DB::commit();
-        }catch(\Exception $e){
-            $bug=$e->errorInfo[1];
-            DB::rollback();
-        }
-
-        if($bug==0){
+            $data = $request->all();
+            $method = Arr::pull($data, '_method');
+            $token = Arr::pull($data, '_token');
+            $name = Arr::pull($data, 'name');
+            EmployeeTransferApplication::where('id',$id)->update($data);
             Session::flash('flash_message','Application Successfully Updated !');
-            return redirect()->back()->with('status_color','success');
-        }else{
+            return redirect()->route('employee-transfer-application-list')->with('status_color','success');
+        }catch(\Exception $exception){
+            dd($exception->getMessage());
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
     }
     public function employeeTransferApplicationDelete(Request $request, $id)
     {
-        $transferApplication = EmployeeTransferApplication::findOrFail($id);
-
-        DB::beginTransaction();
         try{
-            $bug=0;
-            $del= $transferApplication->delete();
-            DB::commit();
-        }catch(\Exception $e){
-            $bug=$e->errorInfo[1];
-            DB::rollback();
-        }
-
-        if($bug==0){
+            EmployeeTransferApplication::where('id',$id)->delete();
             Session::flash('flash_message','Application Successfully Deleted !');
-            return redirect()->back()->with('status_color','success');
-        }else{
+            return redirect()->route('employee-transfer-application-list')->with('status_color','success');
+        }catch(\Exception $exception){
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
