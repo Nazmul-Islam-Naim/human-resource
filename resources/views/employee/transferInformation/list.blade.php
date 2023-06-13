@@ -30,7 +30,7 @@
                     <div class="col-md-3">
                       <div class="field-wrapper">
                         <div class="input-group">
-                          <input class="form-control datepicker" type="text" name="start_date" id="start_date" value="<?php echo date('Y-m-d');?>" autocomplete="off">
+                          <input class="form-control" type="date" name="start_date" id="start_date" value="<?php echo date('Y-m-d');?>" autocomplete="off">
                         </div>
                         <div class="field-placeholder">শুরুর তারিখ  </div>
                       </div>
@@ -38,7 +38,7 @@
                     <div class="col-md-3">
                       <div class="field-wrapper">
                         <div class="input-group">
-                          <input class="form-control datepicker" type="text" name="end_date" id="end_date" value="<?php echo date('Y-m-d');?>" autocomplete="off">
+                          <input class="form-control" type="date" name="end_date" id="end_date" value="<?php echo date('Y-m-d');?>" autocomplete="off">
                         </div>
                         <div class="field-placeholder">শেষ তারিখ  </div>
                       </div>
@@ -74,17 +74,15 @@
                       <tr> 
                         <th>সিঃ</th>
                         <th>কর্মকর্তা/কর্মচারীর নাম</th>
+                        <th>নিজ জেলা</th>
+                        <th>মোবাইল</th>
+                        <th>কর্মস্থল</th>
+                        <th>পদবী</th>
+                        <th>পে-স্কেল</th>
+                        <th>বেতন</th>
                         <th>বদলীর তারিখ</th>
                         <th>যোগদানের তারিখ </th>
-                        <th>বর্তমান কর্মস্থল</th>
-                        <th>বর্তমান পদবী</th>
-                        {{-- <th>পূর্বে যোগদানের তারিখ</th>
-                        <th>পূর্বের কর্মস্থল</th>
-                        <th>পূর্বের পদবী</th>
-                        <th>বেতন</th>
-                        <th>বাড়ী ভাড়া</th>
-                        <th>ভোগকৃত ছুটি</th>
-                        <th>অতিরিক্ত দায়িত্ব ভাতা</th> --}}
+                        <th>অব্যাহতির তারিখ</th>
                         <th width="15%">একশন</th>
                       </tr>
                     </thead>
@@ -148,7 +146,7 @@
             {
                 extend: 'excel',
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7,8,9,10,11,12]
+                    columns: [ 0, 1, 2, 3,4,5,6,7,8,9,10]
                 }, 
                 messageTop: 'The information in this table is copyright to Sirius Cybernetics Corp.'
             },
@@ -172,7 +170,7 @@
                 $(win.document.body).find('table tbody td').css('border','1px solid #ddd');  
                 },
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7,8,9,10,11,12]
+                    columns: [ 0, 1, 2, 3,4,5,6,7,8,9,10]
                 }
             }
         ],
@@ -181,14 +179,20 @@
 			columns: [
         {data: 'DT_RowIndex'},
 				{
-          data: 'user_type_object.name',
+          data: 'general_information.name_in_bangla',
           render: function(data, type, row) {
             var url = "/hr/employee-transferred-history/"+ row.employee_id; 
 						return '<a href=' + url +'>'+ data +'</a>';
 					}
         },
+				{data: 'general_information.district.name'},
+				{data: 'general_information.mobile'},
+				{data: 'workstation.name'},
+				{data: 'designation.title'},
+				{data: 'salary_scale.name'},
+				{data: 'salary'},
 				{
-          data: 'transferred_workstation_date',
+          data: 'transferred_date',
           render: function(data, type, full, meta) {
 						if (data != null) {
               const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
@@ -197,7 +201,7 @@
 					}
         },
 				{
-          data: 'transferred_workstation_joining_date',
+          data: 'joining_date',
           render: function(data, type, full, meta) {
 						if (data != null) {
               const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
@@ -205,47 +209,17 @@
 						}
 					}
         },
-				{data: 'user_present_workstation_object.name'},
-				{data: 'user_present_designation_object.name'},
-				// {
-        //   data: 'present_workstation_joining_date',
-        //   render: function(data, type, full, meta) {
-				// 		if (data != null) {
-        //       const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
-				// 			return toBn(dateFormat(new Date(data)).toString());
-				// 		}
-				// 	}
-        // },
-				// {data: 'user_previous_workstation_object.name'},
-				// {data: 'user_previous_designation_object.name'},
-				// {
-        //   data: 'salary',
-        //   render: function(data, type, row){
-        //     const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
-        //     return toBn(data.toString());
-        //   }
-        // },
-				// {
-        //   data: 'house_rent',
-        //   render: function(data, type, row){
-        //     const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
-        //     return toBn(data.toString());
-        //   }
-        // },
-				// {
-        //   data: 'total_taken_leave',
-        //   render: function(data, type, row){
-        //     const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
-        //     return toBn(data.toString());
-        //   }
-        // },
-				// {
-        //   data: 'allowance',
-        //   render: function(data, type, row){
-        //     const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
-        //     return toBn(data.toString());
-        //   }
-        // },
+				{
+          data: 'release_date',
+          render: function(data, type, full, meta) {
+						if (data != null) {
+              const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
+              return toBn(dateFormat(new Date(data)).toString());
+						}else{
+              return 'চলমান';
+            }
+					}
+        },
 				{
           data: 'action',
           orderable:true,

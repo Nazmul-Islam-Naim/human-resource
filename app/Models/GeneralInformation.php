@@ -67,4 +67,8 @@ class GeneralInformation extends Model
         return $this->hasMany(CaseInformation::class);
     }
 
+    public function employeeTransfer(){
+        return $this->hasMany(EmployeeTransfer::class);
+    }
+
 }

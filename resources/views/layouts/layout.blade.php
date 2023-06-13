@@ -240,7 +240,6 @@
                                 </li>
                                 <!-------------- employee part ------------>
                                 <li class="default-sidebar-dropdown {{(
-                                   $url==config('app.hr').'/employee-list' || $url==config('app.hr').'/employee-list/create' || $url==(request()->is(config('app.hr').'/employee-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-pofile/*')) ||
                                    $url==config('app.hr').'/employee-transfer' || $url==config('app.hr').'/employee-transfer/create' || $url==(request()->is(config('app.hr').'/employee-transfer/*/edit')) || $url==(request()->is(config('app.hr').'/employee-transfer/*'))  || $url==(request()->is(config('app.hr').'/transfer-form/*')) || $url==(request()->is(config('app.hr').'/employee-pension-prl/*')) ||
                                    $url==config('app.hr').'/employee-transferred-list' || $url==config('app.hr').'/employee-transferred-list/create' || $url==(request()->is(config('app.hr').'/employee-transferred-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-transferred-list/*')) ||
                                    $url==config('app.hr').'/employee-pension-prl-list' || $url==config('app.hr').'/employee-pension-prl-list/create' || $url==(request()->is(config('app.hr').'/employee-pension-prl-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-pension-prl-list/*')) ||
@@ -252,10 +251,7 @@
                                     <div class="default-sidebar-submenu">
                                         <ul>
                                             <li>
-                                                <a href="{{$baseUrl.'/'.config('app.hr').'/employee-list'}}" class="{{($url==config('app.hr').'/employee-list' || $url==config('app.hr').'/employee-list/create' || $url==(request()->is(config('app.hr').'/employee-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-pofile/*'))) ? 'current-page':''}}"> কর্মচারী ডিরেক্টরি</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{$baseUrl.'/'.config('app.hr').'/employee-transfer'}}" class="{{($url==config('app.hr').'/employee-transfer' || $url==config('app.hr').'/employee-transfer/create' || $url==(request()->is(config('app.hr').'/employee-transfer/*/edit')) || $url==(request()->is(config('app.hr').'/employee-transfer/*'))  || $url==(request()->is(config('app.hr').'/transfer-form/*')) || $url==(request()->is(config('app.hr').'/employee-pension-prl/*'))) ? 'current-page':''}}"> কর্মচারী স্থানান্তর/পেনশন/পি আর এল</a>
+                                                <a href="{{$baseUrl.'/'.config('app.hr').'/employee-transfer'}}" class="{{($url==config('app.hr').'/employee-transfer' || $url==config('app.hr').'/employee-transfer/create' || $url==(request()->is(config('app.hr').'/employee-transfer/*/edit')) || $url==(request()->is(config('app.hr').'/employee-transfer/*'))  || $url==(request()->is(config('app.hr').'/transfer-form/*')) || $url==(request()->is(config('app.hr').'/employee-pension-prl/*'))) ? 'current-page':''}}"> কর্মচারী স্থানান্তর/পেনশন</a>
                                             </li>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.hr').'/employee-transferred-list'}}" class="{{($url==config('app.hr').'/employee-transferred-list' || $url==config('app.hr').'/employee-transferred-list/create' || $url==(request()->is(config('app.hr').'/employee-transferred-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-transferred-list/*'))) ? 'current-page':''}}"> কর্মচারী স্থানান্তর তালিকা</a>

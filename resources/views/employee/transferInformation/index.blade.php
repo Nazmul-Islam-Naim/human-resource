@@ -31,15 +31,13 @@
                     <thead> 
                       <tr> 
                         <th>সিঃ</th>
-                        <th>আইডি</th>
                         <th>নাম</th>
-                        <th>ডিপার্টমেন্ট</th>
-                        <th>পদবী</th>
-                        <th>বেতন স্কেল</th>
-                        <th>বেতন </th>
-                        <th>কর্মস্থল</th>
-                        <th>যোগদান</th>
                         <th>জেলা</th>
+                        <th>মোবাইল</th>
+                        <th>বর্তমান পদবী</th> 
+                        <th>বর্তমান কর্মস্থল</th> 
+                        <th>বেতন স্কেল</th>
+                        <th>যোগদান</th>
                         <th width="15%">একশন </th>
                       </tr>
                     </thead>
@@ -101,7 +99,7 @@
             {
                 extend: 'excel',
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7,8,9 ]
+                    columns: [ 0, 1, 2, 3,4,5,6,7]
                 },
                 messageTop: 'The information in this table is copyright to Sirius Cybernetics Corp.'
             },
@@ -125,17 +123,9 @@
                 $(win.document.body).find('table thead th').css('border','1px solid #ddd');  
                 $(win.document.body).find('table tbody td').css('border','1px solid #ddd');  
  
-                // $(win.document.body).find('tbody tr').each(function(c){
- 
-                //     $(this).find('td').css('vertical-align','middle');
- 
-                //     $(this).find('td:eq(0)').css('text-align','right');
-                //     $(this).find('td:eq(5)').css('text-align','right');
-                //     $(this).find('td:eq(6)').css('text-align','right');
-                // });
                 },
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7,8,9 ]
+                    columns: [ 0, 1, 2, 3,4,5,6,7]
                 },
                 messageBottom: null
             }
@@ -145,32 +135,20 @@
 			columns: [
         {data: 'DT_RowIndex'},
 				{
-          data: 'employee_id',
-          render: function(data, type, row){
-            const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
-            return toBn(data.toString());
-          }
-        },
-				{
-          data: 'name',
+          data: 'name_in_bangla',
           render: function(data, type, row) {
-            var url = "/hr/employee-transferred-history/"+ row.id; 
+            var url = '{{route("generalInformations.show",":id")}}'; 
+            var url = url.replace(':id', row.id);
 						return '<a href=' + url +'>'+ data +'</a>';
 					}
         },
-				{data: 'user_department_object.name'},
-				{data: 'user_designation_object.name'},
-				{data: 'user_salary_scale_object.name'},
+				{data: 'district.name'},
+				{data: 'mobile'},
+				{data: 'present_designation.title'},
+				{data: 'present_work_station.name'},
+				{data: 'salary_scale.name'},
 				{
-          data: 'salary',
-          render: function(data, type, row){
-            const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
-            return toBn(data.toString());
-          }
-        },
-				{data: 'user_workstation_object.name'},
-				{
-          data: 'join_date',
+          data: 'joining_date',
           render: function(data, type, full, meta) {
 						if (data != null) {
               const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
@@ -178,7 +156,6 @@
 						}
 					}
         },
-				{data: 'user_district_object.name'},
 				{
           data: 'action',
           orderable:true,
