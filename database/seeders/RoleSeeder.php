@@ -25,5 +25,9 @@ class RoleSeeder extends Seeder
             ->permissions()
             ->sync([]);        
 
+        Role::updateOrCreate(['title' => 'সচিব', 'slug' => 'socib', 'deletable' => false])
+            ->permissions()
+            ->sync([]);        
+
     }
 }

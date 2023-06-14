@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\GeneralInformation;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\User;
 use App\Models\Workstation;
@@ -30,17 +31,15 @@ class HomeController extends Controller
      */
     public function index()
     {
-        if(Auth::user()->user_type == 1 || Auth::user()->user_type == 2 || Auth::user()->user_type == 3){
-            $data['total_workstation'] = Workstation::where('status',1)->count();
-            $data['total_department'] = Department::where('status',1)->count();
-            $data['total_designation'] = Designation::where('status',1)->count();
-            $data['total_employee_present'] = User::where([['user_type',3],['status',1]])->count();
-            $data['total_employee_pension'] = User::where([['user_type',3],['status',2]])->count();
-            $data['total_employee'] = User::where('user_type',3)->count();
-            return view('home',$data);
-        }else{
-            return view('user-home');
-        }
+        $data['workstations'] = Workstation::count();
+        $data['designations'] = Designation::count();
+        $data['employees'] = GeneralInformation::count();
+        $data['directors'] = GeneralInformation::where('status',1)->where('present_designation_id',4)->count();
+        $data['assitantDirectors'] = GeneralInformation::where('status',1)->where('present_designation_id',5)->count();
+        $data['subAssitantDirectors'] = GeneralInformation::where('status',1)->where('present_designation_id',6)->count();
+        $data['runningEmployees'] = GeneralInformation::where('status',1)->count();
+        $data['pensionEmployees'] = GeneralInformation::where('status',0)->count();
+        return view('user-home',$data);
     }
 
     public function selectBranch()

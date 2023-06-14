@@ -24,6 +24,7 @@ class ApplicationCreateRequest extends FormRequest
         return [
             'transfer_number' => ['required'],
             'first_paragraph' => ['required'],
+            'user_id' => ['required'],
             'editordata1' => ['required'],
             'editordata2' => ['required'],
         ];

@@ -16,7 +16,7 @@ class DesignationSeeder extends Seeder
      */
     public function run()
     {
-        $designations = ['User'];
+        $designations = ['ডিজি','সচিব','উপ-সচিব', 'পরিচালক', 'সহকারী পরিচালক', 'উপ-সহকারী পরিচালক'];
 
         foreach($designations as $designation){
             Designation::updateOrCreate([

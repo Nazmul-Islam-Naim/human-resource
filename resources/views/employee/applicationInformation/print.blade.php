@@ -95,11 +95,10 @@
                 <tr style="height: 40px">
                   <td colspan="2">
                     <div  class="sacretary" style=" margin-right: 100px;margin-top: 100px;width: 203px;height: 128px;display: block;margin-left: 656px;text-align: center;">
-                      <p style="margin: 0px">মোহাম্মদ আব্দুল কাদের শেখ </p>
-                      <p style="margin: 0px">সচিব</p>
-                      <p style="margin: 0px">ফোনঃ ০২-৮১৮১৫১৬</p>
-                      <p style="margin: 0px">ফ্যাক্সঃ ৮৮-০২-৮১৮১৫৫৭</p>
-                      <p style="margin: 0px">ইমেলঃ dg_if@yahoo.com</p>
+                      <p style="margin: 0px">{{$employeeTransferApplication->signatureBy->name ?? ''}} </p>
+                      <p style="margin: 0px">{{$employeeTransferApplication->signatureBy->designation->title ?? ''}}</p>
+                      <p style="margin: 0px">ফোনঃ {{$employeeTransferApplication->signatureBy->phone ?? ''}} </p>
+                      <p style="margin: 0px">ইমেলঃ {{$employeeTransferApplication->signatureBy->email ?? ''}} </p>
                     </div>
                   </td>
                 </tr>

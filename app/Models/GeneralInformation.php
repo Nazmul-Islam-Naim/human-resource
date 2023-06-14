@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class GeneralInformation extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     protected $table = 'general_information';
     protected $fillable = [
         'employee_id', 'name_in_bangla', 'name_in_english', 'fathers_name_in_bangla', 'mothers_name_in_bangla', 'district_id', 'maritial_status', 'birth_date', 
@@ -69,6 +69,10 @@ class GeneralInformation extends Model
 
     public function employeeTransfer(){
         return $this->hasMany(EmployeeTransfer::class);
+    }
+
+    public function employeePensionPrl(){
+        return $this->hasOne(EmployeePensionPrl::class);
     }
 
 }

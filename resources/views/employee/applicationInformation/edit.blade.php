@@ -113,7 +113,25 @@
                 </div>
                 <!-- Field wrapper end -->
               </div>
-              <div class="col-xl-12 col-lg- 12 col-md-12 col-sm-12 col-12">
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                <div class="field-wrapper">
+                  <div class="input-group">
+                    <select name="user_id" 
+                    class="form-control select2 @error('user_id') is-invalid @enderror" 
+                    required="">
+                      <option value="">Select</option>
+                      @foreach($users as $user)
+                      <option value="{{$user->id}}" {{(($employeeTransferApplicati4->user_id == $user->id) ?? (old('user_id') == $user->id)) ? 'selected' : ''}}>{{$user->name}}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <div class="field-placeholder">স্বাক্ষরকারী নির্বাচন করুন <span class="text-danger">*</span></div>
+                </div>
+                @error('user_id')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+              </div>
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <!-- Field wrapper start -->
                 <div class="field-wrapper">
                   <div class="input-group">

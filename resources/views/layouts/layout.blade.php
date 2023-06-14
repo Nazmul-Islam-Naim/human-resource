@@ -115,19 +115,11 @@
                         <div class="default-sidebar-menu">
                             <ul>
                                 <!-------------- dashboard part ------------>
-                                <li class="default-sidebar-dropdown {{(
-                                    $url=='dashboard') ? 'active':''}}">
-                                    <a href="javascript::void(0)">
+                                <li>
+                                    <a href="{{$baseUrl.'/dashboard'}}"  class="{{($url=='dashboard') ? 'current-page':''}}">
                                         <i class="icon-home2"></i>
-                                        <span class="menu-text">Dashboard</span>
+                                        <span class="menu-text">ড্যাশবোর্ড</span>
                                     </a>
-                                    <div class="default-sidebar-submenu">
-                                        <ul>
-                                            <li>
-                                                <a href="{{$baseUrl.'/dashboard'}}"  class="{{($url=='dashboard') ? 'current-page':''}}">Dashboard</a>
-                                            </li>
-                                        </ul>
-                                    </div>
                                 </li>
                                 <!-------------- catlog part ------------>
                                 <li class="default-sidebar-dropdown {{(
@@ -138,7 +130,7 @@
                                     $url==config('app.cat').'/workstation' || $url==config('app.cat').'/workstation/create' || $url==(request()->is(config('app.cat').'/workstation/*/edit')) ||
                                     $url==config('app.cat').'/occupation' || $url==config('app.cat').'/occupation/create' || $url==(request()->is(config('app.cat').'/occupation/*/edit'))) ? 'active':''}}">
                                     <a href="javascript::void(0)">
-                                        <i class="icon-user"></i>
+                                        <i class="icon-menu"></i>
                                         <span class="menu-text">ক্যাটালগ</span>
                                     </a>
                                     <div class="default-sidebar-submenu">
@@ -203,6 +195,29 @@
                                         </ul>
                                     </div>
                                 </li>
+                                <!-------------- training information part ------------>
+                                <li class="default-sidebar-dropdown {{(
+                                    $url==config('app.education').'/courses' || $url==config('app.education').'/courses/create' || $url==(request()->is(config('app.education').'/courses/*/edit')) ||
+                                    $url==config('app.education').'/institutes' || $url==config('app.education').'/institutes/create' || $url==(request()->is(config('app.education').'/institutes/*/edit')) ||
+                                    $url==config('app.education').'/publications' || $url==config('app.education').'/publications/create' || $url==(request()->is(config('app.education').'/publications/*/edit'))) ? 'active':''}}">
+                                    <a href="javascript::void(0)">
+                                        <i class="icon-book"></i>
+                                        <span class="menu-text">প্রশিক্ষন তথ্যাদি</span>
+                                    </a>
+                                    <div class="default-sidebar-submenu">
+                                        <ul>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.education').'/courses'}}" class="{{($url==config('app.education').'/courses' || $url==config('app.education').'/courses/create' || $url==(request()->is(config('app.education').'/courses/*/edit'))) ? 'current-page':''}}"> কোর্সেস </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.education').'/institutes'}}" class="{{($url==config('app.education').'/institutes' || $url==config('app.education').'/institutes/create' || $url==(request()->is(config('app.education').'/institutes/*/edit'))) ? 'current-page':''}}"> ইনিস্টিটিউটস </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.education').'/publications'}}" class="{{($url==config('app.education').'/publications' || $url==config('app.education').'/publications/create' || $url==(request()->is(config('app.education').'/publications/*/edit'))) ? 'current-page':''}}"> প্রকাশনা </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </li>
                                 <!-------------- employee inforamation part ------------>
                                 <li class="default-sidebar-dropdown {{(
                                     $url==config('app.hr').'/generalInformations' || $url==config('app.hr').'/generalInformations/create' || $url==(request()->is(config('app.hr').'/generalInformations/*/edit')) ||
@@ -212,8 +227,8 @@
                                     $url==config('app.hr').'/promotionInformations' || $url==config('app.hr').'/promotionInformations/create' || $url==(request()->is(config('app.hr').'/promotionInformations/*/edit')) ||
                                     $url==config('app.hr').'/caseInformations' || $url==config('app.hr').'/caseInformations/create' || $url==(request()->is(config('app.hr').'/caseInformations/*/edit'))) ? 'active':''}}">
                                     <a href="javascript::void(0)">
-                                        <i class="icon-user"></i>
-                                        <span class="menu-text">মানব সম্পদ</span>
+                                        <i class="icon-people_outline"></i>
+                                        <span class="menu-text">কর্মকর্তা/কর্মচারীর তথ্য</span>
                                     </a>
                                     <div class="default-sidebar-submenu">
                                         <ul>
@@ -239,31 +254,31 @@
                                     </div>
                                 </li>
                                 <!-------------- employee part ------------>
-                                <li class="default-sidebar-dropdown {{(
-                                   $url==config('app.hr').'/employee-transfer' || $url==config('app.hr').'/employee-transfer/create' || $url==(request()->is(config('app.hr').'/employee-transfer/*/edit')) || $url==(request()->is(config('app.hr').'/employee-transfer/*'))  || $url==(request()->is(config('app.hr').'/transfer-form/*')) || $url==(request()->is(config('app.hr').'/employee-pension-prl/*')) ||
-                                   $url==config('app.hr').'/employee-transferred-list' || $url==config('app.hr').'/employee-transferred-list/create' || $url==(request()->is(config('app.hr').'/employee-transferred-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-transferred-list/*')) ||
-                                   $url==config('app.hr').'/employee-pension-prl-list' || $url==config('app.hr').'/employee-pension-prl-list/create' || $url==(request()->is(config('app.hr').'/employee-pension-prl-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-pension-prl-list/*')) ||
-                                   $url==config('app.hr').'/employee-transfer-application-list' || $url==config('app.hr').'/employee-transfer-application-list/create' || $url==(request()->is(config('app.hr').'/employee-transfer-application-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-transfer-application-list/*'))) ? 'active':''}}">
-                                    <a href="javascript::void(0)">
-                                        <i class="icon-user"></i>
-                                        <span class="menu-text">মানব সম্পদ</span>
+                                <li >
+                                    <a  href="{{$baseUrl.'/'.config('app.hr').'/employee-transfer'}}" class="{{($url==config('app.hr').'/employee-transfer' || $url==config('app.hr').'/employee-transfer/create' || $url==(request()->is(config('app.hr').'/employee-transfer/*/edit')) || $url==(request()->is(config('app.hr').'/employee-transfer/*'))  || $url==(request()->is(config('app.hr').'/transfer-form/*')) || $url==(request()->is(config('app.hr').'/employee-pension-prl/*'))) ? 'current-page':''}}">
+                                        <i class="icon-users"></i>
+                                        <span class="menu-text">কর্মচারী স্থানান্তর/পেনশন</span>
                                     </a>
-                                    <div class="default-sidebar-submenu">
-                                        <ul>
-                                            <li>
-                                                <a href="{{$baseUrl.'/'.config('app.hr').'/employee-transfer'}}" class="{{($url==config('app.hr').'/employee-transfer' || $url==config('app.hr').'/employee-transfer/create' || $url==(request()->is(config('app.hr').'/employee-transfer/*/edit')) || $url==(request()->is(config('app.hr').'/employee-transfer/*'))  || $url==(request()->is(config('app.hr').'/transfer-form/*')) || $url==(request()->is(config('app.hr').'/employee-pension-prl/*'))) ? 'current-page':''}}"> কর্মচারী স্থানান্তর/পেনশন</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{$baseUrl.'/'.config('app.hr').'/employee-transferred-list'}}" class="{{($url==config('app.hr').'/employee-transferred-list' || $url==config('app.hr').'/employee-transferred-list/create' || $url==(request()->is(config('app.hr').'/employee-transferred-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-transferred-list/*'))) ? 'current-page':''}}"> কর্মচারী স্থানান্তর তালিকা</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{$baseUrl.'/'.config('app.hr').'/employee-pension-prl-list'}}" class="{{($url==config('app.hr').'/employee-pension-prl-list' || $url==config('app.hr').'/employee-pension-prl-list/create' || $url==(request()->is(config('app.hr').'/employee-pension-prl-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-pension-prl-list/*'))) ? 'current-page':''}}"> কর্মচারী পেনশন/পি আর এল তালিকা</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{$baseUrl.'/'.config('app.hr').'/employee-transfer-application-list'}}" class="{{($url==config('app.hr').'/employee-transfer-application-list' || $url==config('app.hr').'/employee-transfer-application-list/create' || $url==(request()->is(config('app.hr').'/employee-transfer-application-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-transfer-application-list/*'))) ? 'current-page':''}}"> কর্মচারী স্থানান্তর আবেদন পত্র</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                                </li>
+                                <!-------------- employee part ------------>
+                                <li >
+                                    <a href="{{$baseUrl.'/'.config('app.hr').'/employee-transferred-list'}}" class="{{($url==config('app.hr').'/employee-transferred-list' || $url==config('app.hr').'/employee-transferred-list/create' || $url==(request()->is(config('app.hr').'/employee-transferred-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-transferred-list/*'))) ? 'current-page':''}}">
+                                        <i class="icon-list"></i>
+                                        <span class="menu-text">কর্মচারী স্থানান্তর তালিকা</span>
+                                    </a>
+                                </li>
+                                <!-------------- employee part ------------>
+                                <li >
+                                    <a href="{{$baseUrl.'/'.config('app.hr').'/employee-pension-prl-list'}}" class="{{($url==config('app.hr').'/employee-pension-prl-list' || $url==config('app.hr').'/employee-pension-prl-list/create' || $url==(request()->is(config('app.hr').'/employee-pension-prl-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-pension-prl-list/*'))) ? 'current-page':''}}">
+                                        <i class="icon-list"></i>
+                                        <span class="menu-text">পেনশন/পি আর এল তালিকা</span>
+                                    </a>
+                                <!-------------- employee part ------------>
+                                <li >
+                                    <a href="{{$baseUrl.'/'.config('app.hr').'/employee-transfer-application-list'}}" class="{{($url==config('app.hr').'/employee-transfer-application-list' || $url==config('app.hr').'/employee-transfer-application-list/create' || $url==(request()->is(config('app.hr').'/employee-transfer-application-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-transfer-application-list/*'))) ? 'current-page':''}}">
+                                        <i class="icon-message"></i>
+                                        <span class="menu-text">স্থানান্তর আবেদন পত্র</span>
+                                    </a>
                                 </li>
                                 <!-------------- user part ------------>
                                 <li class="default-sidebar-dropdown {{(
@@ -272,18 +287,18 @@
                                     $url==config('app.user').'/user-role' || $url==config('app.user').'/user-role/create' || $url==(request()->is(config('app.user').'/user-role/*/edit'))) ? 'active':''}}">
                                     <a href="javascript::void(0)">
                                         <i class="icon-user"></i>
-                                        <span class="menu-text">User Management</span>
+                                        <span class="menu-text">ইউজার ব্যাবস্থাপনা</span>
                                     </a>
                                     <div class="default-sidebar-submenu">
                                         <ul>
                                             <li>
-                                                <a href="{{$baseUrl.'/'.config('app.user').'/designation'}}" class="{{($url==config('app.user').'/designation' || $url==config('app.user').'/designation/create' || $url==(request()->is(config('app.user').'/designation/*/edit'))) ? 'current-page':''}}">Designation</a>
+                                                <a href="{{$baseUrl.'/'.config('app.user').'/designation'}}" class="{{($url==config('app.user').'/designation' || $url==config('app.user').'/designation/create' || $url==(request()->is(config('app.user').'/designation/*/edit'))) ? 'current-page':''}}">পদবী</a>
                                             </li>
                                             <li>
-                                                <a href="{{$baseUrl.'/'.config('app.user').'/user-list'}}" class="{{($url==config('app.user').'/user-list' || $url==config('app.user').'/user-list/create' || $url==(request()->is(config('app.user').'/user-list/*/edit'))) ? 'current-page':''}}">User</a>
+                                                <a href="{{$baseUrl.'/'.config('app.user').'/user-list'}}" class="{{($url==config('app.user').'/user-list' || $url==config('app.user').'/user-list/create' || $url==(request()->is(config('app.user').'/user-list/*/edit'))) ? 'current-page':''}}">ব্যাবহারকারী</a>
                                             </li>
                                             <li>
-                                                <a href="{{$baseUrl.'/'.config('app.user').'/user-role'}}" class="{{($url==config('app.user').'/user-role' || $url==config('app.user').'/user-role/create' || $url==(request()->is(config('app.user').'/user-role/*/edit'))) ? 'current-page':''}}">User Role</a>
+                                                <a href="{{$baseUrl.'/'.config('app.user').'/user-role'}}" class="{{($url==config('app.user').'/user-role' || $url==config('app.user').'/user-role/create' || $url==(request()->is(config('app.user').'/user-role/*/edit'))) ? 'current-page':''}}">ইউজার রোল</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -333,7 +348,7 @@
                                             @if (!empty(auth()->user()->avatar))
                                             <img class="profile-user-img img-responsive img-fluid" src="{{asset('storage/'.auth()->user()->avatar)}}" alt="User profile picture">
                                             @else
-                                            <img class="profile-user-img img-responsive img-fluid" src="{{asset('backend/custom/images/no-image.jpg')}}" alt="User profile picture">
+                                            <img class="profile-user-img img-responsive img-fluid" src="{{asset('backend/custom/images/noImage.png')}}" alt="User profile picture">
                                             @endif
                                         </span>
                                     </a>

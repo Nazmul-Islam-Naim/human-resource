@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Enum\MaritialStatusEnum;
-use App\Enum\SexEnum;
+use App\Enum\Status;
+use App\Http\Requests\EmployeePensionPrl\PensionCreateRequest;
+use App\Http\Requests\EmployeePensionPrl\PensionUpdateRequest;
 use App\Http\Requests\EmployeeTransfer\CreateRequest;
 use App\Http\Requests\EmployeeTransfer\UpdateRequest;
 use App\Http\Requests\TransferApplication\ApplicationCreateRequest;
@@ -12,7 +13,6 @@ use App\Models\GeneralInformation;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Designation;
-use App\Models\Department;
 use App\Models\SalaryScale;
 use App\Models\District;
 use App\Models\Workstation;
@@ -20,13 +20,9 @@ use App\Models\EmployeeTransfer;
 use App\Models\EmployeePensionPrl;
 use App\Models\EmployeeTransferApplication;
 use DataTables;
-use BanglaDateTime;
 use Illuminate\Support\Arr;
 use Validator;
-use Response;
 use Session;
-use Auth;
-use Hash;
 use DB;
 require_once('ConverterController.php');
 include(app_path() . '/library/commonFunction.php');
@@ -174,6 +170,7 @@ class EmployeeController extends Controller
     }
     public function employeeTransferApplicationForm($id)
     {
+        $data['users'] = User::where('role_id', '!=', 1)->where('role_id', '!=', 2)->get();
         $data['employeeTransfer'] = EmployeeTransfer::findOrFail($id);
         return view('employee.applicationInformation.create',$data);
     }
@@ -249,6 +246,7 @@ class EmployeeController extends Controller
     }
     public function employeeTransferApplicationEdit($id)
     {
+        $data['users'] = User::where('designation_id', '!=', 1)->where('designation_id', '!=', 2)->get();
         $data['employeeTransferApplication'] = EmployeeTransferApplication::findOrFail($id);
         return view('employee.applicationInformation.edit',$data);
     }
@@ -283,61 +281,18 @@ class EmployeeController extends Controller
     
     public function employeePensionPrlForm($id)
     {
-        $data['all_department'] = Department::where('status',1)->get();
-        $data['all_designation'] = Designation::where('status',1)->get();
-        $data['all_salary_scale'] = SalaryScale::where('status',1)->get();
-        $data['all_district'] = District::where('status',1)->get();
-        $data['all_workstation'] = Workstation::where('status',1)->get();
-        $data['single_data']= User::where('id', $id)->first();
-        return view('employee.pensionAndPrlFrom',$data);
+        $data['generalInformation']= GeneralInformation::findOrFail($id);
+        return view('employee.pensionPrlInformation.create',$data);
     }
-    public function employeePensionPrlFormStore(Request $request, $id)
+    public function employeePensionPrlFormStore(PensionCreateRequest $request, $id)
     {
-        $employee = User::findOrFail($id);
-        $validator = Validator::make($request->all(), [
-            'employee_id' => 'required',
-            // 'designation_id' => 'required',
-        ]);
-        if ($validator->fails()) {
-            Session::flash('flash_message', $validator->errors());
-            return redirect()->back()->with('status_color','warning');
-        }
-
-        $input = $request->all();
-        $input['status'] = 1;
-        $input['last_basic_salary'] = Converter::bn2en($request->last_basic_salary);
-        $input['leave_average_pay'] = Converter::bn2en($request->leave_average_pay);
-        $input['leave_half_pay'] = Converter::bn2en($request->leave_half_pay);
-        $input['due_provident_fund'] = Converter::bn2en($request->due_provident_fund);
-        $input['leave_encashment_owed'] = Converter::bn2en($request->leave_encashment_owed);
-        $input['amount_gratuity'] = Converter::bn2en($request->amount_gratuity);
-        $input['audit_objected_amount'] = Converter::bn2en($request->audit_objected_amount);
-        $input['total_amount_owed'] = Converter::bn2en($request->total_amount_owed);
-        $input['amount_money_payable'] = Converter::bn2en($request->amount_money_payable);
-        $input['provident_fund'] = Converter::bn2en($request->provident_fund);
-        $input['leave_encashment'] = Converter::bn2en($request->leave_encashment);
-        $input['gratuity'] = Converter::bn2en($request->gratuity);
-        $input['amount_loan_taken'] = Converter::bn2en($request->amount_loan_taken);
-        $input['dob'] = date('Y-m-d', strtotime($request->dob));
-        $input['prl_date'] = dateFormateForDB($request->prl_date);
-
-        DB::beginTransaction();
         try{
-            $bug=0;
-            $insert= EmployeePensionPrl::create($input);
-            $update = $employee->update([
-                'status' =>2,
-            ]);
-            DB::commit();
-        }catch(\Exception $e){
-            $bug=$e->errorInfo[1];
-            DB::rollback();
-        }
-
-        if($bug==0){
+            $employee = GeneralInformation::findOrFail($id);
+            $employee->employeePensionPrl()->create($request->all());
+            $employee->update(['status'=>Status::getFromName('Inactive')]);
             Session::flash('flash_message','Pension and Prl Successfully Done !');
             return redirect()->back()->with('status_color','success');
-        }else{
+        }catch(\Exception $exception){
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
@@ -346,137 +301,92 @@ class EmployeeController extends Controller
     {
         if ($request->ajax()) {
             if(!empty($request->start_date) && !empty($request->end_date)){
-                $alldata=EmployeePensionPrl::with(['user_district_object','user_type_object'])
-                ->whereBetween('prl_date',array($request->start_date,$request->end_date))
-                ->orderBy('id','desc')
-                ->get();
+                $alldata=EmployeePensionPrl::with(['generalInformation','generalInformation.district'])
+                        ->whereBetween('prl_date',array($request->start_date,$request->end_date))
+                        ->orderBy('id','desc')
+                        ->get();
                 return DataTables::of($alldata)
-                ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                ob_start() ?>
+                        ->addIndexColumn()
+                        ->addColumn('action', function ($row) {
+                        ob_start() ?>
 
-                <ul class="list-inline m-0">
-                <li class="list-inline-item">
-                <a href="<?php echo route('employee-pension-prl-history',$row->id); ?>" class="badge bg-primary badge-sm" data-id="<?php echo $row->id; ?>">ভিউ</i></a>
-                </li>
-                <li class="list-inline-item">
-                <a href="<?php echo route('employee-pension-prl-edit',$row->id); ?>" class="badge bg-info badge-sm" data-id="<?php echo $row->id; ?>">সংশোধন</i></a>
-                </li>
-                <li class="list-inline-item">
-                <a href="<?php echo route('employee-pension-prl-delete',$row->id); ?>" class="badge bg-danger badge-sm" data-id="<?php echo $row->id; ?>">ডিলিট</i></a>
-                </li>
-                </ul>
+                        <ul class="list-inline m-0">
+                            <li class="list-inline-item">
+                                <a href="<?php echo route('employee-pension-prl-history',$row->id); ?>" class="badge bg-primary badge-sm" data-id="<?php echo $row->id; ?>">ভিউ</i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="<?php echo route('employee-pension-prl-edit',$row->id); ?>" class="badge bg-info badge-sm" data-id="<?php echo $row->id; ?>">সংশোধন</i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="<?php echo route('employee-pension-prl-delete',$row->id); ?>" class="badge bg-danger badge-sm" data-id="<?php echo $row->id; ?>">ডিলিট</i></a>
+                            </li>
+                        </ul>
 
-                <?php return ob_get_clean();
-                })->make(True);
+                        <?php return ob_get_clean();
+                        })->make(True);
             }else{
-                $alldata=EmployeePensionPrl::with(['user_district_object','user_type_object'])
-                ->orderBy('id','desc')
-                ->get();
-                return DataTables::of($alldata)
-                ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                ob_start() ?>
+                $alldata=EmployeePensionPrl::with(['generalInformation','generalInformation.district'])
+                        ->orderBy('id','desc')
+                        ->get();
+                        return DataTables::of($alldata)
+                        ->addIndexColumn()
+                        ->addColumn('action', function ($row) {
+                        ob_start() ?>
 
-                <ul class="list-inline m-0">
-                <li class="list-inline-item">
-                <a href="<?php echo route('employee-pension-prl-history',$row->employee_id); ?>" class="badge bg-primary badge-sm" data-id="<?php echo $row->id; ?>">ভিউ</i></a>
-                </li>
-                <li class="list-inline-item">
-                <a href="<?php echo route('employee-pension-prl-edit',$row->id); ?>" class="badge bg-info badge-sm" data-id="<?php echo $row->id; ?>">সংশোধন</i></a>
-                </li>
-                <li class="list-inline-item">
-                <a href="<?php echo route('employee-pension-prl-delete',$row->id); ?>" class="badge bg-danger badge-sm" data-id="<?php echo $row->id; ?>">ডিলিট</i></a>
-                </li>
-                </ul>
+                        <ul class="list-inline m-0">
+                            <li class="list-inline-item">
+                                <a href="<?php echo route('employee-pension-prl-history',$row->id); ?>" class="badge bg-primary badge-sm" data-id="<?php echo $row->id; ?>">ভিউ</i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="<?php echo route('employee-pension-prl-edit',$row->id); ?>" class="badge bg-info badge-sm" data-id="<?php echo $row->id; ?>">সংশোধন</i></a>
+                            </li>
+                            <li class="list-inline-item">
+                                <a href="<?php echo route('employee-pension-prl-delete',$row->id); ?>" class="badge bg-danger badge-sm" data-id="<?php echo $row->id; ?>">ডিলিট</i></a>
+                            </li>
+                        </ul>
 
-                <?php return ob_get_clean();
-                })->make(True);
+                        <?php return ob_get_clean();
+                        })->make(True);
             }
         }
-        return view ('employee.employeePensionPrlList');
+        return view ('employee.pensionPrlInformation.index');
         
     }
     public function employeePensionHistory($id)
     {
-       $data['single_data'] = EmployeePensionPrl::where('employee_id',$id)->first();
-        return view ('employee.pensionHistory',$data);
+       $data['employeePensionPrl'] = EmployeePensionPrl::findOrFail($id);
+        return view ('employee.pensionPrlInformation.show',$data);
         
     }
     public function pensionAndPrlFormEdit($id)
     {
-       $data['single_data'] = EmployeePensionPrl::where('id',$id)->first();
-        return view ('employee.pensionAndPrlFormEdit',$data);
+       $data['employeePensionPrl'] = EmployeePensionPrl::findOrFail($id);
+        return view ('employee.pensionPrlInformation.edit',$data);
         
     }
-    public function pensionAndPrlFormUpdate(Request $request, $id)
+    public function pensionAndPrlFormUpdate(PensionUpdateRequest $request, $id)
     {
-        $pensionEmployee = EmployeePensionPrl::findOrFail($id);
-        $validator = Validator::make($request->all(), [
-            'employee_id' => 'required',
-            // 'designation_id' => 'required',
-        ]);
-        if ($validator->fails()) {
-            Session::flash('flash_message', $validator->errors());
-            return redirect()->back()->with('status_color','warning');
-        }
-
-        $input = $request->all();
-        $input['status'] = 1;
-        $input['last_basic_salary'] = Converter::bn2en($request->last_basic_salary);
-        $input['leave_average_pay'] = Converter::bn2en($request->leave_average_pay);
-        $input['leave_half_pay'] = Converter::bn2en($request->leave_half_pay);
-        $input['due_provident_fund'] = Converter::bn2en($request->due_provident_fund);
-        $input['leave_encashment_owed'] = Converter::bn2en($request->leave_encashment_owed);
-        $input['amount_gratuity'] = Converter::bn2en($request->amount_gratuity);
-        $input['audit_objected_amount'] = Converter::bn2en($request->audit_objected_amount);
-        $input['total_amount_owed'] = Converter::bn2en($request->total_amount_owed);
-        $input['amount_money_payable'] = Converter::bn2en($request->amount_money_payable);
-        $input['provident_fund'] = Converter::bn2en($request->provident_fund);
-        $input['leave_encashment'] = Converter::bn2en($request->leave_encashment);
-        $input['gratuity'] = Converter::bn2en($request->gratuity);
-        $input['amount_loan_taken'] = Converter::bn2en($request->amount_loan_taken);
-        $input['dob'] = date('Y-m-d', strtotime($request->dob));
-        $input['prl_date'] = dateFormateForDB($request->prl_date);
-
-        DB::beginTransaction();
+        $data = $request->all();
+        $method = Arr::pull($data, '_method');
+        $token = Arr::pull($data, '_token');
         try{
-            $bug=0;
-            $insert= $pensionEmployee->update($input);
-            DB::commit();
-        }catch(\Exception $e){
-            $bug=$e->errorInfo[1];
-            DB::rollback();
-        }
-
-        if($bug==0){
+            EmployeePensionPrl::where('id',$id)->update($data);
             Session::flash('flash_message','Pension/Prl Successfully Updated !');
-            return redirect()->back()->with('status_color','success');
-        }else{
+            return redirect()->route('employee-pension-prl-list')->with('status_color','success');
+        }catch(\Exception $exception){
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
     }
     public function pensionAndPrlDelete(Request $request, $id)
     {
-        $pensionEmployee = EmployeePensionPrl::findOrFail($id);
-        $employee = User::findOrFail($pensionEmployee->employee_id);
-
-        DB::beginTransaction();
         try{
-            $bug=0;
-            $upd = $employee->update([ "status" => 1]);
-            $del= $pensionEmployee->delete();
-            DB::commit();
-        }catch(\Exception $e){
-            $bug=$e->errorInfo[1];
-            DB::rollback();
-        }
-
-        if($bug==0){
+            $pensionEmployee = EmployeePensionPrl::findOrFail($id);
+            $pensionEmployee->generalInformation->update([ "status" => Status::getFromName('Active')]);
+            $pensionEmployee->delete();
             Session::flash('flash_message','Pension/Prl Successfully Deleted !');
             return redirect()->back()->with('status_color','success');
-        }else{
+        }catch(\Exception $exception){
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }

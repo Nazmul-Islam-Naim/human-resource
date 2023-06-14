@@ -40,7 +40,6 @@ return new class extends Migration
             $table->string('photo')->nullable()->comment('passport size');
             $table->string('signature')->nullable();
             $table->boolean('status')->default(true);
-            $table->softDeletes();
             $table->timestamps();
         });
     }

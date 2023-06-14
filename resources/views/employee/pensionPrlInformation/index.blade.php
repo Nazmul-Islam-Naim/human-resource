@@ -30,7 +30,7 @@
                     <div class="col-md-3">
                       <div class="field-wrapper">
                         <div class="input-group">
-                          <input class="form-control datepicker" type="text" name="start_date" id="start_date" value="<?php echo date('Y-m-d');?>" autocomplete="off">
+                          <input class="form-control" type="date" name="start_date" id="start_date" value="<?php echo date('Y-m-d');?>" autocomplete="off">
                         </div>
                         <div class="field-placeholder">শুরুর তারিখ </div>
                       </div>
@@ -38,7 +38,7 @@
                     <div class="col-md-3">
                       <div class="field-wrapper">
                         <div class="input-group">
-                          <input class="form-control datepicker" type="text" name="end_date" id="end_date" value="<?php echo date('Y-m-d');?>" autocomplete="off">
+                          <input class="form-control" type="date" name="end_date" id="end_date" value="<?php echo date('Y-m-d');?>" autocomplete="off">
                         </div>
                         <div class="field-placeholder">শেষ তারিখ </div>
                       </div>
@@ -79,9 +79,6 @@
                         <th>সর্বশেষ মূল বেতন</th>
                         <th>গড় বেতনে ছুটি</th>
                         <th>অর্ধগড় বেতনে ছুটি</th>
-                        <th>পাওনা প্রেভিডেন্ট ফান্ড</th>
-                        <th>ছুটি নগদায়ন পাওনা</th>
-                        <th>গ্রাচ্যুটির পরিমান </th>
                         <th width="15%">একশন</th>
                       </tr>
                     </thead>
@@ -145,7 +142,7 @@
             {
                 extend: 'excel',
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7,8,9]
+                    columns: [ 0, 1, 2, 3,4,5,6]
                 }, 
                 messageTop: 'The information in this table is copyright to Sirius Cybernetics Corp.'
             },
@@ -169,7 +166,7 @@
                 $(win.document.body).find('table tbody td').css('border','1px solid #ddd');  
                 },
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7,8,9]
+                    columns: [ 0, 1, 2, 3,4,5,6]
                 }
             }
         ],
@@ -178,7 +175,7 @@
 			columns: [
         {data: 'DT_RowIndex'},
 				{
-          data: 'prl_date',
+          data: 'general_information.prl_date',
           render: function(data, type, full, meta) {
 						if (data != null) {
               const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
@@ -187,55 +184,41 @@
 					}
         },
 				{
-          data: 'user_type_object.name',
+          data: 'general_information.name_in_bangla',
           render: function(data, type, row) {
-            var url = "/hr/employee-transferred-history/"+ row.employee_id; 
+            var url = '{{route("generalInformations.show",":id")}}'; 
+            var url = url.replace(':id', row.general_information.id);
 						return '<a href=' + url +'>'+ data +'</a>';
 					}
         },
 				{
-          data: 'user_district_object.name',
+          data: 'general_information.district.name',
         },
 				{
           data: 'last_basic_salary',
           render: function(data, type, row){
-            const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
-            return toBn(data.toString());
+            if (data != null) {
+              const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
+              return toBn(data.toString());
+            }
           }
         },
 				{
           data: 'leave_average_pay',
           render: function(data, type, row){
-            const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
-            return toBn(data.toString());
+            if (data != null) {
+              const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
+              return toBn(data.toString());
+            }
           }
         },
 				{
           data: 'leave_half_pay',
           render: function(data, type, row){
-            const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
-            return toBn(data.toString());
-          }
-        },
-				{
-          data: 'due_provident_fund',
-          render: function(data, type, row){
-            const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
-            return toBn(data.toString());
-          }
-        },
-				{
-          data: 'leave_encashment_owed',
-          render: function(data, type, row){
-            const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
-            return toBn(data.toString());
-          }
-        },
-				{
-          data: 'amount_gratuity',
-          render: function(data, type, row){
-            const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
-            return toBn(data.toString());
+            if (data != null) {
+              const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
+              return toBn(data.toString());
+            }
           }
         },
 				{

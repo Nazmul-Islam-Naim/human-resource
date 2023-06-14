@@ -1,5 +1,5 @@
 <?php 
-namespace App\Enums;
+namespace App\Enum;
 use ReflectionEnum;
 enum Status: int{
     case Inactive = 0;
@@ -35,7 +35,6 @@ enum Status: int{
 
     public static function getByValue($value){
         foreach(self::cases() as  $item){
-            // dd($item->value);
             if($item->value == $value){
                 $itemValue = $item->name;
                 break;

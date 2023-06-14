@@ -17,6 +17,7 @@ class EmployeeTransferApplication extends Model
         'present_workstation_id',
         'trans_designation_id',
         'trans_workstation_id',
+        'user_id',
         'transferred_workstation_date',
         'editordata1',
         'editordata2',
@@ -42,5 +43,9 @@ class EmployeeTransferApplication extends Model
 
     public function transferredWorkstation(){
         return $this->belongsTo(Workstation::class, 'trans_workstation_id');
+    }
+
+    public function signatureBy(){
+        return $this->belongsTo(User::class,'user_id');
     }
 }

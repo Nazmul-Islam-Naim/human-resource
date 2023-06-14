@@ -94,7 +94,7 @@
                               </tr>
                               <tr>
                                 <td colspan="4" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:justify; ">স্বামী/স্ত্রীর নাম ও পেশাঃ  {{$generalInformation->spouse_name_in_bangla}}, {{$generalInformation->occupation->name ?? ''}}</td>
-                                <td colspan="4" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:justify; ">বৈবাহিক অবস্থাঃ {{$generalInformation->spouseDistrict->name ?? ''}}</td>
+                                <td colspan="4" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:justify; ">স্ত্রীর জেলার নামঃ {{$generalInformation->spouseDistrict->name ?? ''}}</td>
                               </tr>
                               <tr style="border:none; text-align: center; height:50px">
                                 <td colspan="8" style="border:none; text-align: center;">খ. শিক্ষাসংক্রান্ত তথ্যাদি</td>

@@ -8,13 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class EmployeePensionPrl extends Model
 {
     use HasFactory;
-
     protected $table = "employee_pension_prls";
     protected $fillable = [
-    	'employee_id',
-        'district_id',
-        'dob',
-        'prl_date',
+    	'general_information_id',
         'last_basic_salary',
         'leave_average_pay',
         'leave_half_pay',
@@ -32,14 +28,10 @@ class EmployeePensionPrl extends Model
         'reason_amount_loan_taken',
         'status'
     ];
-    public function user_district_object()
-    {
-        return $this->hasOne('App\Models\District', 'id', 'district_id');
-    }
-    public function user_type_object()
-    {
-        return $this->hasOne('App\Models\User', 'id', 'employee_id');
-    }
 
+    //relationship
 
+    public function generalInformation(){
+        return $this->belongsTo(GeneralInformation::class);
+    }
 }
