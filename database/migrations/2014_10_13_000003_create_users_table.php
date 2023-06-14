@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->nullable()->unique();
             $table->string('phone')->unique();
+            $table->string('fax')->nullable();
             $table->string('password');
             $table->foreignId('role_id')->constrained('roles')->onDelete('cascade');
             $table->foreignId('designation_id')->constrained('designations')->onDelete('cascade');
@@ -25,6 +26,7 @@ return new class extends Migration
             $table->timestamp('phone_verified_at')->nullable();
             $table->string('avatar')->nullable();
             $table->string('nid')->nullable();
+            $table->text('details')->nullable();
             $table->boolean('status')->default(true);
             $table->dateTime('deleted_at')->nullable();
             $table->rememberToken();

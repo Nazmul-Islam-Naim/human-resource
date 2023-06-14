@@ -20,7 +20,8 @@ return new class extends Migration
             $table->foreignId('present_workstation_id')->constrained('workstations')->onDelete('cascade');
             $table->foreignId('trans_designation_id')->comment('transferred workstation designantion ')->constrained('designations')->onDelete('cascade');
             $table->foreignId('trans_workstation_id')->constrained('workstations')->onDelete('cascade');
-            $table->foreignId('user_id')->comment('signature by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('secretary_id')->comment('signature by')->constrained('users')->onDelete('cascade');
+            $table->foreignId('deputy_secretary_id')->comment('signature by')->constrained('users')->onDelete('cascade');
             $table->date('transferred_workstation_date');
             $table->text('editordata1');
             $table->text('editordata2');

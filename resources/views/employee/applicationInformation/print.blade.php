@@ -95,10 +95,11 @@
                 <tr style="height: 40px">
                   <td colspan="2">
                     <div  class="sacretary" style=" margin-right: 100px;margin-top: 100px;width: 203px;height: 128px;display: block;margin-left: 656px;text-align: center;">
-                      <p style="margin: 0px">{{$employeeTransferApplication->signatureBy->name ?? ''}} </p>
-                      <p style="margin: 0px">{{$employeeTransferApplication->signatureBy->designation->title ?? ''}}</p>
-                      <p style="margin: 0px">ফোনঃ {{$employeeTransferApplication->signatureBy->phone ?? ''}} </p>
-                      <p style="margin: 0px">ইমেলঃ {{$employeeTransferApplication->signatureBy->email ?? ''}} </p>
+                      <p style="margin: 0px">{{$employeeTransferApplication->secretary->name ?? ''}} </p>
+                      <p style="margin: 0px">{{$employeeTransferApplication->secretary->designation->title ?? ''}}</p>
+                      <p style="margin: 0px">ফোনঃ {{$employeeTransferApplication->secretary->phone ?? ''}} </p>
+                      <p style="margin: 0px">ফ্যাক্সঃ {{$employeeTransferApplication->secretary->fax ?? ''}} </p>
+                      <p style="margin: 0px">ইমেলঃ {{$employeeTransferApplication->secretary->email ?? ''}} </p>
                     </div>
                   </td>
                 </tr>
@@ -120,8 +121,8 @@
                 <tr style="height: 40px">
                   <td colspan="2">
                     <div  class="sacretary" style=" margin-right: 100px;margin-top: 100px;width: 203px;height: 128px;display: block;margin-left: 656px;text-align: center;">
-                      <p style="margin: 0px">এ, কে, এম, শরীফুল হক </p>
-                      <p style="margin: 0px">উপসচিব</p>
+                      <p style="margin: 0px">{{$employeeTransferApplication->deputySecretary->name ?? ''}}</p>
+                      <p style="margin: 0px">{{$employeeTransferApplication->deputySecretary->designation->title ?? ''}} </p>
                     </div>
                   </td>
                 </tr>

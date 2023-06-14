@@ -25,9 +25,18 @@ class RoleSeeder extends Seeder
             ->permissions()
             ->sync([]);        
 
-        Role::updateOrCreate(['title' => 'সচিব', 'slug' => 'socib', 'deletable' => false])
+        Role::updateOrCreate(['title' => 'ডিজি', 'slug' => 'socib', 'deletable' => false])
             ->permissions()
             ->sync([]);        
+        Role::updateOrCreate(['title' => 'সচিব', 'slug' => 'socib', 'deletable' => false])
+            ->permissions()
+            ->sync([]);         
+        Role::updateOrCreate(['title' => 'সহকারী সচিব', 'slug' => 'socib', 'deletable' => false])
+            ->permissions()
+            ->sync([]);         
+        Role::updateOrCreate(['title' => 'উপ-সহকাররী সচিব', 'slug' => 'socib', 'deletable' => false])
+            ->permissions()
+            ->sync([]);         
 
     }
 }

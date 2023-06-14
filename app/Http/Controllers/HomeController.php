@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\GeneralInformation;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Foundation\Auth\User;
 use App\Models\Workstation;
-use App\Models\Department;
 use App\Models\Designation;
-use Session;
 use Auth;
 use DB;
 
@@ -31,6 +29,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $data['dg'] = User::where('role_id',3)->orderBy('id','desc')->first();
+        $data['secretary'] = User::where('role_id',4)->orderBy('id','desc')->first();
+        $data['deputySecretary'] = User::where('role_id',6)->orderBy('id','desc')->first();
         $data['workstations'] = Workstation::count();
         $data['designations'] = Designation::count();
         $data['employees'] = GeneralInformation::count();

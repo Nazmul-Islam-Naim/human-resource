@@ -138,9 +138,8 @@
           data: 'name',
           render: function(data, type, row) {
             var url = '{{route("user-list.show",":id")}}'; 
-            var url = url.replace(':id', row.designation_id);
-            var url = '#';
-            return '<a href=' + url +'>'+ data +'</a>';
+            var url = url.replace(':id', row.id);
+            return '<a href=' + url +' target="_blank">'+ data +'</a>';
           }
         },
 				{

@@ -108,18 +108,36 @@
               <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <select name="user_id" 
-                    class="form-control select2 @error('user_id') is-invalid @enderror" 
+                    <select name="secretary_id" 
+                    class="form-control select2 @error('secretary_id') is-invalid @enderror" 
                     required="">
                       <option value="">Select</option>
-                      @foreach($users as $user)
-                      <option value="{{$user->id}}" {{(old('user_id') == $user->id) ? 'selected' : ''}}>{{$user->name}}</option>
+                      @foreach($secretaries as $secretarie)
+                      <option value="{{$secretarie->id}}" {{(old('secretary_id') == $secretarie->id) ? 'selected' : ''}}>{{$secretarie->name}}</option>
                       @endforeach
                     </select>
                   </div>
-                  <div class="field-placeholder">স্বাক্ষরকারী নির্বাচন করুন <span class="text-danger">*</span></div>
+                  <div class="field-placeholder">সচিব নির্বাচন করুন <span class="text-danger">*</span></div>
                 </div>
-                @error('user_id')
+                @error('secretary_id')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+              </div>
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class="field-wrapper">
+                  <div class="input-group">
+                    <select name="deputy_secretary_id" 
+                    class="form-control select2 @error('deputy_secretary_id') is-invalid @enderror" 
+                    required="">
+                      <option value="">Select</option>
+                      @foreach($deputySecretaries as $deputySecretarie)
+                      <option value="{{$deputySecretarie->id}}" {{(old('deputy_secretary_id') == $deputySecretarie->id) ? 'selected' : ''}}>{{$deputySecretarie->name}}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <div class="field-placeholder">উপ-সচিব নির্বাচন করুন <span class="text-danger">*</span></div>
+                </div>
+                @error('deputy_secretary_id')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
               </div>

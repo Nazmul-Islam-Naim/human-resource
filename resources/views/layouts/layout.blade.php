@@ -135,9 +135,9 @@
                                     </a>
                                     <div class="default-sidebar-submenu">
                                         <ul>
-                                            <li>
+                                            {{-- <li>
                                                 <a href="{{$baseUrl.'/'.config('app.cat').'/department'}}" class="{{($url==config('app.cat').'/department' || $url==config('app.cat').'/department/create' || $url==(request()->is(config('app.cat').'/department/*/edit'))) ? 'current-page':''}}"> ডিপার্টমেন্ট</a>
-                                            </li>
+                                            </li> --}}
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.cat').'/designation'}}" class="{{($url==config('app.cat').'/designation' || $url==config('app.cat').'/designation/create' || $url==(request()->is(config('app.cat').'/designation/*/edit'))) ? 'current-page':''}}"> পদবী</a>
                                             </li>
@@ -161,10 +161,7 @@
                                     $url==config('app.education').'/degrees' || $url==config('app.education').'/degrees/create' || $url==(request()->is(config('app.education').'/degrees/*/edit')) ||
                                     $url==config('app.education').'/passingYears' || $url==config('app.education').'/passingYears/create' || $url==(request()->is(config('app.education').'/passingYears/*/edit')) ||
                                     $url==config('app.education').'/readingSubjects' || $url==config('app.education').'/readingSubjects/create' || $url==(request()->is(config('app.education').'/readingSubjects/*/edit')) ||
-                                    $url==config('app.education').'/boards' || $url==config('app.education').'/boards/create' || $url==(request()->is(config('app.education').'/boards/*/edit')) ||
-                                    $url==config('app.education').'/courses' || $url==config('app.education').'/courses/create' || $url==(request()->is(config('app.education').'/courses/*/edit')) ||
-                                    $url==config('app.education').'/institutes' || $url==config('app.education').'/institutes/create' || $url==(request()->is(config('app.education').'/institutes/*/edit')) ||
-                                    $url==config('app.education').'/publications' || $url==config('app.education').'/publications/create' || $url==(request()->is(config('app.education').'/publications/*/edit'))) ? 'active':''}}">
+                                    $url==config('app.education').'/boards' || $url==config('app.education').'/boards/create' || $url==(request()->is(config('app.education').'/boards/*/edit'))) ? 'active':''}}">
                                     <a href="javascript::void(0)">
                                         <i class="icon-book-open"></i>
                                         <span class="menu-text">শিক্ষাসংক্রান্ত তথ্যাদি</span>
@@ -182,15 +179,6 @@
                                             </li>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.education').'/boards'}}" class="{{($url==config('app.education').'/boards' || $url==config('app.education').'/boards/create' || $url==(request()->is(config('app.education').'/boards/*/edit'))) ? 'current-page':''}}"> বোর্ড/বিশ্ববিদ্যালয় </a>
-                                            </li>
-                                            <li>
-                                                <a href="{{$baseUrl.'/'.config('app.education').'/courses'}}" class="{{($url==config('app.education').'/courses' || $url==config('app.education').'/courses/create' || $url==(request()->is(config('app.education').'/courses/*/edit'))) ? 'current-page':''}}"> কোর্সেস </a>
-                                            </li>
-                                            <li>
-                                                <a href="{{$baseUrl.'/'.config('app.education').'/institutes'}}" class="{{($url==config('app.education').'/institutes' || $url==config('app.education').'/institutes/create' || $url==(request()->is(config('app.education').'/institutes/*/edit'))) ? 'current-page':''}}"> ইনিস্টিটিউটস </a>
-                                            </li>
-                                            <li>
-                                                <a href="{{$baseUrl.'/'.config('app.education').'/publications'}}" class="{{($url==config('app.education').'/publications' || $url==config('app.education').'/publications/create' || $url==(request()->is(config('app.education').'/publications/*/edit'))) ? 'current-page':''}}"> প্রকাশনা </a>
                                             </li>
                                         </ul>
                                     </div>

@@ -34,28 +34,35 @@
             <!-- Row start -->
             <div class="row gutters">
               <!------------------- name --------------------------->
-              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                 <div class="field-wrapper">
                   <input type="text" name="name" value="{{!empty($single_data->name)?$single_data->name:''}}" autocomplete="off">
                   <div class="field-placeholder">Name <span class="text-danger">*</span></div>
                 </div>
               </div>
               <!------------------- email --------------------------->
-              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                 <div class="field-wrapper">
                   <input type="text" name="email" value="{{!empty($single_data->email)?$single_data->email:''}}" autocomplete="off">
                   <div class="field-placeholder">Email</div>
                 </div>
               </div>
               <!------------------- phone --------------------------->
-              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                 <div class="field-wrapper">
-                  <input type="text" name="phone" value="{{!empty($single_data->phone)?$single_data->phone:''}}" autocomplete="off">
+                  <input type="text" name="phone" value="{{!empty($single_data->phone)?$single_data->phone:''}}" autocomplete="off" required>
                   <div class="field-placeholder">Phone <span class="text-danger">*</span></div>
                 </div>
               </div>
+              <!------------------- phone --------------------------->
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                <div class="field-wrapper">
+                  <input type="text" name="fax" value="{{!empty($single_data->fax)?$single_data->fax:''}}" autocomplete="off">
+                  <div class="field-placeholder">Fax</div>
+                </div>
+              </div>
               <!------------------- role --------------------------->
-              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                 <div class="field-wrapper">
                   <select class="select-single select2 js-state @error('role_id') is-invalid @enderror" data-live-search="true" name="role_id" required="">
                     <option value="">Select</option>
@@ -67,7 +74,7 @@
                 </div>
               </div>
               <!------------------- designation --------------------------->
-              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                 <div class="field-wrapper">
                   <select class="select-single select2 js-state @error('designation_id') is-invalid @enderror" data-live-search="true" name="designation_id" required="">
                     <option value="">Select</option>
@@ -79,31 +86,40 @@
                 </div>
               </div>
               <!------------------- password --------------------------->
-              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                 <div class="field-wrapper">
                   <input type="text" name="password" class="form-controller">
                   <div class="field-placeholder">Password <span class="text-danger">*</span></div>
                 </div>
               </div>
               <!------------------- confirm password --------------------------->
-              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                 <div class="field-wrapper">
                   <input type="text" name="password_confirmation" class="form-controller">
                   <div class="field-placeholder">Confirm Password <span class="text-danger">*</span></div>
                 </div>
               </div>
               <!------------------- avatar --------------------------->
-              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
                 <div class="field-wrapper">
                   <input type="file" name="avatar" value="">
                   <div class="field-placeholder">Avatar(500 x 500)px</div>
                 </div>
               </div>
               <!------------------- nid --------------------------->
-              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                 <div class="field-wrapper">
                   <input type="file" name="nid" value="">
                   <div class="field-placeholder">NID (600 x 500)px</div>
+                </div>
+              </div>
+              <div class="col-xl-12 col-lg- 12 col-md-12 col-sm-12 col-12">
+                <!-- Field wrapper start -->
+                <div class="field-wrapper">
+                  <div class="input-group">
+                    <textarea id="details" name="details">{{!empty($single_data->details)?$single_data->details:''}}</textarea>
+                   </div>
+                  <div class="field-placeholder">Details</div>
                 </div>
               </div>
             </div>
@@ -123,5 +139,10 @@
   <!-- Content wrapper end -->
 </div>
 <!-- Content wrapper scroll end -->
-
+{!!Html::script('custom/js/jquery.min.js')!!}
+<script>
+$(document).ready(function() {
+  $('#details').summernote();
+});
+</script>
 @endsection

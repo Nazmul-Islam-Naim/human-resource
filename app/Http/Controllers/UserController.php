@@ -32,7 +32,8 @@ class UserController extends Controller
         // Gate::authorize('app.users.index');
         if ($request->ajax()) {
             $alldata= User::with(['designation','role'])
-                            ->where('status',1)
+                            ->where('role_id','!=',1)
+                            ->where('role_id','!=',2)
                             ->get();
             return DataTables::of($alldata)
             ->addIndexColumn()
@@ -122,7 +123,8 @@ class UserController extends Controller
     public function show($id)
     {
         
-        //
+        $user = User::findOrFail($id);
+        return view('user.show',compact('user'));
     }
 
     /**

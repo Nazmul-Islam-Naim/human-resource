@@ -10,7 +10,55 @@
 		<!-- Row start -->
 		<div class="row gutters">
 			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="{{route('workstation.index')}}">
+				<a href="{{route('user-list.show',($dg->id ?? ''))}}" target="_blank">
+					<div class="stats-tile">
+						<div class="sale-icon">
+							<img src="{{asset('storage/'. ($dg->avatar??''))}}"  width="40" height="40" alt="">
+						</div>
+						<div class="sale-details">
+							<h6>{{$dg->name ?? ''}}</h6>
+							<p>মহাপরিচালক</p>
+						</div>
+						<div class="sale-graph">
+							<div id="sparklineLine5"></div>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+				<a href="{{route('user-list.show',($secretary->id ?? ''))}}" target="_blank">
+					<div class="stats-tile">
+						<div class="sale-icon">
+							<img src="{{asset('storage/'. ($secretary->avatar??''))}}"  width="40" height="40" alt="">
+						</div>
+						<div class="sale-details">
+							<h6>{{$secretary->name ?? ''}}</h6>
+							<p>সচিব</p>
+						</div>
+						<div class="sale-graph">
+							<div id="sparklineLine5"></div>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+				<a href="{{route('user-list.show',($deputySecretary->id ?? ''))}}" target="_blank">
+					<div class="stats-tile">
+						<div class="sale-icon">
+							<img src="{{asset('storage/'. ($deputySecretary->avatar??''))}}" width="40" height="40" alt="">
+						</div>
+						<div class="sale-details">
+							<h6>{{$deputySecretary->name ?? ''}}</h6>
+							<p>উপ-সচিব</p>
+						</div>
+						<div class="sale-graph">
+							<div id="sparklineLine5"></div>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+				<a href="{{route('workstation.index')}}" target="_blank">
 					<div class="stats-tile">
 						<div class="sale-icon">
 							<img src="{{asset('custom/img/dashboard/workstation.gif')}}" alt="">
@@ -26,7 +74,7 @@
 				</a>
 			</div>
 			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="{{route('designation.index')}}">
+				<a href="{{route('designation.index')}}" target="_blank">
 					<div class="stats-tile">
 						<div class="sale-icon">
 							<img src="{{asset('custom/img/dashboard/designation.gif')}}" alt="">
@@ -42,7 +90,7 @@
 				</a>
 			</div>
 			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="{{route('generalInformations.index')}}">
+				<a href="{{route('generalInformations.index')}}" target="_blank">
 					<div class="stats-tile">
 						<div class="sale-icon">
 							<img src="{{asset('custom/img/dashboard/employees.gif')}}" alt="">
@@ -58,7 +106,7 @@
 				</a>
 			</div>
 			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="{{route('generalInformations.index')}}">
+				<a href="{{route('generalInformations.index')}}" target="_blank">
 					<div class="stats-tile">
 						<div class="sale-icon">
 							<img src="{{asset('custom/img/dashboard/director.gif')}}" alt="">
@@ -74,7 +122,7 @@
 				</a>
 			</div>
 			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="{{route('generalInformations.index')}}">
+				<a href="{{route('generalInformations.index')}}" target="_blank">
 					<div class="stats-tile">
 						<div class="sale-icon">
 							<img src="{{asset('custom/img/dashboard/assistant.gif')}}" alt="">
@@ -90,7 +138,7 @@
 				</a>
 			</div>
 			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="{{route('generalInformations.index')}}">
+				<a href="{{route('generalInformations.index')}}" target="_blank">
 					<div class="stats-tile">
 						<div class="sale-icon">
 							<img src="{{asset('custom/img/dashboard/subAssistant.gif')}}" alt="">
@@ -106,7 +154,7 @@
 				</a>
 			</div>
 			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="{{route('generalInformations.index')}}">
+				<a href="{{route('generalInformations.index')}}" target="_blank">
 					<div class="stats-tile">
 						<div class="sale-icon">
 							<img src="{{asset('custom/img/dashboard/employees.gif')}}" alt="">
@@ -122,7 +170,7 @@
 				</a>
 			</div>
 			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="{{route('employee-pension-prl-list')}}">
+				<a href="{{route('employee-pension-prl-list')}}" target="_blank">
 					<div class="stats-tile">
 						<div class="sale-icon">
 							<img src="{{asset('custom/img/dashboard/pension.gif')}}" alt="">

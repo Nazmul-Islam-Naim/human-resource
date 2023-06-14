@@ -170,7 +170,8 @@ class EmployeeController extends Controller
     }
     public function employeeTransferApplicationForm($id)
     {
-        $data['users'] = User::where('role_id', '!=', 1)->where('role_id', '!=', 2)->get();
+        $data['secretaries'] = User::where('role_id', 4)->get();
+        $data['deputySecretaries'] = User::where('role_id', 6)->get();
         $data['employeeTransfer'] = EmployeeTransfer::findOrFail($id);
         return view('employee.applicationInformation.create',$data);
     }
@@ -246,7 +247,8 @@ class EmployeeController extends Controller
     }
     public function employeeTransferApplicationEdit($id)
     {
-        $data['users'] = User::where('designation_id', '!=', 1)->where('designation_id', '!=', 2)->get();
+        $data['secretaries'] = User::where('role_id', 4)->get();
+        $data['deputySecretaries'] = User::where('role_id', 6)->get();
         $data['employeeTransferApplication'] = EmployeeTransferApplication::findOrFail($id);
         return view('employee.applicationInformation.edit',$data);
     }
