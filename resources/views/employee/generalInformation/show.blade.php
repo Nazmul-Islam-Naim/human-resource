@@ -54,7 +54,7 @@
                                 </td>
                               </tr>
                               <tr>
-                                <td colspan="8" style="text-align: center">ক. সাধারন তথ্যাদি</td>
+                                <td colspan="8" style="text-align: center"><b>ক. সাধারন তথ্যাদি</b></td>
                               </tr>
                               <tr>
                                 <td colspan="4" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:justify; ">নামঃ (বাংলায়) {{$generalInformation->name_in_bangla}} <br> (ইংরেজী) {{$generalInformation->name_in_english}} </td>
@@ -97,7 +97,7 @@
                                 <td colspan="4" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:justify; ">স্ত্রীর জেলার নামঃ {{$generalInformation->spouseDistrict->name ?? ''}}</td>
                               </tr>
                               <tr style="border:none; text-align: center; height:50px">
-                                <td colspan="8" style="border:none; text-align: center;">খ. শিক্ষাসংক্রান্ত তথ্যাদি</td>
+                                <td colspan="8" style="border:none; text-align: center;"><b>খ. শিক্ষাসংক্রান্ত তথ্যাদি</b></td>
                               </tr>
                               <tr>
                                 <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ক্রম.</td>
@@ -130,7 +130,7 @@
                                   </tr>
                                 @endif
                                 <tr style="border:none; text-align: center; height:50px">
-                                  <td colspan="8" style="border:none; text-align: center">গ. প্রশিক্ষন সম্পর্কিত তথ্যাদি</td>
+                                  <td colspan="8" style="border:none; text-align: center"><b>গ. প্রশিক্ষন সম্পর্কিত তথ্যাদি</b></td>
                                 </tr>
                                 <tr>
                                   <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ক্রম.</td>
@@ -165,7 +165,7 @@
                                     </tr>
                                   @endif
                                 <tr style="border:none; text-align: center; height:50px">
-                                  <td colspan="8" style="border:none; text-align: center">ঘ. প্রকাশনা সম্পর্কিত তথ্যাদি</td>
+                                  <td colspan="8" style="border:none; text-align: center"><b>ঘ. প্রকাশনা সম্পর্কিত তথ্যাদি</b></td>
                                 </tr>
                                 <tr>
                                   <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ক্রম.</td>
@@ -197,7 +197,7 @@
                                     </tr>
                                   @endif
                                   <tr style="border:none; text-align: center; height:50px">
-                                    <td colspan="8" style="border:none; text-align: center">ঙ. পদোন্নতি সম্পর্কিত তথ্যাদি</td>
+                                    <td colspan="8" style="border:none; text-align: center"><b>ঙ. পদোন্নতি সম্পর্কিত তথ্যাদি</b></td>
                                   </tr>
                                   <tr>
                                     <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ক্রম.</td>
@@ -224,7 +224,7 @@
                                   </tr>
                                   @endif
                                   <tr style="border:none; text-align: center; height:50px">
-                                    <td colspan="8" style="border:none; text-align: center">চ. বিভাগীয়/ফৌজদারি মামলা সম্পর্কিত তথ্যাদি</td>
+                                    <td colspan="8" style="border:none; text-align: center"><b>চ. বিভাগীয়/ফৌজদারি মামলা সম্পর্কিত তথ্যাদি</b></td>
                                   </tr>
                                   <tr>
                                     <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ক্রম.</td>
@@ -261,7 +261,7 @@
                                   </tr>
                                   @endif
                                   <tr style="border:none; text-align: center; height:50px">
-                                    <td colspan="8" style="border:none; text-align: center">ছ. পদায়ন সম্পর্কিত তথ্যাদি</td>
+                                    <td colspan="8" style="border:none; text-align: center"><b>ছ. পদায়ন সম্পর্কিত তথ্যাদি</b></td>
                                   </tr>
                                   <tr>
                                     <td rowspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ক্রম.</td>

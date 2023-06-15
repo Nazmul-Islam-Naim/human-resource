@@ -73,13 +73,10 @@
                     <thead> 
                       <tr> 
                         <th>সিঃ</th>
-                        <th>কর্মকর্তা/কর্মচারীর নাম</th>
+                        <th>নাম</th>
                         <th>নিজ জেলা</th>
-                        <th>মোবাইল</th>
                         <th>কর্মস্থল</th>
                         <th>পদবী</th>
-                        <th>পে-স্কেল</th>
-                        <th>বেতন</th>
                         <th>বদলীর তারিখ</th>
                         <th>যোগদানের তারিখ </th>
                         <th>অব্যাহতির তারিখ</th>
@@ -146,7 +143,7 @@
             {
                 extend: 'excel',
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7,8,9,10]
+                    columns: [ 0, 1, 2, 3,4,5,6,7]
                 }, 
                 messageTop: 'The information in this table is copyright to Sirius Cybernetics Corp.'
             },
@@ -170,7 +167,7 @@
                 $(win.document.body).find('table tbody td').css('border','1px solid #ddd');  
                 },
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7,8,9,10]
+                    columns: [ 0, 1, 2, 3,4,5,6,7]
                 }
             }
         ],
@@ -187,11 +184,8 @@
 					}
         },
 				{data: 'general_information.district.name'},
-				{data: 'general_information.mobile'},
 				{data: 'workstation.name'},
 				{data: 'designation.title'},
-				{data: 'salary_scale.name'},
-				{data: 'salary'},
 				{
           data: 'transferred_date',
           render: function(data, type, full, meta) {

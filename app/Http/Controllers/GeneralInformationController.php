@@ -17,6 +17,7 @@ use App\Models\SalaryScale;
 use App\Models\Workstation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\DataTables;
 
@@ -28,7 +29,7 @@ class GeneralInformationController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $alldata= GeneralInformation::with(['district','presentDesignation','presentWorkStation','salaryScale'])
+            $alldata= GeneralInformation::with(['district','presentDesignation','presentWorkStation','mainDesignation'])
                             ->get();
             return DataTables::of($alldata)
             ->addIndexColumn()
@@ -82,6 +83,8 @@ class GeneralInformationController extends Controller
             if(Arr::has($data, 'signature')){
                 $data['signature'] = (Arr::pull($data, 'signature'))->store('signatures');
             }
+            $joiningDate = Carbon::parse($request->joining_date);
+            $data['prl_date'] = $joiningDate->addYears(59);
             GeneralInformation::create($data);
             Session::flash('flash_message','Information Successfully Added !');
             return redirect()->route('generalInformations.index')->with('status_color','success');
@@ -132,6 +135,8 @@ class GeneralInformationController extends Controller
             }
             $method = Arr::pull($data, '_method');
             $token = Arr::pull($data, '_token');
+            $joiningDate = Carbon::parse($request->joining_date);
+            $data['prl_date'] = $joiningDate->addYears(59);
             GeneralInformation::where('id',$id)->update($data);
             Session::flash('flash_message','Information Successfully Updated !');
             return redirect()->route('generalInformations.index')->with('status_color','success');

@@ -71,7 +71,23 @@
                position: relative;
                color: #ffffff;
            }
+
            .default-sidebar-wrapper .default-sidebar-menu ul li.active a.current-page:hover {
+               background: #17995e;
+               position: relative;
+               color: #ffffff;
+           }
+
+           
+           .default-sidebar-wrapper .default-sidebar-menu ul li a.selectedMenue {
+               background: #17995e;
+               pointer-events: auto;
+               position: relative;
+               color: #ffffff;
+           }
+
+           
+           .default-sidebar-wrapper .default-sidebar-menu ul li a.selectedMenue:hover {
                background: #17995e;
                position: relative;
                color: #ffffff;
@@ -84,7 +100,6 @@
         $url = Request::path();
     ?>
     <body class="default-sidebar">
-
         <!-- Loading wrapper start -->
         <div id="loading-wrapper">
             <div class="spinner-border"></div>
@@ -116,7 +131,7 @@
                             <ul>
                                 <!-------------- dashboard part ------------>
                                 <li>
-                                    <a href="{{$baseUrl.'/dashboard'}}"  class="{{($url=='dashboard') ? 'current-page':''}}">
+                                    <a href="{{$baseUrl.'/dashboard'}}"  class="{{($url=='dashboard') ? 'selectedMenue':''}}">
                                         <i class="icon-home2"></i>
                                         <span class="menu-text">ড্যাশবোর্ড</span>
                                     </a>
@@ -243,27 +258,27 @@
                                 </li>
                                 <!-------------- employee part ------------>
                                 <li >
-                                    <a  href="{{$baseUrl.'/'.config('app.hr').'/employee-transfer'}}" class="{{($url==config('app.hr').'/employee-transfer' || $url==config('app.hr').'/employee-transfer/create' || $url==(request()->is(config('app.hr').'/employee-transfer/*/edit')) || $url==(request()->is(config('app.hr').'/employee-transfer/*'))  || $url==(request()->is(config('app.hr').'/transfer-form/*')) || $url==(request()->is(config('app.hr').'/employee-pension-prl/*'))) ? 'current-page':''}}">
+                                    <a  href="{{$baseUrl.'/'.config('app.hr').'/employee-transfer'}}" class="{{($url==config('app.hr').'/employee-transfer' || $url==config('app.hr').'/employee-transfer/create' || $url==(request()->is(config('app.hr').'/employee-transfer/*/edit')) || $url==(request()->is(config('app.hr').'/employee-transfer/*'))  || $url==(request()->is(config('app.hr').'/transfer-form/*')) || $url==(request()->is(config('app.hr').'/employee-pension-prl/*'))) ? 'selectedMenue':''}}">
                                         <i class="icon-users"></i>
                                         <span class="menu-text">কর্মচারী স্থানান্তর/পেনশন</span>
                                     </a>
                                 </li>
                                 <!-------------- employee part ------------>
                                 <li >
-                                    <a href="{{$baseUrl.'/'.config('app.hr').'/employee-transferred-list'}}" class="{{($url==config('app.hr').'/employee-transferred-list' || $url==config('app.hr').'/employee-transferred-list/create' || $url==(request()->is(config('app.hr').'/employee-transferred-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-transferred-list/*'))) ? 'current-page':''}}">
+                                    <a href="{{$baseUrl.'/'.config('app.hr').'/employee-transferred-list'}}" class="{{($url==config('app.hr').'/employee-transferred-list' || $url==config('app.hr').'/employee-transferred-list/create' || $url==(request()->is(config('app.hr').'/employee-transferred-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-transferred-list/*'))) ? 'selectedMenue':''}}">
                                         <i class="icon-list"></i>
                                         <span class="menu-text">কর্মচারী স্থানান্তর তালিকা</span>
                                     </a>
                                 </li>
                                 <!-------------- employee part ------------>
                                 <li >
-                                    <a href="{{$baseUrl.'/'.config('app.hr').'/employee-pension-prl-list'}}" class="{{($url==config('app.hr').'/employee-pension-prl-list' || $url==config('app.hr').'/employee-pension-prl-list/create' || $url==(request()->is(config('app.hr').'/employee-pension-prl-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-pension-prl-list/*'))) ? 'current-page':''}}">
+                                    <a href="{{$baseUrl.'/'.config('app.hr').'/employee-pension-prl-list'}}" class="{{($url==config('app.hr').'/employee-pension-prl-list' || $url==config('app.hr').'/employee-pension-prl-list/create' || $url==(request()->is(config('app.hr').'/employee-pension-prl-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-pension-prl-list/*'))) ? 'selectedMenue':''}}">
                                         <i class="icon-list"></i>
                                         <span class="menu-text">পেনশন/পি আর এল তালিকা</span>
                                     </a>
                                 <!-------------- employee part ------------>
                                 <li >
-                                    <a href="{{$baseUrl.'/'.config('app.hr').'/employee-transfer-application-list'}}" class="{{($url==config('app.hr').'/employee-transfer-application-list' || $url==config('app.hr').'/employee-transfer-application-list/create' || $url==(request()->is(config('app.hr').'/employee-transfer-application-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-transfer-application-list/*'))) ? 'current-page':''}}">
+                                    <a href="{{$baseUrl.'/'.config('app.hr').'/employee-transfer-application-list'}}" class="{{($url==config('app.hr').'/employee-transfer-application-list' || $url==config('app.hr').'/employee-transfer-application-list/create' || $url==(request()->is(config('app.hr').'/employee-transfer-application-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-transfer-application-list/*'))) ? 'selectedMenue':''}}">
                                         <i class="icon-message"></i>
                                         <span class="menu-text">স্থানান্তর আবেদন পত্র</span>
                                     </a>

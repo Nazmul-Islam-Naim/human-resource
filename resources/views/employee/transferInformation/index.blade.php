@@ -32,12 +32,11 @@
                       <tr> 
                         <th>সিঃ</th>
                         <th>নাম</th>
-                        <th>জেলা</th>
-                        <th>মোবাইল</th>
+                        <th>নিজ জেলা</th>
                         <th>বর্তমান পদবী</th> 
                         <th>বর্তমান কর্মস্থল</th> 
                         <th>বেতন স্কেল</th>
-                        <th>যোগদান</th>
+                        <th>পি আর এল</th>
                         <th width="15%">একশন </th>
                       </tr>
                     </thead>
@@ -99,7 +98,7 @@
             {
                 extend: 'excel',
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7]
+                    columns: [ 0, 1, 2, 3,4,5,6]
                 },
                 messageTop: 'The information in this table is copyright to Sirius Cybernetics Corp.'
             },
@@ -125,7 +124,7 @@
  
                 },
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7]
+                    columns: [ 0, 1, 2, 3,4,5,6]
                 },
                 messageBottom: null
             }
@@ -143,12 +142,11 @@
 					}
         },
 				{data: 'district.name'},
-				{data: 'mobile'},
 				{data: 'present_designation.title'},
 				{data: 'present_work_station.name'},
 				{data: 'salary_scale.name'},
 				{
-          data: 'joining_date',
+          data: 'prl_date',
           render: function(data, type, full, meta) {
 						if (data != null) {
               const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);

@@ -74,6 +74,7 @@ class EmployeeController extends Controller
                     'present_designation_id' => $query->designation_id, 
                     'present_workstation_id' => $query->workstation_id,
                     'salary_scale_id' => $query->salary_scale_id,
+                    'present_workstation_joining_date' => $query->joining_date,
                 ]);
             });
             Session::flash('flash_message','Transferred Successfully Done !');
@@ -154,6 +155,7 @@ class EmployeeController extends Controller
                 'present_designation_id' => $request->designation_id, 
                 'present_workstation_id' => $request->workstation_id,
                 'salary_scale_id' => $request->salary_scale_id,
+                'present_workstation_joining_date' => $request->joining_date,
             ]);
             Session::flash('flash_message','Transferred Record Successfully Updated !');
             return redirect()->route('employee-transferred-list')->with('status_color','success');

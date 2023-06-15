@@ -128,6 +128,24 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
+                    <select name="main_designation_id" 
+                    class="form-control select2 @error('main_designation_id') is-invalid @enderror" 
+                    required="">
+                      <option value="">Select</option>
+                      @foreach($designations as $designation)
+                      <option value="{{$designation->id}}" {{(old('main_designation_id') == $designation->id) ? 'selected' : ''}}>{{$designation->title}}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <div class="field-placeholder">মূল পদবী <span class="text-danger">*</span></div>
+                </div>
+                @error('main_designation_id')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+              </div>
+              <div class="col-md-4">
+                <div class="field-wrapper">
+                  <div class="input-group">
                     <input type="date" 
                     name="birth_date" 
                     class="form-control @error('birth_date') is-invalid @enderror" 
@@ -144,14 +162,14 @@
                 <div class="field-wrapper">
                   <div class="input-group">
                     <input type="date" 
-                    name="prl_date" 
-                    class="form-control @error('prl_date') is-invalid @enderror" 
-                    value="{{old('prl_date')??date('Y-m-d')}}"
+                    name="present_workstation_joining_date" 
+                    class="form-control @error('present_workstation_joining_date') is-invalid @enderror" 
+                    value="{{old('present_workstation_joining_date')??date('Y-m-d')}}"
                     autocomplete="off">
                   </div>
-                  <div class="field-placeholder">পি আর এল / এল পি আর তারিখ </div>
+                  <div class="field-placeholder">বর্তমান কর্মস্থলে যোগদানের তারিখ</div>
                 </div>
-                @error('prl_date')
+                @error('present_workstation_joining_date')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
               </div>
