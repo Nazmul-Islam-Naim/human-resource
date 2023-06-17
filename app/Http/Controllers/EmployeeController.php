@@ -10,6 +10,7 @@ use App\Http\Requests\EmployeeTransfer\UpdateRequest;
 use App\Http\Requests\TransferApplication\ApplicationCreateRequest;
 use App\Http\Requests\TransferApplication\ApplicationUpdateRequest;
 use App\Models\GeneralInformation;
+use App\Models\TransferStatus;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Designation;
@@ -69,12 +70,18 @@ class EmployeeController extends Controller
     {
         $employee = GeneralInformation::findOrFail($id);
         try{
-            tap($employee->employeeTransfer()->create($request->all()), function($query){
+            tap($employee->employeeTransfer()->create($request->all()), function($query) use ($employee){
                 $query->generalInformation()->update([
                     'present_designation_id' => $query->designation_id, 
                     'present_workstation_id' => $query->workstation_id,
                     'salary_scale_id' => $query->salary_scale_id,
-                    'present_workstation_joining_date' => $query->joining_date,
+                ]);
+
+                $employee->transferStatus()->update([
+                    'present_joining_date' => $query->joining_date,
+                    'workstation_id' => $employee->present_workstation_id,
+                    'designation_id' => $employee->present_designation_id,
+                    'previous_joining_date' => $employee->transferStatus->present_joining_date,
                 ]);
             });
             Session::flash('flash_message','Transferred Successfully Done !');
@@ -148,18 +155,24 @@ class EmployeeController extends Controller
     }
     public function employeeTransferredRecordUpdate(UpdateRequest $request, $id)
     {
-        $employee = EmployeeTransfer::findOrFail($id);
+        $employeeTransfer = EmployeeTransfer::findOrFail($id);
         try{
-            $employee->update($request->all());
-            GeneralInformation::where('id',$employee->general_information_id)->update([
-                'present_designation_id' => $request->designation_id, 
-                'present_workstation_id' => $request->workstation_id,
-                'salary_scale_id' => $request->salary_scale_id,
-                'present_workstation_joining_date' => $request->joining_date,
-            ]);
+            tap($employeeTransfer->update($request->all()), function($query) use ($employeeTransfer, $request){
+                $employee = GeneralInformation::findOrFail($employeeTransfer->general_information_id);
+                $employee->update([
+                    'present_designation_id' => $request->designation_id, 
+                    'present_workstation_id' => $request->workstation_id,
+                    'salary_scale_id' => $request->salary_scale_id,
+                ]);
+
+                $employee->transferStatus()->update([
+                    'present_joining_date' => $request->joining_date,
+                ]);
+            });
             Session::flash('flash_message','Transferred Record Successfully Updated !');
             return redirect()->route('employee-transferred-list')->with('status_color','success');
-        }catch(\Exception $e){
+        }catch(\Exception $exception){
+            dd($exception->getMessage());
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }

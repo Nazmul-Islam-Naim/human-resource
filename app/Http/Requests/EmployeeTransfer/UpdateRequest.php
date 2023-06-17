@@ -22,7 +22,6 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'district_id' => ['required'],
             'workstation_id' => ['required'],
             'designation_id' => ['required'],
             'salary_scale_id' => ['required'],

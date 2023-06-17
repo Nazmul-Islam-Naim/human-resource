@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('employee_transfers', function (Blueprint $table) {
             $table->id();
             $table->foreignId('general_information_id')->constrained('general_information')->onDelete('cascade');
-            $table->foreignId('district_id')->comment('transferred district')->constrained('districts')->onDelete('cascade');
             $table->foreignId('workstation_id')->comment('transferred workstation')->constrained('workstations')->onDelete('cascade');
             $table->foreignId('designation_id')->comment('transferred designation')->constrained('designations')->onDelete('cascade');
             $table->foreignId('salary_scale_id')->comment('transferred salary scale')->constrained('salary_scales')->onDelete('cascade');

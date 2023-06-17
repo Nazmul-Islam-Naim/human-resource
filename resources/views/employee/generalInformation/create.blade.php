@@ -128,24 +128,6 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <select name="main_designation_id" 
-                    class="form-control select2 @error('main_designation_id') is-invalid @enderror" 
-                    required="">
-                      <option value="">Select</option>
-                      @foreach($designations as $designation)
-                      <option value="{{$designation->id}}" {{(old('main_designation_id') == $designation->id) ? 'selected' : ''}}>{{$designation->title}}</option>
-                      @endforeach
-                    </select>
-                  </div>
-                  <div class="field-placeholder">মূল পদবী <span class="text-danger">*</span></div>
-                </div>
-                @error('main_designation_id')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
-              </div>
-              <div class="col-md-4">
-                <div class="field-wrapper">
-                  <div class="input-group">
                     <input type="date" 
                     name="birth_date" 
                     class="form-control @error('birth_date') is-invalid @enderror" 
@@ -155,21 +137,6 @@
                   <div class="field-placeholder">জন্ম তারিখ </div>
                 </div>
                 @error('birth_date')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
-              </div>
-              <div class="col-md-4">
-                <div class="field-wrapper">
-                  <div class="input-group">
-                    <input type="date" 
-                    name="present_workstation_joining_date" 
-                    class="form-control @error('present_workstation_joining_date') is-invalid @enderror" 
-                    value="{{old('present_workstation_joining_date')??date('Y-m-d')}}"
-                    autocomplete="off">
-                  </div>
-                  <div class="field-placeholder">বর্তমান কর্মস্থলে যোগদানের তারিখ</div>
-                </div>
-                @error('present_workstation_joining_date')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
               </div>

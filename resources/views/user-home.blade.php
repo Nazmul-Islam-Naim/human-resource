@@ -9,7 +9,7 @@
 
 		<!-- Row start -->
 		<div class="row gutters">
-			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+			{{-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
 				<a href="{{route('user-list.show',($dg->id ?? ''))}}" target="_blank">
 					<div class="stats-tile">
 						<div class="sale-icon">
@@ -56,7 +56,7 @@
 						</div>
 					</div>
 				</a>
-			</div>
+			</div> --}}
 			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
 				<a href="{{route('workstation.index')}}" target="_blank">
 					<div class="stats-tile">

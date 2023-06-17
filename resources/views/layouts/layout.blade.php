@@ -272,6 +272,13 @@
                                 </li>
                                 <!-------------- employee part ------------>
                                 <li >
+                                    <a href="{{$baseUrl.'/'.config('app.hr').'/transfer-status'}}" class="{{($url==config('app.hr').'/transfer-status') ? 'selectedMenue':''}}">
+                                        <i class="icon-list"></i>
+                                        <span class="menu-text">পদভিত্তিক বর্তমান কর্মস্থলের তালিকা</span>
+                                    </a>
+                                </li>
+                                <!-------------- employee part ------------>
+                                <li >
                                     <a href="{{$baseUrl.'/'.config('app.hr').'/employee-pension-prl-list'}}" class="{{($url==config('app.hr').'/employee-pension-prl-list' || $url==config('app.hr').'/employee-pension-prl-list/create' || $url==(request()->is(config('app.hr').'/employee-pension-prl-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-pension-prl-list/*'))) ? 'selectedMenue':''}}">
                                         <i class="icon-list"></i>
                                         <span class="menu-text">পেনশন/পি আর এল তালিকা</span>

@@ -21,8 +21,6 @@ return new class extends Migration
             $table->foreignId('district_id')->comment('employee district id')->constrained('districts')->onDelete('cascade');
             $table->date('birth_date')->nullable();
             $table->date('prl_date')->nullable();
-            $table->date('present_workstation_joining_date')->nullable();
-            $table->foreignId('main_designation_id')->constrained('designations')->onDelete('cascade');
             $table->foreignId('present_designation_id')->constrained('designations')->onDelete('cascade');
             $table->foreignId('present_workstation_id')->constrained('workstations')->onDelete('cascade');
             $table->foreignId('salary_scale_id')->comment('present salary scale id')->constrained('salary_scales')->onDelete('cascade');

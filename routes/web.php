@@ -96,6 +96,11 @@ Route::middleware('auth')->group(function () {
         Route::get('employee-pension-prl-delete/{id}', 'App\Http\Controllers\EmployeeController@pensionAndPrlDelete')->name('employee-pension-prl-delete');
     });
 
+      //******** additional reports *******//
+      Route::prefix(config('app.hr'))->group(function () {
+        Route::get('transfer-status', 'App\Http\Controllers\AdditionalReportController@transferStatus')->name('transfer-status');
+    });
+
 });
 
 require __DIR__.'/auth.php';

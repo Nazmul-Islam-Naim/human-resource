@@ -1,5 +1,5 @@
 @extends('layouts.layout')
-@section('title', 'কর্মকর্তা/কর্মচারীর তালিকা')
+@section('title', 'পদভিত্তিক বর্তমান কর্মস্থলের তালিকা')
 @section('content')
 <!-- Content Header (Page header) -->
 <?php
@@ -20,8 +20,7 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card card-primary">
           <div class="card-header d-flex justify-content-between align-items-center">
-              <h3 class="card-title">কর্মকর্তা/কর্মচারীর তালিকা</h3>
-              <a href="{{route('generalInformations.create')}}" class="btn btn-success btn-sm pull-right"><i class="icon-plus-circle"></i> <b>কর্মকর্তা/কর্মচারীর যোগ করুন</b></a>
+              <h3 class="card-title">পদভিত্তিক বর্তমান কর্মস্থলের তালিকা</h3>
             </div>
           <!-- /.box-header -->
           <div class="card-body">
@@ -32,16 +31,19 @@
                     <thead> 
                       <tr> 
                         <th>সিঃ</th>
-                        <th>ছবি</th>
                         <th>নাম</th>
-                        <th>নিজ জেলা</th>
-                        <th>বর্তমান পদবী</th> 
+                        <th>বর্তমান পদবী</th>
+                        <th>মূল পদ</th>
+                        <th>নিজ জেলা</th> 
                         <th>বর্তমান কর্মস্থল</th> 
-                        <th>যোগদানের তারিখ</th>
-                        <th>পি আর এল তারিখ</th>
-                        <th width="15%">একশন</th>
+                        <th>বর্তমান কর্মস্থলে যোগদানের তারিখ</th>
+                        <th>পূর্ববর্তী পদবী</th>
+                        <th>পূর্ববর্তী কর্মস্থল</th>
+                        <th>পূর্ববর্তী কর্মস্থলে যোগদানের তারিখ</th>
+                        <th>পি আর এল</th>
                       </tr>
                     </thead>
+                    <tbody></tbody>
                   </table>
                 </div>
               </div>
@@ -82,12 +84,15 @@
 	$(document).ready(function() {
 		'use strict';
 
-   
-    var table = $('#example').DataTable({
+    filter_view();
+
+    function filter_view(start_date = '',end_date = '') {
+      var table = $('#example').DataTable({
 			serverSide: true,
 			processing: true,
 			ajax: {
-        url: "{{route('generalInformations.index')}}",
+        url: "{{route('transfer-status')}}",
+        data: {start_date: start_date, end_date: end_date}
       },
       "lengthMenu": [[ 100, 150, 250, -1 ],[ '100', '150', '250', 'All' ]],
       dom: 'Blfrtip',
@@ -96,7 +101,7 @@
             {
                 extend: 'excel',
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7]
+                    columns: [ 0, 1, 2, 3,4,5,6,7,8,9,10]
                 },
                 messageTop: 'The information in this table is copyright to Sirius Cybernetics Corp.'
             },
@@ -119,18 +124,10 @@
  
                 $(win.document.body).find('table thead th').css('border','1px solid #ddd');  
                 $(win.document.body).find('table tbody td').css('border','1px solid #ddd');  
+ 
                 },
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7],
-                    format: {
-                    body: function (data, row, column, node) {
-                        // Include image HTML tag if applicable
-                        if (column === 'photo' && row.photo !== '') {
-                            return '<img src="' + row.photo + '">';
-                        }
-                        return data;
-                    }
-                  }
+                    columns: [ 0, 1, 2, 3,4,5,6,7,8,9,10]
                 },
                 messageBottom: null
             }
@@ -140,28 +137,19 @@
 			columns: [
         {data: 'DT_RowIndex'},
 				{
-          data: 'photo',
-          render:function(data, type, row){
-            if (row.photo != null) {
-              return '<img src="{{asset("storage")}}/'+data+'" width="50" height="50" >';
-            }
-            return ''
-          },
-          escape: false
-        },
-				{
-          data: 'name_in_bangla',
+          data: 'general_information.name_in_bangla',
           render: function(data, type, row) {
             var url = '{{route("generalInformations.show",":id")}}'; 
             var url = url.replace(':id', row.id);
 						return '<a href=' + url +'>'+ data +'</a>';
 					}
         },
-				{data: 'district.name'},
-				{data: 'present_designation.title'},
-				{data: 'present_work_station.name'},
+				{data: 'general_information.present_designation.title'},
+				{data: 'general_information.joining_designation.title'},
+				{data: 'general_information.district.name'},
+				{data: 'general_information.present_work_station.name'},
 				{
-          data: 'joining_date',
+          data: 'present_joining_date',
           render: function(data, type, full, meta) {
 						if (data != null) {
               const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
@@ -170,47 +158,67 @@
 					}
         },
 				{
-          data: 'prl_date',
+          data: 'previous_designation.title',
+          render:function(data, type, row){
+            if (data != null) {
+              return data;
+            } else {
+              return '';
+            }
+          }
+        },
+				{
+          data: 'previous_workstation.name',
+          render:function(data, type, row){
+            if (data != null) {
+              return data;
+            } else {
+              return '';
+            }
+          }
+        },
+				{
+          data: 'previous_joining_date',
+          render: function(data, type, full, meta) {
+						if (data != null) {
+              const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
+							return toBn(dateFormat(new Date(data)).toString());
+						}else{
+              return ''
+            }
+					}
+        },
+				{
+          data: 'general_information.prl_date',
           render: function(data, type, full, meta) {
 						if (data != null) {
               const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
 							return toBn(dateFormat(new Date(data)).toString());
 						}
 					}
-        },
-				{
-          data: 'action',
-          orderable:true,
-          searchable:true
-				}
+        }
 			]
     });
+  }
 
-     //-------- Delete single data with Ajax --------------//
-     $("#example").on("click", ".button-delete", function(e) {
-			  e.preventDefault();
+  $('#filter').click(function (e) { 
+    e.preventDefault();
+    var start_date = $('#start_date').val();
+    var end_date = $('#end_date').val();
 
-        var confirm = window.confirm('Are you sure want to delete data?');
-        if (confirm != true) {
-          return false;
-        }
-        var id = $(this).data('id');
-        var link = '{{route("generalInformations.destroy",":id")}}';
-        var link = link.replace(':id', id);
-        var token = '{{csrf_token()}}';
-        $.ajax({
-          url: link,
-          type: 'POST',
-          data: {
-            '_method': 'DELETE',
-            '_token': token
-          },
-          success: function(data) {
-            table.ajax.reload();
-          },
-
-        });
-    });
+    if (start_date != '' && end_date != '') {
+      $('#example').DataTable().destroy();
+      filter_view(start_date, end_date);
+    } else {
+    }
+  });
+  $('#reset').click(function (e) { 
+    e.preventDefault();
+    $('#start_date').val('');
+    $('#end_date').val('');
+    $('#example').DataTable().destroy();
+    filter_view();
+  });
 
 });
 </script>

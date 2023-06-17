@@ -29,7 +29,7 @@ class GeneralInformationController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $alldata= GeneralInformation::with(['district','presentDesignation','presentWorkStation','mainDesignation'])
+            $alldata= GeneralInformation::with(['district','presentDesignation','presentWorkStation'])
                             ->get();
             return DataTables::of($alldata)
             ->addIndexColumn()
@@ -83,9 +83,13 @@ class GeneralInformationController extends Controller
             if(Arr::has($data, 'signature')){
                 $data['signature'] = (Arr::pull($data, 'signature'))->store('signatures');
             }
-            $joiningDate = Carbon::parse($request->joining_date);
+            $joiningDate = Carbon::parse($request->birth_date);
             $data['prl_date'] = $joiningDate->addYears(59);
-            GeneralInformation::create($data);
+            tap(GeneralInformation::create($data), function($query){
+                $query->transferStatus()->create([
+                    'present_joining_date' => $query->joining_date
+                ]);
+            });
             Session::flash('flash_message','Information Successfully Added !');
             return redirect()->route('generalInformations.index')->with('status_color','success');
         } catch (\Exception $exception) {
@@ -135,8 +139,14 @@ class GeneralInformationController extends Controller
             }
             $method = Arr::pull($data, '_method');
             $token = Arr::pull($data, '_token');
-            $joiningDate = Carbon::parse($request->joining_date);
+            $joiningDate = Carbon::parse($request->birth_date);
             $data['prl_date'] = $joiningDate->addYears(59);
+            $generalInformation = GeneralInformation::findOrFail($id);
+            tap($generalInformation->update($data), function() use ($generalInformation, $data){
+                $generalInformation->transferStatus()->update([
+                    'present_joining_date' => $data['joining_date']
+                ]);
+            });
             GeneralInformation::where('id',$id)->update($data);
             Session::flash('flash_message','Information Successfully Updated !');
             return redirect()->route('generalInformations.index')->with('status_color','success');

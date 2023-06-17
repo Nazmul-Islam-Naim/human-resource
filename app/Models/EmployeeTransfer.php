@@ -10,7 +10,7 @@ class EmployeeTransfer extends Model
     use HasFactory;
     protected $table = 'employee_transfers';
     protected $fillable = [
-        'general_information_id', 'district_id', 'workstation_id', 'designation_id', 'salary_scale_id',
+        'general_information_id', 'workstation_id', 'designation_id', 'salary_scale_id',
         'salary', 'house_rent', 'total_taken_leave', 'allowance', 'transferred_date', 'joining_date', 'release_date', 'comment'
     ];
 

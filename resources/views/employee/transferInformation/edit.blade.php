@@ -37,29 +37,6 @@
                 <!-- Field wrapper start -->
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <select name="district_id" id="district_id"
-                    class="form-control select2 @error('district_id') is-invalid @enderror" 
-                    required="">
-                      <option value="">Select</option>
-                      @foreach($districts as $district)
-                      <option value="{{$district->id}}"
-                         {{(($employeeTransfer->district_id == $district->id) ?? (old('district_id') == $district->id)) ? 'selected' : ''}}>
-                         {{$district->name}}
-                      </option>
-                      @endforeach
-                    </select>
-                  </div>
-                  <div class="field-placeholder">জেলা নির্বাচন করুন<span class="text-danger">*</span></div>
-                </div>
-                @error('district_id')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
-                <!-- Field wrapper end -->
-              </div>
-              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-                <!-- Field wrapper start -->
-                <div class="field-wrapper">
-                  <div class="input-group">
                     <select name="workstation_id" id="workstation_id"
                     class="form-control select2 @error('workstation_id') is-invalid @enderror" 
                     required="">
