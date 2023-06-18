@@ -89,6 +89,14 @@ class GeneralInformationController extends Controller
                 $query->transferStatus()->create([
                     'present_joining_date' => $query->joining_date
                 ]);
+
+                $query->employeeTransfer()->create([
+                    'workstation_id' => $query->present_workstation_id,
+                    'designation_id' => $query->present_designation_id,
+                    'salary_scale_id' => $query->salary_scale_id,
+                    'salary' => $query->salaryScale->salary,
+                    'joining_date' => $query->joining_date,
+                ]);
             });
             Session::flash('flash_message','Information Successfully Added !');
             return redirect()->route('generalInformations.index')->with('status_color','success');
@@ -145,6 +153,14 @@ class GeneralInformationController extends Controller
             tap($generalInformation->update($data), function() use ($generalInformation, $data){
                 $generalInformation->transferStatus()->update([
                     'present_joining_date' => $data['joining_date']
+                ]);
+
+                $generalInformation->employeeTransfer()->update([
+                    'workstation_id' => $generalInformation->present_workstation_id,
+                    'designation_id' => $generalInformation->present_designation_id,
+                    'salary_scale_id' => $generalInformation->salary_scale_id,
+                    'salary' => $generalInformation->salaryScale->salary,
+                    'joining_date' => $generalInformation->joining_date,
                 ]);
             });
             GeneralInformation::where('id',$id)->update($data);

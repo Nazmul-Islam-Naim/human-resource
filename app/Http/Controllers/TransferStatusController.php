@@ -6,9 +6,11 @@ use App\Http\Requests\TransferStatus\UpdateRequest;
 use App\Models\Designation;
 use App\Models\TransferStatus;
 use App\Models\Workstation;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Session;
+use Rakibhstu\Banglanumber\Facades\NumberToBangla;
 use Yajra\DataTables\Facades\DataTables;
 
 class TransferStatusController extends Controller
@@ -67,6 +69,21 @@ class TransferStatusController extends Controller
         }
 
         return view('employee.transferStatus.report');
+    }
+
+    public function time(Request $request){
+        if ($request->ajax()) {
+            $transferStatuses = TransferStatus::with('generalInformation', 'generalInformation.joiningDesignation', 'generalInformation.district',
+                                                     'generalInformation.presentDesignation', 'generalInformation.presentWorkStation',
+                                                     )->get();
+            return DataTables::of($transferStatuses)->addIndexColumn()->addColumn('timePeriod', function($row){
+                $joiningDate = Carbon::parse($row->present_joining_date);
+                $timePriod = $joiningDate->diff(Carbon::now());
+                return NumberToBangla::bnNum($timePriod->format('%y')).' বছর '.NumberToBangla::bnNum($timePriod->format('%m')).' মাস '.NumberToBangla::bnNum($timePriod->format('%d')).' দিন';
+            })->make(true);
+        }
+
+        return view('employee.transferStatus.time');
     }
 
 }

@@ -175,12 +175,7 @@ class EmployeeController extends Controller
             return redirect()->back()->with('status_color','danger');
         }
     }
-    public function employeeTransferHistory($id)
-    {
-        $data['single_data'] = User::findOrFail($id);
-        $data['alldata'] = EmployeeTransfer::where('employee_id',$id)->orderBy('id','desc')->get();
-        return view('employee.transferredHistory',$data);
-    }
+    
     public function employeeTransferApplicationForm($id)
     {
         $data['secretaries'] = User::where('role_id', 4)->get();
@@ -305,7 +300,7 @@ class EmployeeController extends Controller
             $employee->employeePensionPrl()->create($request->all());
             $employee->update(['status'=>Status::getFromName('Inactive')]);
             Session::flash('flash_message','Pension and Prl Successfully Done !');
-            return redirect()->back()->with('status_color','success');
+            return redirect()->route('employee-pension-prl-list')->with('status_color','success');
         }catch(\Exception $exception){
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');

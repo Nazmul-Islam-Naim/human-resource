@@ -40,7 +40,7 @@ class HomeController extends Controller
         $data['subAssitantDirectors'] = GeneralInformation::where('status',1)->where('present_designation_id',6)->count();
         $data['runningEmployees'] = GeneralInformation::where('status',1)->count();
         $data['pensionEmployees'] = GeneralInformation::where('status',0)->count();
-        return view('user-home',$data);
+        return view('dashboard.dashboard',$data);
     }
 
     public function selectBranch()

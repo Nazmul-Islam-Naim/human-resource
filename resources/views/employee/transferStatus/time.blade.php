@@ -1,5 +1,5 @@
 @extends('layouts.layout')
-@section('title', 'কর্মকর্তা/কর্মচারীর তালিকা')
+@section('title', 'পদভিত্তিক কর্মস্থলে কার্যকাল')
 @section('content')
 <!-- Content Header (Page header) -->
 <?php
@@ -20,8 +20,7 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card card-primary">
           <div class="card-header d-flex justify-content-between align-items-center">
-              <h3 class="card-title">কর্মকর্তা/কর্মচারীর তালিকা</h3>
-              <a href="{{route('employee-list/create')}}" class="btn btn-info btn-sm pull-right"><i class="fa fa-plus-circle"></i> <b>কর্মকর্তা/কর্মচারীর যোগ করুন</b></a>
+              <h3 class="card-title">পদভিত্তিক কর্মস্থলে কার্যকাল</h3>
             </div>
           <!-- /.box-header -->
           <div class="card-body">
@@ -32,18 +31,16 @@
                     <thead> 
                       <tr> 
                         <th>সিঃ</th>
-                        <th>আইডি</th>
                         <th>নাম</th>
-                        <th>ডিপার্টমেন্ট</th>
-                        <th>পদবী</th>
-                        <th>বেতন স্কেল</th>
-                        <th>বেতন</th>
-                        <th>কর্মস্থল</th>
-                        <th>যোগদান</th>
-                        <th>জেলা</th>
-                        <th width="15%">একশন</th>
+                        <th>বর্তমান পদবী</th>
+                        <th>মূল পদ</th>
+                        <th>নিজ জেলা</th> 
+                        <th>বর্তমান কর্মস্থল</th> 
+                        <th>বর্তমান কর্মস্থলে <br>যোগদানের তারিখ</th>
+                        <th>বর্তমান পদে মোট <br> কার্যকাল</th>
                       </tr>
                     </thead>
+                    <tbody></tbody>
                   </table>
                 </div>
               </div>
@@ -84,12 +81,15 @@
 	$(document).ready(function() {
 		'use strict';
 
-   
-    var table = $('#example').DataTable({
+    filter_view();
+
+    function filter_view(start_date = '',end_date = '') {
+      var table = $('#example').DataTable({
 			serverSide: true,
 			processing: true,
 			ajax: {
-        url: "{{route('employee-list')}}",
+        url: "{{route('transfer-status-time')}}",
+        data: {start_date: start_date, end_date: end_date}
       },
       "lengthMenu": [[ 100, 150, 250, -1 ],[ '100', '150', '250', 'All' ]],
       dom: 'Blfrtip',
@@ -98,7 +98,13 @@
             {
                 extend: 'excel',
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7,8,9 ]
+                    columns: [ 0, 1, 2, 3,4,5,6,7],
+                    format: {
+                        header: function (data, columnIdx) {
+                            // Break the content into multiple lines
+                            return data.replace(/<br\s*\/?>/gi, '<br>');
+                        }
+                    }
                 },
                 messageTop: 'The information in this table is copyright to Sirius Cybernetics Corp.'
             },
@@ -121,9 +127,15 @@
  
                 $(win.document.body).find('table thead th').css('border','1px solid #ddd');  
                 $(win.document.body).find('table tbody td').css('border','1px solid #ddd');  
+ 
                 },
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7,8,9 ]
+                    columns: [ 0, 1, 2, 3,4,5,6,7],
+                    format: {
+                      header: function (data, columnIdx) {
+                            return data.replace(/<br\s*\/?>/gi, '<br>');
+                        }
+                    }
                 },
                 messageBottom: null
             }
@@ -133,32 +145,19 @@
 			columns: [
         {data: 'DT_RowIndex'},
 				{
-          data: 'employee_id',
-          render: function(data, type, row){
-            const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
-            return toBn(data.toString());
-          }
-        },
-				{
-          data: 'name',
+          data: 'general_information.name_in_bangla',
           render: function(data, type, row) {
-            var url = "/hr/employee-transferred-history/"+ row.id; 
+            var url = '{{route("generalInformations.show",":id")}}'; 
+            var url = url.replace(':id', row.id);
 						return '<a href=' + url +'>'+ data +'</a>';
 					}
         },
-				{data: 'user_department_object.name'},
-				{data: 'user_designation_object.name'},
-				{data: 'user_salary_scale_object.name'},
+				{data: 'general_information.present_designation.title'},
+				{data: 'general_information.joining_designation.title'},
+				{data: 'general_information.district.name'},
+				{data: 'general_information.present_work_station.name'},
 				{
-          data: 'salary',
-          render: function(data, type, row){
-            const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
-            return toBn(data.toString());
-          }
-        },
-				{data: 'user_workstation_object.name'},
-				{
-          data: 'join_date',
+          data: 'present_joining_date',
           render: function(data, type, full, meta) {
 						if (data != null) {
               const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
@@ -166,14 +165,31 @@
 						}
 					}
         },
-				{data: 'user_district_object.name'},
-				{
-          data: 'action',
-          orderable:true,
-          searchable:true
-				}
+        {
+          data: 'timePeriod'
+        }
 			]
     });
+  }
+
+  $('#filter').click(function (e) { 
+    e.preventDefault();
+    var start_date = $('#start_date').val();
+    var end_date = $('#end_date').val();
+
+    if (start_date != '' && end_date != '') {
+      $('#example').DataTable().destroy();
+      filter_view(start_date, end_date);
+    } else {
+    }
+  });
+  $('#reset').click(function (e) { 
+    e.preventDefault();
+    $('#start_date').val('');
+    $('#end_date').val('');
+    $('#example').DataTable().destroy();
+    filter_view();
+  });
 
 });
 </script>

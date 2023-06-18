@@ -96,12 +96,23 @@ Route::middleware('auth')->group(function () {
         Route::get('employee-pension-prl-delete/{id}', 'App\Http\Controllers\EmployeeController@pensionAndPrlDelete')->name('employee-pension-prl-delete');
     });
 
-      //******** additional reports *******//
+      //******** transfer status reports *******//
       Route::prefix(config('app.hr'))->group(function () {
         Route::get('transfer-status-index', 'App\Http\Controllers\TransferStatusController@index')->name('transfer-status-index');
         Route::get('transfer-status-edit/{id}', 'App\Http\Controllers\TransferStatusController@edit')->name('transfer-status-edit');
         Route::put('transfer-status-update/{id}', 'App\Http\Controllers\TransferStatusController@update')->name('transfer-status-update');
         Route::get('transfer-status-report', 'App\Http\Controllers\TransferStatusController@report')->name('transfer-status-report');
+        Route::get('transfer-status-time', 'App\Http\Controllers\TransferStatusController@time')->name('transfer-status-time');
+    });
+
+      //******** dashboard reports *******//
+      Route::prefix(config('app.hr'))->group(function () {
+        Route::get('overall-employee', 'App\Http\Controllers\DashboardController@overallEmployee')->name('overall-employee');
+        Route::get('present-employee', 'App\Http\Controllers\DashboardController@presentEmployee')->name('present-employee');
+        Route::get('pension-employee', 'App\Http\Controllers\DashboardController@pensionEmployee')->name('pension-employee');
+        Route::get('director', 'App\Http\Controllers\DashboardController@director')->name('director');
+        Route::get('assistant-director', 'App\Http\Controllers\DashboardController@assistantDirector')->name('assistant-director');
+        Route::get('sub-assistant-director', 'App\Http\Controllers\DashboardController@subAssistantDirector')->name('sub-assistant-director');
     });
 
 });

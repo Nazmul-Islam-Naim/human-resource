@@ -272,13 +272,6 @@
                                 </li>
                                 <!-------------- employee part ------------>
                                 <li >
-                                    <a href="{{$baseUrl.'/'.config('app.hr').'/transfer-status-report'}}" class="{{($url==config('app.hr').'/transfer-status-report') ? 'selectedMenue':''}}">
-                                        <i class="icon-list"></i>
-                                        <span class="menu-text">পদভিত্তিক বর্তমান কর্মস্থলের তালিকা</span>
-                                    </a>
-                                </li>
-                                <!-------------- employee part ------------>
-                                <li >
                                     <a href="{{$baseUrl.'/'.config('app.hr').'/employee-pension-prl-list'}}" class="{{($url==config('app.hr').'/employee-pension-prl-list' || $url==config('app.hr').'/employee-pension-prl-list/create' || $url==(request()->is(config('app.hr').'/employee-pension-prl-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-pension-prl-list/*'))) ? 'selectedMenue':''}}">
                                         <i class="icon-list"></i>
                                         <span class="menu-text">পেনশন/পি আর এল তালিকা</span>
@@ -289,6 +282,25 @@
                                         <i class="icon-message"></i>
                                         <span class="menu-text">স্থানান্তর আবেদন পত্র</span>
                                     </a>
+                                </li>
+                                 <!-------------- amendment information part ------------>
+                                 <li class="default-sidebar-dropdown {{(
+                                    $url==config('app.hr').'/transfer-status-report' ||
+                                    $url==config('app.hr').'/transfer-status-time' ) ? 'active':''}}">
+                                    <a href="javascript::void(0)">
+                                        <i class="icon-book"></i>
+                                        <span class="menu-text">পদভিত্তিক কর্মস্থল</span>
+                                    </a>
+                                    <div class="default-sidebar-submenu">
+                                        <ul>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.hr').'/transfer-status-report'}}" class="{{($url==config('app.hr').'/transfer-status-report') ? 'current-page':''}}"> পদভিত্তিক বর্তমান কর্মস্থলের তালিকা </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.hr').'/transfer-status-time'}}" class="{{($url==config('app.hr').'/transfer-status-time') ? 'current-page':''}}"> পদভিত্তিক কর্মস্থলে কার্যকাল </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </li>
                                  <!-------------- amendment information part ------------>
                                  <li class="default-sidebar-dropdown {{(

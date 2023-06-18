@@ -18,13 +18,13 @@ class EmployeeTransferSeeder extends Seeder
      */
     public function run()
     {
-        EmployeeTransfer::updateOrCreate([
+        EmployeeTransfer::create([
             'general_information_id' => GeneralInformation::first()->id,
-            'workstation_id ' => Workstation::first()->id,
-            'designation_id ' => Designation::first()->id,
-            'salary_scale_id ' => SalaryScale::first()->id,
-            'salary ' => SalaryScale::first()->salary,
-            'joining_date ' => GeneralInformation::first()->joining_date,
+            'workstation_id' => Workstation::first()->id,
+            'designation_id' => Designation::first()->id,
+            'salary_scale_id' => SalaryScale::first()->id,
+            'salary' => SalaryScale::first()->salary,
+            'joining_date' => GeneralInformation::first()->joining_date,
         ]); 
         
     }
