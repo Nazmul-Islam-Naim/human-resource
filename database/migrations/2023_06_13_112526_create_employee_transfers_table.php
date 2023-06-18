@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('house_rent',10)->nullable();
             $table->string('total_taken_leave',10)->nullable();
             $table->string('allowance',10)->nullable();
-            $table->date('transferred_date');
+            $table->date('transferred_date')->nullable();
             $table->date('joining_date');
             $table->date('release_date')->nullable();
             $table->string('comment')->nullable();

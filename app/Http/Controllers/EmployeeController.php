@@ -87,7 +87,6 @@ class EmployeeController extends Controller
             Session::flash('flash_message','Transferred Successfully Done !');
             return redirect()->route('employee-transferred-list')->with('status_color','success');
         }catch(\Exception $exception){
-            dd($exception->getMessage());
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
@@ -172,7 +171,6 @@ class EmployeeController extends Controller
             Session::flash('flash_message','Transferred Record Successfully Updated !');
             return redirect()->route('employee-transferred-list')->with('status_color','success');
         }catch(\Exception $exception){
-            dd($exception->getMessage());
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
@@ -278,7 +276,6 @@ class EmployeeController extends Controller
             Session::flash('flash_message','Application Successfully Updated !');
             return redirect()->route('employee-transfer-application-list')->with('status_color','success');
         }catch(\Exception $exception){
-            dd($exception->getMessage());
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }

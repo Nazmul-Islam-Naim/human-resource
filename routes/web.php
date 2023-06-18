@@ -98,7 +98,10 @@ Route::middleware('auth')->group(function () {
 
       //******** additional reports *******//
       Route::prefix(config('app.hr'))->group(function () {
-        Route::get('transfer-status', 'App\Http\Controllers\AdditionalReportController@transferStatus')->name('transfer-status');
+        Route::get('transfer-status-index', 'App\Http\Controllers\TransferStatusController@index')->name('transfer-status-index');
+        Route::get('transfer-status-edit/{id}', 'App\Http\Controllers\TransferStatusController@edit')->name('transfer-status-edit');
+        Route::put('transfer-status-update/{id}', 'App\Http\Controllers\TransferStatusController@update')->name('transfer-status-update');
+        Route::get('transfer-status-report', 'App\Http\Controllers\TransferStatusController@report')->name('transfer-status-report');
     });
 
 });

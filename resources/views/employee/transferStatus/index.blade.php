@@ -41,6 +41,7 @@
                         <th>পূর্ববর্তী কর্মস্থল</th>
                         <th>পূর্ববর্তী কর্মস্থলে যোগদানের তারিখ</th>
                         <th>পি আর এল</th>
+                        <th>একশন</th>
                       </tr>
                     </thead>
                     <tbody></tbody>
@@ -91,7 +92,7 @@
 			serverSide: true,
 			processing: true,
 			ajax: {
-        url: "{{route('transfer-status')}}",
+        url: "{{route('transfer-status-index')}}",
         data: {start_date: start_date, end_date: end_date}
       },
       "lengthMenu": [[ 100, 150, 250, -1 ],[ '100', '150', '250', 'All' ]],
@@ -196,6 +197,11 @@
 							return toBn(dateFormat(new Date(data)).toString());
 						}
 					}
+        },
+        {
+          data: 'action',
+          orderable:true,
+          searchable:true
         }
 			]
     });

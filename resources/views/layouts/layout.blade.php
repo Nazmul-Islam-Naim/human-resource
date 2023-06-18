@@ -272,7 +272,7 @@
                                 </li>
                                 <!-------------- employee part ------------>
                                 <li >
-                                    <a href="{{$baseUrl.'/'.config('app.hr').'/transfer-status'}}" class="{{($url==config('app.hr').'/transfer-status') ? 'selectedMenue':''}}">
+                                    <a href="{{$baseUrl.'/'.config('app.hr').'/transfer-status-report'}}" class="{{($url==config('app.hr').'/transfer-status-report') ? 'selectedMenue':''}}">
                                         <i class="icon-list"></i>
                                         <span class="menu-text">পদভিত্তিক বর্তমান কর্মস্থলের তালিকা</span>
                                     </a>
@@ -289,6 +289,21 @@
                                         <i class="icon-message"></i>
                                         <span class="menu-text">স্থানান্তর আবেদন পত্র</span>
                                     </a>
+                                </li>
+                                 <!-------------- amendment information part ------------>
+                                 <li class="default-sidebar-dropdown {{(
+                                    $url==config('app.hr').'/transfer-status-index') ? 'active':''}}">
+                                    <a href="javascript::void(0)">
+                                        <i class="icon-book"></i>
+                                        <span class="menu-text">সংশোধন</span>
+                                    </a>
+                                    <div class="default-sidebar-submenu">
+                                        <ul>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.hr').'/transfer-status-index'}}" class="{{($url==config('app.hr').'/transfer-status-index') ? 'current-page':''}}"> পদভিত্তিক বর্তমান কর্মস্থলের তালিকা </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </li>
                                 <!-------------- user part ------------>
                                 <li class="default-sidebar-dropdown {{(
