@@ -35,6 +35,7 @@ class UpdateRequest extends FormRequest
             'salary_scale_id' => ['required'],
             'joining_date' => ['nullable', 'date'],
             'joining_designation_id' => ['nullable'],
+            'main_designation_id' => ['nullable'],
             'permanent_date' => ['nullable'],
             'order_no' => ['nullable'],
             'permanent_address' => ['nullable'],

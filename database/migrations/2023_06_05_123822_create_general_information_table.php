@@ -26,6 +26,7 @@ return new class extends Migration
             $table->foreignId('salary_scale_id')->comment('present salary scale id')->constrained('salary_scales')->onDelete('cascade');
             $table->date('joining_date')->nullable();
             $table->foreignId('joining_designation_id')->nullable()->constrained('designations')->onDelete('cascade');
+            $table->foreignId('main_designation_id')->nullable()->constrained('designations')->onDelete('cascade');
             $table->date('permanent_date')->nullable()->comment('job permanent date');
             $table->string('order_no')->nullable()->comment('job permanent order number');
             $table->text('permanent_address')->nullable();

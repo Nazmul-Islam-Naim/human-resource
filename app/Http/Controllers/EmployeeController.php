@@ -111,6 +111,9 @@ class EmployeeController extends Controller
                 <a href="<?php echo route('employee-transferred-list-edit',$row->id); ?>" class="badge bg-primary badge-sm" data-id="<?php echo $row->id; ?>">সংশোধন</i></a>
                 </li>
                 <li class="list-inline-item">
+                <a href="<?php echo route('employee-release',$row->id); ?>" class="badge bg-secondary badge-sm" data-id="<?php echo $row->id; ?>">অব্যাহতি</i></a>
+                </li>
+                <li class="list-inline-item">
                 <a href="<?php echo route('employee-transfer-application',$row->id); ?>" class="badge bg-info badge-sm" data-id="<?php echo $row->id; ?>">দরখস্থ </i></a>
                 </li>
                 </ul>
@@ -129,6 +132,9 @@ class EmployeeController extends Controller
                 <ul class="list-inline m-0">
                 <li class="list-inline-item">
                 <a href="<?php echo route('employee-transferred-list-edit',$row->id); ?>" class="badge bg-primary badge-sm" data-id="<?php echo $row->id; ?>">সংশোধন</i></a>
+                </li>
+                <li class="list-inline-item">
+                <a href="<?php echo route('employee-release',$row->id); ?>" class="badge bg-secondary badge-sm" data-id="<?php echo $row->id; ?>">অব্যাহতি</i></a>
                 </li>
                 <li class="list-inline-item">
                 <a href="<?php echo route('employee-transfer-application',$row->id); ?>" class="badge bg-info badge-sm" data-id="<?php echo $row->id; ?>">দরখস্থ</i></a>
@@ -154,20 +160,19 @@ class EmployeeController extends Controller
     }
     public function employeeTransferredRecordUpdate(UpdateRequest $request, $id)
     {
-        $employeeTransfer = EmployeeTransfer::findOrFail($id);
         try{
-            tap($employeeTransfer->update($request->all()), function($query) use ($employeeTransfer, $request){
-                $employee = GeneralInformation::findOrFail($employeeTransfer->general_information_id);
-                $employee->update([
-                    'present_designation_id' => $request->designation_id, 
-                    'present_workstation_id' => $request->workstation_id,
-                    'salary_scale_id' => $request->salary_scale_id,
-                ]);
-
-                $employee->transferStatus()->update([
-                    'present_joining_date' => $request->joining_date,
-                ]);
-            });
+            $employeeTransfer = EmployeeTransfer::findOrFail($id);
+            $employeeTransfer->update($request->all());
+            $employee = GeneralInformation::findOrFail($employeeTransfer->general_information_id);
+            $employee->update([
+                'present_designation_id' => $request->designation_id, 
+                'present_workstation_id' => $request->workstation_id,
+                'salary_scale_id' => $request->salary_scale_id,
+            ]);
+    
+            $employee->transferStatus()->update([
+                'present_joining_date' => $request->joining_date,
+            ]);
             Session::flash('flash_message','Transferred Record Successfully Updated !');
             return redirect()->route('employee-transferred-list')->with('status_color','success');
         }catch(\Exception $exception){
@@ -175,7 +180,25 @@ class EmployeeController extends Controller
             return redirect()->back()->with('status_color','danger');
         }
     }
+
+    public function employeeRelease($id)
+    {
+        $data['employeeTransfer']= EmployeeTransfer::findOrFail($id);
+        return view ('employee.transferInformation.release',$data);
+    }
     
+    public function employeeReleaseUpdate(Request $request, $id)
+    {
+        try{
+            EmployeeTransfer::where('id',$id)->update(['release_date' => $request->release_date]);
+            Session::flash('flash_message','Transferred Record Successfully Updated !');
+            return redirect()->route('employee-transferred-list')->with('status_color','success');
+        }catch(\Exception $exception){
+            Session::flash('flash_message','Something Error Found !');
+            return redirect()->back()->with('status_color','danger');
+        }
+    }
+
     public function employeeTransferApplicationForm($id)
     {
         $data['secretaries'] = User::where('role_id', 4)->get();

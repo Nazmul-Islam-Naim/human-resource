@@ -19,8 +19,8 @@ class DatabaseSeeder extends Seeder
         $this->call(DistrictSeeder::class);
         $this->call(WorkstationSeeder::class);
         $this->call(SalaryScaleSeeder::class);
-        $this->call(GeneralInformationSeeder::class);
-        $this->call(TransferStatusSeeder::class);
-        $this->call(EmployeeTransferSeeder::class);
+        // $this->call(GeneralInformationSeeder::class);
+        // $this->call(TransferStatusSeeder::class);
+        // $this->call(EmployeeTransferSeeder::class);
     }
 }

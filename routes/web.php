@@ -79,6 +79,10 @@ Route::middleware('auth')->group(function () {
         Route::get('employee-transferred-list', 'App\Http\Controllers\EmployeeController@employeeTransferredList')->name('employee-transferred-list');
         Route::get('employee-transferred-list/{id}', 'App\Http\Controllers\EmployeeController@employeeTransferredListUpdate')->name('employee-transferred-list-edit');
         Route::put('employee-transferred-update/{id}', 'App\Http\Controllers\EmployeeController@employeeTransferredRecordUpdate')->name('employee-transferred-record-update');
+
+        Route::get('employee-release/{id}', 'App\Http\Controllers\EmployeeController@employeeRelease')->name('employee-release');
+        Route::put('employee-release-update/{id}', 'App\Http\Controllers\EmployeeController@employeeReleaseUpdate')->name('employee-release-update');
+
         Route::get('employee-transferred-history/{id}', 'App\Http\Controllers\EmployeeController@employeeTransferHistory')->name('employee-transferred-history');
         Route::get('employee-transfer-application/{id}', 'App\Http\Controllers\EmployeeController@employeeTransferApplicationForm')->name('employee-transfer-application');
         Route::post('employee-transfer-application', 'App\Http\Controllers\EmployeeController@employeeTransferApplicationFormStore')->name('employee-transfer-application-form-store');

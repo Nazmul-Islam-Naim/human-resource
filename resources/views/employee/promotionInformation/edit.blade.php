@@ -120,6 +120,21 @@
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
               </div>
+              <div class="col-md-4">
+                <div class="field-wrapper">
+                  <div class="input-group">
+                    <input type="text" 
+                    name="salary" 
+                    class="form-control @error('salary') is-invalid @enderror" 
+                    value="{{$promotionInformation->salary??old('salary')}}"
+                    autocomplete="off">
+                  </div>
+                  <div class="field-placeholder">স্যালারি</div>
+                </div>
+                @error('salary')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+              </div>
             </div>
           <div class="card-footer text-end">
             <button class="btn btn-sm btn-success"><i class="icon-save"></i>সংরক্ষন করুন</button>

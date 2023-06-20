@@ -208,23 +208,6 @@
                 <!-- Field wrapper start -->
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="date" 
-                    name="release_date" 
-                    class="form-control @error('release_date') is-invalid @enderror" 
-                    value="{{$employeeTransfer->release_date ?? ''}}"
-                    autocomplete="off">
-                  </div>
-                  <div class="field-placeholder">অব্যাহতির তারিখ </div>
-                </div>
-                @error('release_date')
-                    <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
-                <!-- Field wrapper end -->
-              </div>
-              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
-                <!-- Field wrapper start -->
-                <div class="field-wrapper">
-                  <div class="input-group">
                     <input type="text" 
                     name="comment" 
                     class="form-control @error('comment') is-invalid @enderror" 
@@ -243,7 +226,7 @@
           </div>
           <!-- /.card-body -->
           <div class="card-footer text-end">
-            <button class="btn btn-primary" type="submit"><i class="icon-chevrons-up"></i>বদলী করুন</button>
+            <button class="btn btn-primary" type="submit"><i class="icon-chevrons-up"></i>সংশোধন করুন</button>
           </div>
         </div>
         {!! Form::close() !!}

@@ -31,7 +31,6 @@ class UpdateRequest extends FormRequest
             'allowance' => ['nullable', 'max:10'],
             'transferred_date' => ['required', 'date', 'date_format:Y-m-d'],
             'joining_date' => ['required', 'date', 'date_format:Y-m-d'],
-            'release_date' => ['nullable', 'date', 'date_format:Y-m-d'],
             'comment' => ['nullable', 'max:255']
         ];
     }

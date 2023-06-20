@@ -9,7 +9,7 @@ class PromotionInformation extends Model
 {
     use HasFactory;
     protected $table = 'promotion_information';
-    protected $fillable = ['general_information_id', 'designation_id', 'promotion_date', 'order_no', 'date', 'salary_scale_id'];
+    protected $fillable = ['general_information_id', 'designation_id', 'promotion_date', 'order_no', 'date', 'salary_scale_id', 'salary'];
 
     //relationship
 

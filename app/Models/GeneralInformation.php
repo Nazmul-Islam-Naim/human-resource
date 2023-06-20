@@ -12,7 +12,7 @@ class GeneralInformation extends Model
     protected $table = 'general_information';
     protected $fillable = [
         'employee_id', 'name_in_bangla', 'name_in_english', 'fathers_name_in_bangla', 'mothers_name_in_bangla', 'district_id', 'maritial_status', 'birth_date', 'prl_date',
-        'present_designation_id', 'present_workstation_id', 'salary_scale_id', 'joining_date', 'joining_designation_id', 'permanent_date', 'order_no',
+        'present_designation_id', 'present_workstation_id', 'salary_scale_id', 'joining_date', 'joining_designation_id', 'main_designation_id', 'permanent_date', 'order_no',
         'permanent_address', 'present_address', 'mobile', 'email', 'sex', 'maritial_status', 'spouse_name_in_bangla', 'occupation_id', 'spouse_district_id',
         'photo', 'signature', 'status'
     ];
@@ -37,6 +37,10 @@ class GeneralInformation extends Model
 
     public function joiningDesignation(){
         return $this->belongsTo(Designation::class,'joining_designation_id');
+    }
+
+    public function mainDesignation(){
+        return $this->belongsTo(Designation::class,'main_designation_id');
     }
 
     public function occupation(){

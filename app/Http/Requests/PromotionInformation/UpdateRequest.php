@@ -26,7 +26,8 @@ class UpdateRequest extends FormRequest
             'promotion_date' => ['required', 'date', 'date_format:Y-m-d'],
             'order_no' => ['required', 'max:255'],
             'date' => ['required', 'date', 'date_format:Y-m-d'],
-            'salary_scale_id' => ['required']
+            'salary_scale_id' => ['required'],
+            'salary' => ['nullable', 'max:10']
         ];
     }
 }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('order_no');
             $table->date('date')->comment('order and date');
             $table->foreignId('salary_scale_id')->comment('pay scale')->constrained('salary_scales')->onDelete('cascade');
+            $table->string('salary',10)->nullable();
             $table->timestamps();
         });
     }

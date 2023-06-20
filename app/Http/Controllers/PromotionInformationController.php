@@ -62,7 +62,7 @@ class PromotionInformationController extends Controller
         $employee = GeneralInformation::findOrFail($request->general_information_id);
         try {
             $employee->promotionInformation()->create($request->all());
-            $employee->update(['present_designation_id'=>$request->designation_id]);
+            $employee->update(['main_designation_id'=>$request->designation_id]);
             Session::flash('flash_message','Information Successfully Added !');
             return redirect()->route('promotionInformations.index')->with('status_color','success');
         } catch (\Exception $exception) {
@@ -104,7 +104,7 @@ class PromotionInformationController extends Controller
             $name = Arr::pull($data, 'name_in_bangla');
             $employee = PromotionInformation::where('id',$id)->first();
             $employee->update($data);
-            $employee->generalInformation()->update(['present_designation_id'=>$request->designation_id]);
+            $employee->generalInformation()->update(['main_designation_id'=>$request->designation_id]);
             Session::flash('flash_message','Information Successfully Updated !');
             return redirect()->route('promotionInformations.index')->with('status_color','success');
         } catch (\Exception $exception) {
@@ -122,7 +122,7 @@ class PromotionInformationController extends Controller
             $employee = PromotionInformation::findOrFail($id);
             $employee->delete();
             $lastDesigantion = PromotionInformation::where('general_information_id',$employee->general_information_id)->orderBy('id','desc')->first();
-            $employee->generalInformation()->update(['present_designation_id' => $lastDesigantion->designation_id]);
+            $employee->generalInformation()->update(['main_designation_id' => $lastDesigantion->designation_id]);
             Session::flash('flash_message','Record Successfully Deleted.');
             return redirect()->route('promotionInformations.index')->with('status_color','success');
         } catch (\Exception $exception) {

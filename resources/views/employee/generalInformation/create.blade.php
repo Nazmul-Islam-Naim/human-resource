@@ -230,6 +230,24 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
+                    <select name="main_designation_id" 
+                    class="form-control select2 @error('main_designation_id') is-invalid @enderror" 
+                    >
+                      <option value="">Select</option>
+                      @foreach($designations as $designation)
+                      <option value="{{$designation->id}}" {{(old('main_designation_id') == $designation->id) ? 'selected' : ''}}>{{$designation->title}}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <div class="field-placeholder">মূল পদ</div>
+                </div>
+                @error('main_designation_id')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+              </div>
+              <div class="col-md-4">
+                <div class="field-wrapper">
+                  <div class="input-group">
                     <input type="date" 
                     name="permanent_date" 
                     class="form-control @error('permanent_date') is-invalid @enderror" 

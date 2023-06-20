@@ -18,7 +18,7 @@ class TransferStatusController extends Controller
     
     public function index(Request $request){
         if ($request->ajax()) {
-            $transferStatuses = TransferStatus::with('generalInformation', 'generalInformation.joiningDesignation', 'generalInformation.district',
+            $transferStatuses = TransferStatus::with('generalInformation', 'generalInformation.mainDesignation', 'generalInformation.district',
                                                      'generalInformation.presentDesignation', 'generalInformation.presentWorkStation',
                                                      'previousWorkstation', 'previousDesignation'
                                                      )->get();
@@ -61,7 +61,7 @@ class TransferStatusController extends Controller
 
     public function report(Request $request){
         if ($request->ajax()) {
-            $transferStatuses = TransferStatus::with('generalInformation', 'generalInformation.joiningDesignation', 'generalInformation.district',
+            $transferStatuses = TransferStatus::with('generalInformation', 'generalInformation.mainDesignation', 'generalInformation.district',
                                                      'generalInformation.presentDesignation', 'generalInformation.presentWorkStation',
                                                      'previousWorkstation', 'previousDesignation'
                                                      )->get();
@@ -73,7 +73,7 @@ class TransferStatusController extends Controller
 
     public function time(Request $request){
         if ($request->ajax()) {
-            $transferStatuses = TransferStatus::with('generalInformation', 'generalInformation.joiningDesignation', 'generalInformation.district',
+            $transferStatuses = TransferStatus::with('generalInformation', 'generalInformation.mainDesignation', 'generalInformation.district',
                                                      'generalInformation.presentDesignation', 'generalInformation.presentWorkStation',
                                                      )->get();
             return DataTables::of($transferStatuses)->addIndexColumn()->addColumn('timePeriod', function($row){

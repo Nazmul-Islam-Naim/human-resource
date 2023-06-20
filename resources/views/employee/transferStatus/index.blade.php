@@ -146,7 +146,7 @@
 					}
         },
 				{data: 'general_information.present_designation.title'},
-				{data: 'general_information.joining_designation.title'},
+				{data: 'general_information.main_designation.title'},
 				{data: 'general_information.district.name'},
 				{data: 'general_information.present_work_station.name'},
 				{

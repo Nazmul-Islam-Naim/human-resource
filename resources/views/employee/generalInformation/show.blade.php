@@ -8,6 +8,11 @@
     use Rakibhstu\Banglanumber\NumberToBangla;
     $numTo = new NumberToBangla();
 @endphp
+<style>
+  .table th, .table td {
+    white-space: inherit;
+}
+</style>
 <!-- Content wrapper scroll start -->
 <div class="content-wrapper-scroll">
 
@@ -99,7 +104,7 @@
                               <tr style="border:none; text-align: center; height:50px">
                                 <td colspan="8" style="border:none; text-align: center;"><b>খ. শিক্ষাসংক্রান্ত তথ্যাদি</b></td>
                               </tr>
-                              <tr>
+                              <tr style="background-color: #eee">
                                 <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ক্রম.</td>
                                 <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ডিগ্রী</td>
                                 <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">পাসের সন</td>
@@ -132,7 +137,7 @@
                                 <tr style="border:none; text-align: center; height:50px">
                                   <td colspan="8" style="border:none; text-align: center"><b>গ. প্রশিক্ষন সম্পর্কিত তথ্যাদি</b></td>
                                 </tr>
-                                <tr>
+                                <tr style="background-color: #eee">
                                   <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ক্রম.</td>
                                   <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">কোর্সের নাম</td>
                                   <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">প্রতিষ্ঠানের নাম</td>
@@ -167,7 +172,7 @@
                                 <tr style="border:none; text-align: center; height:50px">
                                   <td colspan="8" style="border:none; text-align: center"><b>ঘ. প্রকাশনা সম্পর্কিত তথ্যাদি</b></td>
                                 </tr>
-                                <tr>
+                                <tr style="background-color: #eee">
                                   <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ক্রম.</td>
                                   <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">প্রকাশনার শিরোনাম</td>
                                   <td colspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">জার্নালের নাম/বইয়ের নামে</td>
@@ -199,14 +204,14 @@
                                   <tr style="border:none; text-align: center; height:50px">
                                     <td colspan="8" style="border:none; text-align: center"><b>ঙ. পদোন্নতি সম্পর্কিত তথ্যাদি</b></td>
                                   </tr>
-                                  <tr>
+                                  <tr style="background-color: #eee">
                                     <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ক্রম.</td>
                                     <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">পদোন্নতি প্রাপ্ত পদের নাম</td>
                                     <td colspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">পদোন্নতি প্রাপ্তির তারিখ</td>
                                     <td colspan="3" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">আদেশ নং ও তারিখ</td>
                                     <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">পে-স্কেল</td>
                                   </tr>
-                                  @if (count($generalInformation->publicationInformation)>0)
+                                  @if (count($generalInformation->promotionInformation)>0)
                                     @foreach ($generalInformation->promotionInformation as $key => $promotionInformation)
                                     <tr>
                                       <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$numTo->bnNum($key+1)}}</td>
@@ -215,7 +220,7 @@
                                         {{$numTo->bnNum(date('m',strtotime($promotionInformation->promotion_date)))}}/{{$numTo->bnNum(date('Y',strtotime($promotionInformation->promotion_date)))}} খ্রিঃ</td>
                                       <td colspan="3" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$promotionInformation->order_no}} <br> {{$numTo->bnNum(date('d',strtotime($promotionInformation->date)))}}/
                                         {{$numTo->bnNum(date('m',strtotime($promotionInformation->date)))}}/{{$numTo->bnNum(date('Y',strtotime($promotionInformation->date)))}} খ্রিঃ </td>
-                                      <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$promotionInformation->salaryScale->salary ?? ''}}</td>
+                                      <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:center">{{$promotionInformation->salary ?? ''}}</td>
                                     </tr>
                                     @endforeach
                                   @else
@@ -226,7 +231,7 @@
                                   <tr style="border:none; text-align: center; height:50px">
                                     <td colspan="8" style="border:none; text-align: center"><b>চ. বিভাগীয়/ফৌজদারি মামলা সম্পর্কিত তথ্যাদি</b></td>
                                   </tr>
-                                  <tr>
+                                  <tr style="background-color: #eee">
                                     <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ক্রম.</td>
                                     <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">বিভাগীয়/ফৌজদারি মামলা নং</td>
                                     <td style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">শাস্তি</td>
@@ -263,14 +268,14 @@
                                   <tr style="border:none; text-align: center; height:50px">
                                     <td colspan="8" style="border:none; text-align: center"><b>ছ. পদায়ন সম্পর্কিত তথ্যাদি</b></td>
                                   </tr>
-                                  <tr>
+                                  <tr style="background-color: #eee">
                                     <td rowspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">ক্রম.</td>
                                     <td rowspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">পদের নাম</td>
                                     <td rowspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">কর্মস্থলের নাম</td>
                                     <td colspan="3" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">কার্যকাল</td>
                                     <td rowspan="2" colspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">মন্তব্য</td> 
                                   </tr>
-                                  <tr>
+                                  <tr style="background-color: #eee">
                                     <td colspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">হতে</td>
                                     <td colspan="1" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">পর্যন্ত</td>
                                   </tr>

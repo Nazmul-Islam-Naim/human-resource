@@ -265,7 +265,7 @@
                                 </li>
                                 <!-------------- employee part ------------>
                                 <li >
-                                    <a href="{{$baseUrl.'/'.config('app.hr').'/employee-transferred-list'}}" class="{{($url==config('app.hr').'/employee-transferred-list' || $url==config('app.hr').'/employee-transferred-list/create' || $url==(request()->is(config('app.hr').'/employee-transferred-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-transferred-list/*'))) ? 'selectedMenue':''}}">
+                                    <a href="{{$baseUrl.'/'.config('app.hr').'/employee-transferred-list'}}" class="{{($url==config('app.hr').'/employee-transferred-list' || $url==config('app.hr').'/employee-transferred-list/create' || $url==(request()->is(config('app.hr').'/employee-transferred-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-transferred-list/*')) || $url==(request()->is(config('app.hr').'/employee-release/*'))) ? 'selectedMenue':''}}">
                                         <i class="icon-list"></i>
                                         <span class="menu-text">কর্মচারী স্থানান্তর তালিকা</span>
                                     </a>
