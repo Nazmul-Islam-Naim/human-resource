@@ -1,0 +1,151 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\DesignationWorkstation\CreateRequest;
+use App\Http\Requests\DesignationWorkstation\UpdateRequest;
+use App\Models\Designation;
+use App\Models\DesignationWorkstation;
+use Illuminate\Http\Request;
+use App\Models\Workstation;
+use Illuminate\Support\Arr;
+use Validator;
+use Response;
+use Session;
+use Auth;
+use DB;
+use Yajra\DataTables\Facades\DataTables;
+
+class WorkstationDesignationController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+            $alldata= DesignationWorkstation::with(['workstation', 'designation'])
+                            ->get();
+            return DataTables::of($alldata)
+            ->addIndexColumn()
+            ->addColumn('action', function ($row) {
+                ob_start() ?>
+
+                <ul class="list-inline m-0">
+                    <li class="list-inline-item">
+                        <a href="<?php echo route('workstation-designations.edit',$row->id); ?>" class="badge bg-info badge-sm" data-id="<?php echo $row->id; ?>" title="Edit"><i class="icon-edit1"></i></a>
+                    </li>
+                    <li class="list-inline-item">
+                        <button data-id="<?php echo $row->id; ?>" class="badge bg-danger badge-sm button-delete"><i class="icon-delete"></i></button>
+                    </li>
+                </ul>
+
+<?php return ob_get_clean();
+            })->make(True);
+        }
+        return view ('catalogs.workstationDesignation.index');
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $data['workstations'] = Workstation::all();
+        $data['designations'] = Designation::all();
+        return view('catalogs.workstationDesignation.create',$data);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(CreateRequest $request)
+    {
+        try{
+            foreach ($request->designation_id as $key => $value) {
+                DesignationWorkstation::create([
+                    'workstation_id' => $request->workstation_id,
+                    'designation_id' => $value
+                ]);
+            }
+            Session::flash('flash_message','Workstation Designation Successfully Added !');
+            return redirect()->route('workstation-designations.index')->with('status_color','success');
+        }catch(\Exception $e){
+            dd($e->getMessage());
+            Session::flash('flash_message','Something Error Found !');
+            return redirect()->back()->with('status_color','danger');
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $data['workstations'] = Workstation::all();
+        $data['designations'] = Designation::all();
+        $data['workstationDesignation'] = DesignationWorkstation::findOrFail($id);
+        return view('catalogs.workstationDesignation.edit',$data);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(UpdateRequest $request, $id)
+    {
+        $data = $request->all();
+        try{
+            $method = Arr::pull($data, '_method');
+            $token = Arr::pull($data, '_token');
+            DesignationWorkstation::where('id',$id)->update($data);
+            Session::flash('flash_message','Workstation Designation Successfully Updated !');
+            return redirect()->route('workstation-designations.index')->with('status_color','warning');
+        }catch(\Exception $e){
+            Session::flash('flash_message','Something Error Found !');
+            return redirect()->back()->with('status_color','danger');
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        try{
+            DesignationWorkstation::where('id',$id)->delete();
+            Session::flash('flash_message','Workstation Designation Successfully Deleted !');
+            return redirect()->route('workstation-designations.index')->with('status_color','warning');
+        }catch(\Exception $e){
+            Session::flash('flash_message','Something Error Found !');
+            return redirect()->back()->with('status_color','danger');
+        }
+    }
+}

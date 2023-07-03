@@ -11,4 +11,9 @@ class Workstation extends Model
     use HasFactory,SoftDeletes;
     protected $table = 'workstations';
     protected $fillable = ['name','description','status'];
+
+    // relationship
+    public function workstations(){
+        return $this->hasMany(DesignationWorkstation::class);
+    }
 }

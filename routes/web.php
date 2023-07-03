@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('salary-scale', 'App\Http\Controllers\SalaryScaleController');
         Route::resource('district', 'App\Http\Controllers\DistrictController');
         Route::resource('workstation', 'App\Http\Controllers\WorkstationController');
+        Route::resource('workstation-designations', 'App\Http\Controllers\WorkstationDesignationController');
         Route::resource('occupation', 'App\Http\Controllers\OccupationController');
     });
     //******** educational information *******//

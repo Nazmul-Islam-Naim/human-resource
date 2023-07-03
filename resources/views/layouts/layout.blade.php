@@ -143,6 +143,7 @@
                                     $url==config('app.cat').'/salary-scale' || $url==config('app.cat').'/salary-scale/create' || $url==(request()->is(config('app.cat').'/salary-scale/*/edit')) ||
                                     $url==config('app.cat').'/district' || $url==config('app.cat').'/district/create' || $url==(request()->is(config('app.cat').'/district/*/edit')) ||
                                     $url==config('app.cat').'/workstation' || $url==config('app.cat').'/workstation/create' || $url==(request()->is(config('app.cat').'/workstation/*/edit')) ||
+                                    $url==config('app.cat').'/workstation-designations' || $url==config('app.cat').'/workstation-designations/create' || $url==(request()->is(config('app.cat').'/workstation-designations/*/edit')) ||
                                     $url==config('app.cat').'/occupation' || $url==config('app.cat').'/occupation/create' || $url==(request()->is(config('app.cat').'/occupation/*/edit'))) ? 'active':''}}">
                                     <a href="javascript::void(0)">
                                         <i class="icon-menu"></i>
@@ -164,6 +165,9 @@
                                             </li>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.cat').'/workstation'}}" class="{{($url==config('app.cat').'/workstation' || $url==config('app.cat').'/workstation/create' || $url==(request()->is(config('app.cat').'/workstation/*/edit'))) ? 'current-page':''}}">কর্মস্থল</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.cat').'/workstation-designations'}}" class="{{($url==config('app.cat').'/workstation-designations' || $url==config('app.cat').'/workstation-designations/create' || $url==(request()->is(config('app.cat').'/workstation-designations/*/edit'))) ? 'current-page':''}}">কর্মস্থলের পদবী</a>
                                             </li>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.cat').'/occupation'}}" class="{{($url==config('app.cat').'/occupation' || $url==config('app.cat').'/occupation/create' || $url==(request()->is(config('app.cat').'/occupation/*/edit'))) ? 'current-page':''}}">পেশা</a>

@@ -17,4 +17,8 @@ class Designation extends Model
     public function users(){
         return $this->hasMany(User::class);
     }
+
+    public function designations(){
+        return $this->hasMany(DesignationWorkstation::class);
+    }
 }
