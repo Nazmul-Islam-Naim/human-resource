@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('workstation_id')->constrained('workstations')->onDelete('cascade');
             $table->foreignId('designation_id')->constrained('designations')->onDelete('cascade');
+            $table->foreignId('general_information_id')->nullable()->comment('employee id')->constrained('general_information')->onDelete('cascade');
+            $table->date('joining_date')->nullable();
+            $table->date('release_date')->nullable();
             $table->timestamps();
         });
     }

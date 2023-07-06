@@ -9,6 +9,7 @@ use App\Http\Requests\EmployeeTransfer\CreateRequest;
 use App\Http\Requests\EmployeeTransfer\UpdateRequest;
 use App\Http\Requests\TransferApplication\ApplicationCreateRequest;
 use App\Http\Requests\TransferApplication\ApplicationUpdateRequest;
+use App\Models\DesignationWorkstation;
 use App\Models\GeneralInformation;
 use App\Models\TransferStatus;
 use Illuminate\Http\Request;
@@ -69,6 +70,12 @@ class EmployeeController extends Controller
     public function trnasferFormStore(CreateRequest $request,$id)
     {
         $employee = GeneralInformation::findOrFail($id);
+        
+        DesignationWorkstation::where([['workstation_id', $employee->present_workstation_id], ['designation_id', $employee->present_designation_id]])->update([
+            'general_information_id' => null,
+            'release_date' => $request->transferred_date
+        ]);
+        
         try{
             tap($employee->employeeTransfer()->create($request->all()), function($query) use ($employee){
                 $query->generalInformation()->update([
@@ -82,6 +89,11 @@ class EmployeeController extends Controller
                     'workstation_id' => $employee->present_workstation_id,
                     'designation_id' => $employee->present_designation_id,
                     'previous_joining_date' => $employee->transferStatus->present_joining_date,
+                ]);
+                
+                DesignationWorkstation::where([['workstation_id', $query->workstation_id], ['designation_id', $query->designation_id]])->update([
+                    'general_information_id' => $employee->id,
+                    'joining_date' => $query->joining_date
                 ]);
             });
             Session::flash('flash_message','Transferred Successfully Done !');
@@ -164,6 +176,12 @@ class EmployeeController extends Controller
             $employeeTransfer = EmployeeTransfer::findOrFail($id);
             $employeeTransfer->update($request->all());
             $employee = GeneralInformation::findOrFail($employeeTransfer->general_information_id);
+
+            DesignationWorkstation::where([['workstation_id', $employee->present_workstation_id], ['designation_id', $employee->present_designation_id]])->update([
+                'general_information_id' => null,
+                'release_date' => $request->transferred_date
+            ]);
+
             $employee->update([
                 'present_designation_id' => $request->designation_id, 
                 'present_workstation_id' => $request->workstation_id,
@@ -172,6 +190,11 @@ class EmployeeController extends Controller
     
             $employee->transferStatus()->update([
                 'present_joining_date' => $request->joining_date,
+            ]);
+
+            DesignationWorkstation::where([['workstation_id', $request->workstation_id], ['designation_id', $request->designation_id]])->update([
+                'general_information_id' => $employee->id,
+                'joining_date' => $request->joining_date
             ]);
             Session::flash('flash_message','Transferred Record Successfully Updated !');
             return redirect()->route('employee-transferred-list')->with('status_color','success');

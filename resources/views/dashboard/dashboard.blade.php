@@ -90,6 +90,22 @@
 				</a>
 			</div>
 			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+				<a href="{{route('empty-designations-report')}}" target="_blank">
+					<div class="stats-tile">
+						<div class="sale-icon">
+							<img src="{{asset('custom/img/dashboard/designation.gif')}}" alt="">
+						</div>
+						<div class="sale-details">
+							<h2>{{$emptyDesignations}}</h2>
+							<p>পদ শূন্য</p>
+						</div>
+						<div class="sale-graph">
+							<div id="sparklineLine5"></div>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
 				<a href="{{route('overall-employee')}}" target="_blank">
 					<div class="stats-tile">
 						<div class="sale-icon">

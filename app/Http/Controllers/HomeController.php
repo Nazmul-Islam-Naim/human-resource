@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DesignationWorkstation;
 use App\Models\GeneralInformation;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -34,6 +35,7 @@ class HomeController extends Controller
         $data['deputySecretary'] = User::where('role_id',6)->orderBy('id','desc')->first();
         $data['workstations'] = Workstation::count();
         $data['designations'] = Designation::count();
+        $data['emptyDesignations'] = DesignationWorkstation::where('general_information_id',null)->count();
         $data['employees'] = GeneralInformation::count();
         $data['directors'] = GeneralInformation::where('status',1)->where('present_designation_id',4)->count();
         $data['assitantDirectors'] = GeneralInformation::where('status',1)->where('present_designation_id',5)->count();

@@ -9,7 +9,7 @@ class DesignationWorkstation extends Model
 {
     use HasFactory;
     protected $table = 'designation_workstations';
-    protected $fillable = ['workstation_id', 'designation_id'];
+    protected $fillable = ['workstation_id', 'designation_id', 'general_information_id', 'joining_date', 'release_date'];
 
     //relationship
     public function workstation(){
@@ -18,5 +18,9 @@ class DesignationWorkstation extends Model
 
     public function designation(){
         return $this->belongsTo(Designation::class);
+    }
+
+    public function generalInformation(){
+        return $this->belongsTo(GeneralInformation::class);
     }
 }

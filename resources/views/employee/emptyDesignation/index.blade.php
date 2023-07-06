@@ -1,5 +1,5 @@
 @extends('layouts.layout')
-@section('title', 'পদভিত্তিক বর্তমান কর্মস্থলের তালিকা')
+@section('title', 'শূন্য পদের তালিকা')
 @section('content')
 <!-- Content Header (Page header) -->
 <?php
@@ -20,7 +20,7 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card card-primary">
           <div class="card-header d-flex justify-content-between align-items-center">
-              <h3 class="card-title">পদভিত্তিক বর্তমান কর্মস্থলের তালিকা</h3>
+              <h3 class="card-title">শূন্য পদের তালিকা</h3>
             </div>
           <!-- /.box-header -->
           <div class="card-body">
@@ -31,18 +31,14 @@
                     <thead> 
                       <tr> 
                         <th>সিঃ</th>
-                        <th>নাম</th>
-                        <th>বর্তমান পদবী</th>
-                        <th>মূল পদ</th>
-                        <th>নিজ জেলা</th> 
-                        <th>বর্তমান কর্মস্থল</th> 
-                        <th>বঃ কর্মঃ যোঃ তাং</th>
-                        <th>পূর্ববর্তী কর্মস্থল</th>
-                        <th>পূঃ কর্মঃ যোঃ তাং</th>
-                        <th>পি আর এল</th>
+                        <th>কর্মস্থল</th>
+                        <th>পদবী</th> 
+                        <th>কর্মকর্তা/কর্মচারী</th> 
+                        <th>যোগদানের তারিখ</th> 
+                        <th>রিলেজ তারিখ</th> 
+                        <th>একশন</th>
                       </tr>
                     </thead>
-                    <tbody></tbody>
                   </table>
                 </div>
               </div>
@@ -63,8 +59,8 @@
 {!!Html::script('custom/yajraTableJs/dataTable.js')!!}
 {!!Html::script('custom/yajraTableJs/query.dataTables1.12.1.js')!!}
 <script>
-   // ==================== date format ===========
-   function dateFormat(data) { 
+
+  function dateFormat(data) { 
     let date, month, year;
     date = data.getDate();
     month = data.getMonth() + 1;
@@ -80,18 +76,15 @@
 
     return `${date}-${month}-${year}`;
   }
+
 	$(document).ready(function() {
 		'use strict';
 
-    filter_view();
-
-    function filter_view(start_date = '',end_date = '') {
-      var table = $('#example').DataTable({
+    var table = $('#example').DataTable({
 			serverSide: true,
 			processing: true,
 			ajax: {
-        url: "{{route('transfer-status-report')}}",
-        data: {start_date: start_date, end_date: end_date}
+        url: "{{route('empty-designations.index')}}",
       },
       "lengthMenu": [[ 100, 150, 250, -1 ],[ '100', '150', '250', 'All' ]],
       dom: 'Blfrtip',
@@ -100,7 +93,7 @@
             {
                 extend: 'excel',
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7,8,9,10]
+                    columns: [ 0, 1, 2, 3, 4, 5]
                 },
                 messageTop: 'The information in this table is copyright to Sirius Cybernetics Corp.'
             },
@@ -123,10 +116,9 @@
  
                 $(win.document.body).find('table thead th').css('border','1px solid #ddd');  
                 $(win.document.body).find('table tbody td').css('border','1px solid #ddd');  
- 
                 },
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7,8,9,10]
+                    columns: [ 0, 1, 2, 3, 4, 5]
                 },
                 messageBottom: null
             }
@@ -135,79 +127,34 @@
 
 			columns: [
         {data: 'DT_RowIndex'},
-				{
-          data: 'general_information.name_in_bangla',
-          render: function(data, type, row) {
-            var url = '{{route("generalInformations.show",":id")}}'; 
-            var url = url.replace(':id', row.id);
-						return '<a href=' + url +'>'+ data +'</a>';
-					}
-        },
-				{data: 'general_information.present_designation.title'},
-				{data: 'general_information.main_designation.title'},
-				{data: 'general_information.district.name'},
-				{data: 'general_information.present_work_station.name'},
-				{
-          data: 'present_joining_date',
+				{data: 'workstation.name'},
+				{data: 'designation.title'},
+        {data: 'general_information.name_in_bangla',
           render: function(data, type, full, meta) {
 						if (data != null) {
-              const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
-							return toBn(dateFormat(new Date(data)).toString());
-						}
-					}
-        },
-				{
-          data: 'previous_workstation.name',
-          render:function(data, type, row){
-            if (data != null) {
-              return data;
-            } else {
-              return '';
-            }
-          }
-        },
-				{
-          data: 'previous_joining_date',
-          render: function(data, type, full, meta) {
-						if (data != null) {
-              const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
-							return toBn(dateFormat(new Date(data)).toString());
+							return data;
 						}else{
               return ''
             }
 					}
         },
-				{
-          data: 'general_information.prl_date',
+        {data: 'joining_date',
           render: function(data, type, full, meta) {
 						if (data != null) {
-              const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
-							return toBn(dateFormat(new Date(data)).toString());
+							return dateFormat(new Date(data)).toString();
 						}
 					}
-        }
+        },
+        {data: 'release_date',
+          render: function(data, type, full, meta) {
+						if (data != null) {
+							return dateFormat(new Date(data)).toString();
+						}
+					}
+        },
+        {data: 'action'}
 			]
     });
-  }
-
-  $('#filter').click(function (e) { 
-    e.preventDefault();
-    var start_date = $('#start_date').val();
-    var end_date = $('#end_date').val();
-
-    if (start_date != '' && end_date != '') {
-      $('#example').DataTable().destroy();
-      filter_view(start_date, end_date);
-    } else {
-    }
-  });
-  $('#reset').click(function (e) { 
-    e.preventDefault();
-    $('#start_date').val('');
-    $('#end_date').val('');
-    $('#example').DataTable().destroy();
-    filter_view();
-  });
 
 });
 </script>

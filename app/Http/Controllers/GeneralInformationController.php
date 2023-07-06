@@ -10,6 +10,7 @@ use App\Http\Requests\GeneralIformation\CreateRequest;
 use App\Http\Requests\GeneralIformation\UpdateRequest;
 use App\Models\Department;
 use App\Models\Designation;
+use App\Models\DesignationWorkstation;
 use App\Models\District;
 use App\Models\GeneralInformation;
 use App\Models\Occupation;
@@ -97,6 +98,11 @@ class GeneralInformationController extends Controller
                     'salary' => $query->salaryScale->salary,
                     'joining_date' => $query->joining_date,
                 ]);
+
+                DesignationWorkstation::where([['workstation_id', $query->present_workstation_id], ['designation_id', $query->present_designation_id]])->update([
+                    'general_information_id' => $query->id,
+                    'joining_date' => $query->joining_date
+                ]);
             });
             Session::flash('flash_message','Information Successfully Added !');
             return redirect()->route('generalInformations.index')->with('status_color','success');
@@ -147,9 +153,17 @@ class GeneralInformationController extends Controller
             }
             $method = Arr::pull($data, '_method');
             $token = Arr::pull($data, '_token');
+
             $joiningDate = Carbon::parse($request->birth_date);
             $data['prl_date'] = $joiningDate->addYears(59);
+
             $generalInformation = GeneralInformation::findOrFail($id);
+            
+            DesignationWorkstation::where([['workstation_id', $generalInformation->present_workstation_id], ['designation_id', $generalInformation->present_designation_id]])->update([
+                'general_information_id' => null,
+                'joining_date' => null
+            ]);
+
             tap($generalInformation->update($data), function() use ($generalInformation, $data){
                 $generalInformation->transferStatus()->update([
                     'present_joining_date' => $data['joining_date']
@@ -161,6 +175,11 @@ class GeneralInformationController extends Controller
                     'salary_scale_id' => $generalInformation->salary_scale_id,
                     'salary' => $generalInformation->salaryScale->salary,
                     'joining_date' => $generalInformation->joining_date,
+                ]);
+
+                DesignationWorkstation::where([['workstation_id', $data['present_workstation_id']], ['designation_id', $data['present_designation_id']]])->update([
+                    'general_information_id' => $generalInformation->id,
+                    'joining_date' => $data['joining_date']
                 ]);
             });
             GeneralInformation::where('id',$id)->update($data);

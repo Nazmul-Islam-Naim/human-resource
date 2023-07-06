@@ -6,6 +6,7 @@ use App\Http\Requests\DesignationWorkstation\CreateRequest;
 use App\Http\Requests\DesignationWorkstation\UpdateRequest;
 use App\Models\Designation;
 use App\Models\DesignationWorkstation;
+use App\Models\GeneralInformation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Workstation;
@@ -14,7 +15,7 @@ use Rakibhstu\Banglanumber\Facades\NumberToBangla;
 use Session;
 use Yajra\DataTables\Facades\DataTables;
 
-class WorkstationDesignationController extends Controller
+class EmptyDesignationController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,7 +25,7 @@ class WorkstationDesignationController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $alldata= DesignationWorkstation::with(['workstation', 'designation'])
+            $alldata= DesignationWorkstation::with(['workstation', 'designation', 'generalInformation'])
                             ->get();
             return DataTables::of($alldata)
             ->addIndexColumn()
@@ -33,17 +34,14 @@ class WorkstationDesignationController extends Controller
 
                 <ul class="list-inline m-0">
                     <li class="list-inline-item">
-                        <a href="<?php echo route('workstation-designations.edit',$row->id); ?>" class="badge bg-info badge-sm" data-id="<?php echo $row->id; ?>" title="Edit"><i class="icon-edit1"></i></a>
-                    </li>
-                    <li class="list-inline-item">
-                        <button data-id="<?php echo $row->id; ?>" class="badge bg-danger badge-sm button-delete"><i class="icon-delete"></i></button>
+                        <a href="<?php echo route('empty-designations.edit',$row->id); ?>" class="badge bg-info badge-sm" data-id="<?php echo $row->id; ?>" title="Edit"><i class="icon-edit1"></i></a>
                     </li>
                 </ul>
 
 <?php return ob_get_clean();
             })->make(True);
         }
-        return view ('catalogs.workstationDesignation.index');
+        return view ('employee.emptyDesignation.index');
     }
 
     /**
@@ -53,9 +51,7 @@ class WorkstationDesignationController extends Controller
      */
     public function create()
     {
-        $data['workstations'] = Workstation::all();
-        $data['designations'] = Designation::all();
-        return view('catalogs.workstationDesignation.create',$data);
+        //
     }
 
     /**
@@ -101,10 +97,9 @@ class WorkstationDesignationController extends Controller
      */
     public function edit($id)
     {
-        $data['workstations'] = Workstation::all();
-        $data['designations'] = Designation::all();
+        $data['generalInformations'] = GeneralInformation::select('id','name_in_bangla')->get();
         $data['workstationDesignation'] = DesignationWorkstation::findOrFail($id);
-        return view('catalogs.workstationDesignation.edit',$data);
+        return view('employee.emptyDesignation.edit',$data);
     }
 
     /**
@@ -114,7 +109,7 @@ class WorkstationDesignationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateRequest $request, $id)
+    public function update(Request $request, $id)
     {
         $data = $request->all();
         try{
@@ -122,7 +117,7 @@ class WorkstationDesignationController extends Controller
             $token = Arr::pull($data, '_token');
             DesignationWorkstation::where('id',$id)->update($data);
             Session::flash('flash_message','Workstation Designation Successfully Updated !');
-            return redirect()->route('workstation-designations.index')->with('status_color','warning');
+            return redirect()->route('empty-designations.index')->with('status_color','warning');
         }catch(\Exception $e){
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
@@ -137,13 +132,27 @@ class WorkstationDesignationController extends Controller
      */
     public function destroy($id)
     {
-        try{
-            DesignationWorkstation::where('id',$id)->delete();
-            Session::flash('flash_message','Workstation Designation Successfully Deleted !');
-            return redirect()->route('workstation-designations.index')->with('status_color','warning');
-        }catch(\Exception $e){
-            Session::flash('flash_message','Something Error Found !');
-            return redirect()->back()->with('status_color','danger');
+        //
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function report(Request $request)
+    {
+        if ($request->ajax()) {
+            $alldata= DesignationWorkstation::with(['workstation', 'designation'])
+                            ->where('general_information_id',null)
+                            ->get();
+            return DataTables::of($alldata)
+            ->addIndexColumn()->addColumn('timePeriod', function($row){
+                $releaseDate = Carbon::parse($row->release_date);
+                $timePriod = $releaseDate->diff(Carbon::now());
+                return NumberToBangla::bnNum($timePriod->format('%y')).' বছর '.NumberToBangla::bnNum($timePriod->format('%m')).' মাস '.NumberToBangla::bnNum($timePriod->format('%d')).' দিন';
+            })->make(True);
         }
+        return view ('employee.emptyDesignation.report');
     }
 }

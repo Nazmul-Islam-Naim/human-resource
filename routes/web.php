@@ -99,15 +99,22 @@ Route::middleware('auth')->group(function () {
         Route::get('employee-pension-prl-edit/{id}', 'App\Http\Controllers\EmployeeController@pensionAndPrlFormEdit')->name('employee-pension-prl-edit');
         Route::put('employee-pension-prl-edit/{id}', 'App\Http\Controllers\EmployeeController@pensionAndPrlFormUpdate')->name('employee-pension-prl-update');
         Route::get('employee-pension-prl-delete/{id}', 'App\Http\Controllers\EmployeeController@pensionAndPrlDelete')->name('employee-pension-prl-delete');
+
     });
 
-      //******** transfer status reports *******//
-      Route::prefix(config('app.hr'))->group(function () {
+    //******** transfer status reports *******//
+    Route::prefix(config('app.hr'))->group(function () {
         Route::get('transfer-status-index', 'App\Http\Controllers\TransferStatusController@index')->name('transfer-status-index');
         Route::get('transfer-status-edit/{id}', 'App\Http\Controllers\TransferStatusController@edit')->name('transfer-status-edit');
         Route::put('transfer-status-update/{id}', 'App\Http\Controllers\TransferStatusController@update')->name('transfer-status-update');
         Route::get('transfer-status-report', 'App\Http\Controllers\TransferStatusController@report')->name('transfer-status-report');
         Route::get('transfer-status-time', 'App\Http\Controllers\TransferStatusController@time')->name('transfer-status-time');
+    });
+
+    //******** transfer status reports *******//
+    Route::prefix(config('app.hr'))->group(function () {
+        Route::resource('empty-designations', 'App\Http\Controllers\EmptyDesignationController');
+        Route::get('empty-designations-report', 'App\Http\Controllers\EmptyDesignationController@report')->name('empty-designations-report');
     });
 
       //******** dashboard reports *******//
