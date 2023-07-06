@@ -12,6 +12,7 @@ use App\Http\Requests\TransferApplication\ApplicationUpdateRequest;
 use App\Models\DesignationWorkstation;
 use App\Models\GeneralInformation;
 use App\Models\TransferStatus;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Designation;
@@ -23,9 +24,7 @@ use App\Models\EmployeePensionPrl;
 use App\Models\EmployeeTransferApplication;
 use DataTables;
 use Illuminate\Support\Arr;
-use Validator;
 use Session;
-use DB;
 require_once('ConverterController.php');
 include(app_path() . '/library/commonFunction.php');
 
@@ -445,5 +444,17 @@ class EmployeeController extends Controller
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
+    }
+    public function upComingPension(Request $request)
+    {
+        if ($request->ajax()) {
+            $alldata= GeneralInformation::with(['district', 'mainDesignation', 'presentWorkStation', 'presentDesignation'])
+                            ->whereDate('prl_date','>=', Carbon::now()->subDays(15))
+                            ->whereDate('prl_date','<=', Carbon::now()->addDays(15))
+                            ->get();
+            return DataTables::of($alldata)
+            ->addIndexColumn()->make(True);
+        }
+        return view ('employee.pensionPrlInformation.upComingReport');   
     }
 }

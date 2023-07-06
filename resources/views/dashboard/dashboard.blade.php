@@ -186,6 +186,22 @@
 				</a>
 			</div>
 			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
+				<a href="{{route('up-coming-pensions')}}" target="_blank">
+					<div class="stats-tile">
+						<div class="sale-icon">
+							<img src="{{asset('custom/img/dashboard/pension.gif')}}" alt="">
+						</div>
+						<div class="sale-details">
+							<h2>{{$upComingPensions}}</h2>
+							<p>আসন্ন পেনশন</p>
+						</div>
+						<div class="sale-graph">
+							<div id="sparklineLine5"></div>
+						</div>
+					</div>
+				</a>
+			</div>
+			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
 				<a href="{{route('pension-employee')}}" target="_blank">
 					<div class="stats-tile">
 						<div class="sale-icon">

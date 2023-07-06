@@ -99,6 +99,7 @@ Route::middleware('auth')->group(function () {
         Route::get('employee-pension-prl-edit/{id}', 'App\Http\Controllers\EmployeeController@pensionAndPrlFormEdit')->name('employee-pension-prl-edit');
         Route::put('employee-pension-prl-edit/{id}', 'App\Http\Controllers\EmployeeController@pensionAndPrlFormUpdate')->name('employee-pension-prl-update');
         Route::get('employee-pension-prl-delete/{id}', 'App\Http\Controllers\EmployeeController@pensionAndPrlDelete')->name('employee-pension-prl-delete');
+        Route::get('up-coming-pensions', 'App\Http\Controllers\EmployeeController@upComingPension')->name('up-coming-pensions');
 
     });
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DesignationWorkstation;
 use App\Models\GeneralInformation;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Workstation;
 use App\Models\Designation;
@@ -41,6 +42,7 @@ class HomeController extends Controller
         $data['assitantDirectors'] = GeneralInformation::where('status',1)->where('present_designation_id',5)->count();
         $data['subAssitantDirectors'] = GeneralInformation::where('status',1)->where('present_designation_id',6)->count();
         $data['runningEmployees'] = GeneralInformation::where('status',1)->count();
+        $data['upComingPensions'] = GeneralInformation::whereDate('prl_date','>=', Carbon::now()->subDays(15))->whereDate('prl_date','<=', Carbon::now()->addDays(15))->count();
         $data['pensionEmployees'] = GeneralInformation::where('status',0)->count();
         return view('dashboard.dashboard',$data);
     }

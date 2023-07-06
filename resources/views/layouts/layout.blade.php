@@ -291,7 +291,8 @@
                                  <li class="default-sidebar-dropdown {{(
                                     $url==config('app.hr').'/transfer-status-report' ||
                                     $url==config('app.hr').'/transfer-status-time' ||
-                                    $url==config('app.hr').'/empty-designations-report') ? 'active':''}}">
+                                    $url==config('app.hr').'/empty-designations-report' ||
+                                    $url==config('app.hr').'/up-coming-pensions') ? 'active':''}}">
                                     <a href="javascript::void(0)">
                                         <i class="icon-book"></i>
                                         <span class="menu-text">পদভিত্তিক কর্মস্থল</span>
@@ -306,6 +307,9 @@
                                             </li>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.hr').'/empty-designations-report'}}" class="{{($url==config('app.hr').'/empty-designations-report') ? 'current-page':''}}">শূন্য পদসমূহ</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.hr').'/up-coming-pensions'}}" class="{{($url==config('app.hr').'/up-coming-pensions') ? 'current-page':''}}">আসন্ন পেনশন তালিকা</a>
                                             </li>
                                         </ul>
                                     </div>
