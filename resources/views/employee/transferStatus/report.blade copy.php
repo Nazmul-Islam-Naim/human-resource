@@ -1,5 +1,5 @@
 @extends('layouts.layout')
-@section('title', 'পদভিত্তিক কর্মস্থলে কার্যকাল')
+@section('title', 'পদভিত্তিক বর্তমান কর্মস্থলের তালিকা')
 @section('content')
 <!-- Content Header (Page header) -->
 <?php
@@ -20,7 +20,7 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card card-primary">
           <div class="card-header d-flex justify-content-between align-items-center">
-              <h3 class="card-title">পদভিত্তিক কর্মস্থলে কার্যকাল</h3>
+              <h3 class="card-title">পদভিত্তিক বর্তমান কর্মস্থলের তালিকা</h3>
             </div>
           <!-- /.box-header -->
           <div class="card-body">
@@ -36,8 +36,10 @@
                         <th>মূল পদ</th>
                         <th>নিজ জেলা</th> 
                         <th>বর্তমান কর্মস্থল</th> 
-                        <th>বর্তমান কর্মস্থলে <br>যোগদানের তারিখ</th>
-                        <th>বর্তমান পদে মোট <br> কার্যকাল</th>
+                        <th>বঃ কর্মঃ যোঃ তাং</th>
+                        <th>পূর্ববর্তী কর্মস্থল</th>
+                        <th>পূঃ কর্মঃ যোঃ তাং</th>
+                        <th>পি আর এল</th>
                       </tr>
                     </thead>
                     <tbody></tbody>
@@ -88,7 +90,7 @@
 			serverSide: true,
 			processing: true,
 			ajax: {
-        url: "{{route('transfer-status-time')}}",
+        url: "{{route('transfer-status-report')}}",
         data: {start_date: start_date, end_date: end_date}
       },
       "lengthMenu": [[ 100, 150, 250, -1 ],[ '100', '150', '250', 'All' ]],
@@ -98,7 +100,7 @@
             {
                 extend: 'excel',
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7]
+                    columns: [ 0, 1, 2, 3,4,5,6,7,8,9,10]
                 },
                 messageTop: 'The information in this table is copyright to Sirius Cybernetics Corp.'
             },
@@ -124,12 +126,7 @@
  
                 },
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7],
-                    format: {
-                      header: function (data, columnIdx) {
-                            return data.replace(/<br\s*\/?>/gi, '<br>');
-                        }
-                    }
+                    columns: [ 0, 1, 2, 3,4,5,6,7,8,9,10]
                 },
                 messageBottom: null
             }
@@ -159,31 +156,39 @@
 						}
 					}
         },
-        {
-          data: 'timePeriod'
+				{
+          data: 'previous_workstation.name',
+          render:function(data, type, row){
+            if (data != null) {
+              return data;
+            } else {
+              return '';
+            }
+          }
+        },
+				{
+          data: 'previous_joining_date',
+          render: function(data, type, full, meta) {
+						if (data != null) {
+              const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
+							return toBn(dateFormat(new Date(data)).toString());
+						}else{
+              return ''
+            }
+					}
+        },
+				{
+          data: 'general_information.prl_date',
+          render: function(data, type, full, meta) {
+						if (data != null) {
+              const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
+							return toBn(dateFormat(new Date(data)).toString());
+						}
+					}
         }
 			]
     });
   }
-
-  $('#filter').click(function (e) { 
-    e.preventDefault();
-    var start_date = $('#start_date').val();
-    var end_date = $('#end_date').val();
-
-    if (start_date != '' && end_date != '') {
-      $('#example').DataTable().destroy();
-      filter_view(start_date, end_date);
-    } else {
-    }
-  });
-  $('#reset').click(function (e) { 
-    e.preventDefault();
-    $('#start_date').val('');
-    $('#end_date').val('');
-    $('#example').DataTable().destroy();
-    filter_view();
-  });
 
 });
 </script>

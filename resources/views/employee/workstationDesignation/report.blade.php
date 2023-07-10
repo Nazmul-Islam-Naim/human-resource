@@ -1,5 +1,5 @@
 @extends('layouts.layout')
-@section('title', 'পদভিত্তিক কর্মস্থলে কার্যকাল')
+@section('title', 'কার্যালয়ভিত্তিক জনবলের তথ্য')
 @section('content')
 <!-- Content Header (Page header) -->
 <?php
@@ -20,7 +20,8 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card card-primary">
           <div class="card-header d-flex justify-content-between align-items-center">
-              <h3 class="card-title">পদভিত্তিক কর্মস্থলে কার্যকাল</h3>
+              <h3 class="card-title">কার্যালয়ভিত্তিক জনবলের তথ্যঃ</h3>
+              <input type="hidden" value="{{$workstationId}}" id="workstationId">
             </div>
           <!-- /.box-header -->
           <div class="card-body">
@@ -29,18 +30,17 @@
                 <div class="table-responsive">
                   <table class="table table-bordered cell-border compact hover nowrap order-column row-border stripe" id="example"> 
                     <thead> 
-                      <tr> 
-                        <th>সিঃ</th>
-                        <th>নাম</th>
-                        <th>বর্তমান পদবী</th>
-                        <th>মূল পদ</th>
-                        <th>নিজ জেলা</th> 
-                        <th>বর্তমান কর্মস্থল</th> 
-                        <th>বর্তমান কর্মস্থলে <br>যোগদানের তারিখ</th>
-                        <th>বর্তমান পদে মোট <br> কার্যকাল</th>
+                      <tr class="dt-top"> 
+                        <th class="dt-wrap">ক্রমিক নং</th>
+                        <th class="dt-wrap">কর্মকর্তা / কর্মচারীর নাম</th>
+                        <th class="dt-wrap">বর্তমান পদবী</th> 
+                        <th class="dt-wrap">মূলপদ</th> 
+                        <th class="dt-wrap">কর্মস্থলে যোগদানের তারিখ</th> 
+                        <th class="dt-wrap">বর্তমান কর্মস্থলের কর্মকাল</th> 
+                        <th class="dt-wrap">মোট কর্মকাল</th> 
+                        <th class="dt-wrap">পিআরএল-এর তারিখ</th> 
                       </tr>
                     </thead>
-                    <tbody></tbody>
                   </table>
                 </div>
               </div>
@@ -61,8 +61,8 @@
 {!!Html::script('custom/yajraTableJs/dataTable.js')!!}
 {!!Html::script('custom/yajraTableJs/query.dataTables1.12.1.js')!!}
 <script>
-   // ==================== date format ===========
-   function dateFormat(data) { 
+
+  function dateFormat(data) { 
     let date, month, year;
     date = data.getDate();
     month = data.getMonth() + 1;
@@ -78,18 +78,18 @@
 
     return `${date}-${month}-${year}`;
   }
+
 	$(document).ready(function() {
 		'use strict';
-
-    filter_view();
-
-    function filter_view(start_date = '',end_date = '') {
-      var table = $('#example').DataTable({
+    const id = $('#workstationId').val();
+    var url = '{{route("workstations-report",":id")}}'; 
+    var url = url.replace(':id', id);
+   
+    var table = $('#example').DataTable({
 			serverSide: true,
 			processing: true,
 			ajax: {
-        url: "{{route('transfer-status-time')}}",
-        data: {start_date: start_date, end_date: end_date}
+        url: url,
       },
       "lengthMenu": [[ 100, 150, 250, -1 ],[ '100', '150', '250', 'All' ]],
       dom: 'Blfrtip',
@@ -98,7 +98,7 @@
             {
                 extend: 'excel',
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7]
+                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7]
                 },
                 messageTop: 'The information in this table is copyright to Sirius Cybernetics Corp.'
             },
@@ -121,15 +121,9 @@
  
                 $(win.document.body).find('table thead th').css('border','1px solid #ddd');  
                 $(win.document.body).find('table tbody td').css('border','1px solid #ddd');  
- 
                 },
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7],
-                    format: {
-                      header: function (data, columnIdx) {
-                            return data.replace(/<br\s*\/?>/gi, '<br>');
-                        }
-                    }
+                    columns: [ 0, 1, 2, 3, 4, 5, 6, 7]
                 },
                 messageBottom: null
             }
@@ -140,50 +134,62 @@
         {data: 'DT_RowIndex'},
 				{
           data: 'general_information.name_in_bangla',
+          render:function(data, type, row){
+            if(data != null){
+              return data;
+            }else{
+              return '';
+            }
+          }
+        },
+				{
+          data: 'designation.title',
+          render:function(data, type, row){
+            if(data != null){
+              return data;
+            }else{
+              return '';
+            }
+          }
+        },
+				{
+          data: 'general_information.main_designation.title',
+          render:function(data, type, row){
+            if(data != null){
+              return data;
+            }else{
+              return '';
+            }
+          }
+        },
+				{
+          data: 'joining_date',
           render: function(data, type, row) {
-            var url = '{{route("generalInformations.show",":id")}}'; 
-            var url = url.replace(':id', row.id);
-						return '<a href=' + url +'>'+ data +'</a>';
+            if (row.general_information_id != null) {
+              if (data != null) {
+                const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
+                return toBn(dateFormat(new Date(data)).toString());
+              }
+            }else{
+              return ''
+            }
 					}
         },
-				{data: 'general_information.present_designation.title'},
-				{data: 'general_information.main_designation.title'},
-				{data: 'general_information.district.name'},
-				{data: 'general_information.present_work_station.name'},
+        {data: 'timePeriod'},
+        {data: 'timePeriods'},
 				{
-          data: 'present_joining_date',
+          data: 'general_information.prl_date',
           render: function(data, type, full, meta) {
 						if (data != null) {
               const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
 							return toBn(dateFormat(new Date(data)).toString());
-						}
+						}else{
+              return '';
+            }
 					}
         },
-        {
-          data: 'timePeriod'
-        }
 			]
     });
-  }
-
-  $('#filter').click(function (e) { 
-    e.preventDefault();
-    var start_date = $('#start_date').val();
-    var end_date = $('#end_date').val();
-
-    if (start_date != '' && end_date != '') {
-      $('#example').DataTable().destroy();
-      filter_view(start_date, end_date);
-    } else {
-    }
-  });
-  $('#reset').click(function (e) { 
-    e.preventDefault();
-    $('#start_date').val('');
-    $('#end_date').val('');
-    $('#example').DataTable().destroy();
-    filter_view();
-  });
 
 });
 </script>

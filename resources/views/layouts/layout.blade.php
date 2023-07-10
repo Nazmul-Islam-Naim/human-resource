@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <!-- Meta -->
-        <meta name="description" content="Shah Ali Mazar">
+        <meta name="description" content="Islamic Foundation">
         <meta name="author" content="ParkerThemes">
         <link rel="shortcut icon" href="{{asset('backend/custom/img/fav.png')}}">
 
@@ -59,6 +59,12 @@
         
 		<!-- Summernote CSS -->
         {!!Html::style('backend/custom/vendor/summernote/summernote-bs4.css')!!}
+        
+		<!-- yajra custom CSS -->
+        {!!Html::style('backend/custom/yajraTableJs/custom.css')!!}
+
+        <!----------- print css ------------->
+        <link rel="stylesheet" type="text/css" href="{{asset('backend/custom/print/print.css')}}" media="print">
 
         <style>
             .default-sidebar-wrapper .default-sidebar-menu ul li.active a span {
@@ -291,6 +297,7 @@
                                  <li class="default-sidebar-dropdown {{(
                                     $url==config('app.hr').'/transfer-status-report' ||
                                     $url==config('app.hr').'/transfer-status-time' ||
+                                    $url==config('app.hr').'/workstations' || $url==(request()->is(config('app.hr').'/workstations-report/*')) ||
                                     $url==config('app.hr').'/empty-designations-report' ||
                                     $url==config('app.hr').'/up-coming-pensions') ? 'active':''}}">
                                     <a href="javascript::void(0)">
@@ -300,10 +307,13 @@
                                     <div class="default-sidebar-submenu">
                                         <ul>
                                             <li>
-                                                <a href="{{$baseUrl.'/'.config('app.hr').'/transfer-status-report'}}" class="{{($url==config('app.hr').'/transfer-status-report') ? 'current-page':''}}"> পদভিত্তিক বর্তমান কর্মস্থলের তালিকা </a>
+                                                <a href="{{$baseUrl.'/'.config('app.hr').'/transfer-status-report'}}" class="{{($url==config('app.hr').'/transfer-status-report') ? 'current-page':''}}"> পদওয়ারী বর্তমান কর্মস্থল </a>
                                             </li>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.hr').'/transfer-status-time'}}" class="{{($url==config('app.hr').'/transfer-status-time') ? 'current-page':''}}"> পদভিত্তিক কর্মস্থলে কার্যকাল </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.hr').'/workstations'}}" class="{{($url==config('app.hr').'/workstations' || $url==(request()->is(config('app.hr').'/workstations-report/*'))) ? 'current-page':''}}"> কার্যালয়ভিত্তিক জনবলের তথ্য </a>
                                             </li>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.hr').'/empty-designations-report'}}" class="{{($url==config('app.hr').'/empty-designations-report') ? 'current-page':''}}">শূন্য পদসমূহ</a>

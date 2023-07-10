@@ -1,10 +1,7 @@
 @extends('layouts.layout')
-@section('title', 'পদভিত্তিক বর্তমান কর্মস্থলের তালিকা')
+@section('title', 'পদওয়ারী বর্তমান কর্মস্থল')
 @section('content')
 <!-- Content Header (Page header) -->
-<?php
-  $baseUrl = URL::to('/');
-?>
 <!-- Content wrapper scroll start -->
 <div class="content-wrapper-scroll">
 
@@ -20,7 +17,7 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card card-primary">
           <div class="card-header d-flex justify-content-between align-items-center">
-              <h3 class="card-title">পদভিত্তিক বর্তমান কর্মস্থলের তালিকা</h3>
+              <h3 class="card-title">কর্মকর্তা / কর্মচারীগণের পদওয়ারী বর্তমান কর্মস্থলঃ</h3>
             </div>
           <!-- /.box-header -->
           <div class="card-body">
@@ -29,17 +26,15 @@
                 <div class="table-responsive">
                   <table class="table table-bordered cell-border compact hover nowrap order-column row-border stripe" id="example"> 
                     <thead> 
-                      <tr> 
-                        <th>সিঃ</th>
-                        <th>নাম</th>
-                        <th>বর্তমান পদবী</th>
-                        <th>মূল পদ</th>
-                        <th>নিজ জেলা</th> 
-                        <th>বর্তমান কর্মস্থল</th> 
-                        <th>বঃ কর্মঃ যোঃ তাং</th>
-                        <th>পূর্ববর্তী কর্মস্থল</th>
-                        <th>পূঃ কর্মঃ যোঃ তাং</th>
-                        <th>পি আর এল</th>
+                      <tr class="dt-top"> 
+                        <th class="dt-wrap">ক্রমিক নং</th>
+                        <th class="dt-wrap">কর্মকর্তা / কর্মচারীর নাম</th>
+                        <th class="dt-wrap">মূলপদ</th>
+                        <th class="dt-wrap">বর্তমান কর্মস্থলে যোগদানের তারিখ</th>
+                        <th class="dt-wrap">পূর্ববর্তী কর্মস্থল</th>
+                        <th class="dt-wrap">পিআরএল- এর তারিখ</th>
+                        <th class="dt-wrap">শৃংখলামূলক ব্যবস্থা (যদি থাকে)</th>
+                        <th class="dt-wrap">বিশেষ মন্তব্য</th>
                       </tr>
                     </thead>
                     <tbody></tbody>
@@ -100,7 +95,7 @@
             {
                 extend: 'excel',
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7,8,9,10]
+                    columns: [ 0, 1, 2, 3,4,5,6,7]
                 },
                 messageTop: 'The information in this table is copyright to Sirius Cybernetics Corp.'
             },
@@ -117,16 +112,21 @@
                 },
                 customize: function (win){
                 $(win.document.body).addClass('white-bg');
-                $(win.document.body).css('font-size', '10px');
+                $(win.document.body).find('table').css('font-size', '12px');
  
                 $(win.document.body).find('table').css('font-size', 'inherit');
  
                 $(win.document.body).find('table thead th').css('border','1px solid #ddd');  
-                $(win.document.body).find('table tbody td').css('border','1px solid #ddd');  
+                $(win.document.body).find('table tbody td').css('border','1px solid #ddd'); 
+                $(win.document.body).find('table thead tr').css('top', '0'); 
+                $(win.document.body).find('table thead tr').css('position', 'sticky'); 
+                $(win.document.body).find('table thead tr th').css('text-align', 'center'); 
+                $(win.document.body).find('table thead tr th').css('word-wrap', 'break-word'); 
+                $(win.document.body).find('table thead tr th').css('white-space', 'normal !important'); 
  
                 },
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7,8,9,10]
+                    columns: [ 0, 1, 2, 3,4,5,6,7]
                 },
                 messageBottom: null
             }
@@ -143,10 +143,7 @@
 						return '<a href=' + url +'>'+ data +'</a>';
 					}
         },
-				{data: 'general_information.present_designation.title'},
 				{data: 'general_information.main_designation.title'},
-				{data: 'general_information.district.name'},
-				{data: 'general_information.present_work_station.name'},
 				{
           data: 'present_joining_date',
           render: function(data, type, full, meta) {
@@ -167,17 +164,6 @@
           }
         },
 				{
-          data: 'previous_joining_date',
-          render: function(data, type, full, meta) {
-						if (data != null) {
-              const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
-							return toBn(dateFormat(new Date(data)).toString());
-						}else{
-              return ''
-            }
-					}
-        },
-				{
           data: 'general_information.prl_date',
           render: function(data, type, full, meta) {
 						if (data != null) {
@@ -185,29 +171,12 @@
 							return toBn(dateFormat(new Date(data)).toString());
 						}
 					}
-        }
+        },
+        {data:'disiplne'},
+        {data:'comment'}
 			]
     });
   }
-
-  $('#filter').click(function (e) { 
-    e.preventDefault();
-    var start_date = $('#start_date').val();
-    var end_date = $('#end_date').val();
-
-    if (start_date != '' && end_date != '') {
-      $('#example').DataTable().destroy();
-      filter_view(start_date, end_date);
-    } else {
-    }
-  });
-  $('#reset').click(function (e) { 
-    e.preventDefault();
-    $('#start_date').val('');
-    $('#end_date').val('');
-    $('#example').DataTable().destroy();
-    filter_view();
-  });
 
 });
 </script>

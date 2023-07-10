@@ -112,7 +112,13 @@ Route::middleware('auth')->group(function () {
         Route::get('transfer-status-time', 'App\Http\Controllers\TransferStatusController@time')->name('transfer-status-time');
     });
 
-    //******** transfer status reports *******//
+    //******** workstation wise employee *******//
+    Route::prefix(config('app.hr'))->group(function () {
+        Route::get('workstations', 'App\Http\Controllers\WorkstationDesignationController@workstations')->name('workstations');
+        Route::get('workstations-report/{id}', 'App\Http\Controllers\WorkstationDesignationController@report')->name('workstations-report');
+    });
+
+    //******** empty designations *******//
     Route::prefix(config('app.hr'))->group(function () {
         Route::resource('empty-designations', 'App\Http\Controllers\EmptyDesignationController');
         Route::get('empty-designations-report', 'App\Http\Controllers\EmptyDesignationController@report')->name('empty-designations-report');

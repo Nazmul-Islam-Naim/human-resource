@@ -40,7 +40,7 @@ class WorkstationDesignationController extends Controller
                     </li>
                 </ul>
 
-<?php return ob_get_clean();
+                <?php return ob_get_clean();
             })->make(True);
         }
         return view ('catalogs.workstationDesignation.index');
@@ -145,5 +145,77 @@ class WorkstationDesignationController extends Controller
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function workstations(Request $request)
+    {
+        if ($request->ajax()) {
+            $alldata= Workstation::all();
+            return DataTables::of($alldata)
+            ->addIndexColumn()->addColumn('action', function($row){
+                ob_start() ?>
+
+                <ul class="list-inline m-0">
+                    <li class="list-inline-item">
+                        <a href="<?php echo route('workstations-report',$row->id); ?>" class="badge bg-info badge-sm" data-id="<?php echo $row->id; ?>" title="Edit"><i class="icon-book-open"></i></a>
+                    </li>
+                </ul>
+
+                <?php return ob_get_clean();
+            })->make(True);
+        }
+        return view ('employee.workstationDesignation.workstations');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function report(Request $request, $id)
+    {
+        if ($request->ajax()) {
+            $alldata= DesignationWorkstation::with(['generalInformation','generalInformation.mainDesignation','generalInformation.presentDesignation','workstation', 'designation'])
+                            ->where('workstation_id', $id)
+                            ->get();
+            return DataTables::of($alldata)
+            ->addIndexColumn()->addColumn('timePeriod', function($row){
+                if (!empty($row->general_information_id)) {
+                    if ($row->joining_date <= Carbon::now()) {
+                        $workstationJoinDate = Carbon::parse($row->joining_date);
+                        $timePriod = $workstationJoinDate->diff(Carbon::now());
+                        return NumberToBangla::bnNum($timePriod->format('%y')).' বছর '.
+                               NumberToBangla::bnNum($timePriod->format('%m')).' মাস '.
+                               NumberToBangla::bnNum($timePriod->format('%d')).' দিন';
+                    } else {
+                        return '';
+                    }
+                } else {
+                    return '';
+                }
+                
+            })->addColumn('timePeriods', function($row){
+                if (!empty($row->general_information_id)) {$generalInformation = $row->generalInformation;
+                    if ($generalInformation->joining_date <= Carbon::now()) {
+                        $joinDate = Carbon::parse($generalInformation->joining_date);
+                        $timePriods = $joinDate->diff(Carbon::now());
+                        return NumberToBangla::bnNum($timePriods->format('%y')).' বছর '.
+                               NumberToBangla::bnNum($timePriods->format('%m')).' মাস '.
+                               NumberToBangla::bnNum($timePriods->format('%d')).' দিন';
+                    } else {
+                        return '';
+                    }
+                } else {
+                    return '';
+                }
+                
+            })->make(True);
+        }
+        return view ('employee.workstationDesignation.report', ['workstationId' => $id]);
     }
 }
