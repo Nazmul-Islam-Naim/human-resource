@@ -124,9 +124,9 @@ class EmployeeController extends Controller
                 <li class="list-inline-item">
                 <a href="<?php echo route('employee-release',$row->id); ?>" class="badge bg-secondary badge-sm" data-id="<?php echo $row->id; ?>">অব্যাহতি</i></a>
                 </li>
-                <li class="list-inline-item">
+                <!-- <li class="list-inline-item">
                 <a href="<?php echo route('employee-transfer-application',$row->id); ?>" class="badge bg-info badge-sm" data-id="<?php echo $row->id; ?>">দরখস্থ </i></a>
-                </li>
+                </li> -->
                 </ul>
 
                 <?php return ob_get_clean();
@@ -147,9 +147,9 @@ class EmployeeController extends Controller
                 <li class="list-inline-item">
                 <a href="<?php echo route('employee-release',$row->id); ?>" class="badge bg-secondary badge-sm" data-id="<?php echo $row->id; ?>">অব্যাহতি</i></a>
                 </li>
-                <li class="list-inline-item">
+                <!-- <li class="list-inline-item">
                 <a href="<?php echo route('employee-transfer-application',$row->id); ?>" class="badge bg-info badge-sm" data-id="<?php echo $row->id; ?>">দরখস্থ</i></a>
-                </li>
+                </li> -->
                 </ul>
 
                 <?php return ob_get_clean();
@@ -449,12 +449,24 @@ class EmployeeController extends Controller
     {
         if ($request->ajax()) {
             $alldata= GeneralInformation::with(['district', 'mainDesignation', 'presentWorkStation', 'presentDesignation'])
-                            ->whereDate('prl_date','>=', Carbon::now()->subDays(15))
+                            ->whereDate('prl_date','>=', Carbon::now())
                             ->whereDate('prl_date','<=', Carbon::now()->addDays(15))
                             ->get();
             return DataTables::of($alldata)
             ->addIndexColumn()->make(True);
         }
         return view ('employee.pensionPrlInformation.upComingReport');   
+    }
+    public function upComingPrl(Request $request)
+    {
+        if ($request->ajax()) {
+            $alldata= GeneralInformation::with(['presentDesignation'])
+                            ->whereDate('prl_date','>=', Carbon::now())
+                            ->whereDate('prl_date','<=', Carbon::now()->addDays(15))
+                            ->get();
+            return DataTables::of($alldata)
+            ->addIndexColumn()->make(True);
+        }
+        return view ('employee.pensionPrlInformation.upComingPrl');   
     }
 }

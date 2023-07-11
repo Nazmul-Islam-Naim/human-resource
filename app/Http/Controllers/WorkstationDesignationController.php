@@ -200,7 +200,8 @@ class WorkstationDesignationController extends Controller
                 }
                 
             })->addColumn('timePeriods', function($row){
-                if (!empty($row->general_information_id)) {$generalInformation = $row->generalInformation;
+                if (!empty($row->general_information_id)) {
+                    $generalInformation = $row->generalInformation;
                     if ($generalInformation->joining_date <= Carbon::now()) {
                         $joinDate = Carbon::parse($generalInformation->joining_date);
                         $timePriods = $joinDate->diff(Carbon::now());

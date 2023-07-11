@@ -2,13 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Enum\FreedomFighterEnum;
 use App\Enum\MaritialStatusEnum;
-use App\Enum\ReligionEnum;
 use App\Enum\SexEnum;
 use App\Http\Requests\GeneralIformation\CreateRequest;
 use App\Http\Requests\GeneralIformation\UpdateRequest;
-use App\Models\Department;
 use App\Models\Designation;
 use App\Models\DesignationWorkstation;
 use App\Models\District;
@@ -20,7 +17,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
+use Rakibhstu\Banglanumber\Facades\NumberToBangla;
 use Yajra\DataTables\DataTables;
+use Yajra\DataTables\Contracts\Formatter;
 
 class GeneralInformationController extends Controller
 {
@@ -49,7 +48,7 @@ class GeneralInformationController extends Controller
                     </li>
                 </ul>
 
-<?php return ob_get_clean();
+                <?php return ob_get_clean();
             })->make(True);
         }
         return view ('employee.generalInformation.index');
@@ -204,5 +203,59 @@ class GeneralInformationController extends Controller
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
+    }
+
+    
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function report(Request $request)
+    {
+        if ($request->ajax()) {
+            $alldata= GeneralInformation::with(['joiningDesignation','presentDesignation','presentDesignation','mainDesignation', 'employeeTransfer', 'employeeTransfer.workstation'])
+                            ->where('status', 1)
+                            ->get();
+            return DataTables::of($alldata)
+            ->addIndexColumn()
+            ->addColumn('workstations', function($row){
+                $workstations = '';
+                if (!empty($row->employeeTransfer)) {
+                    foreach ($row->employeeTransfer as $key => $workstation) {
+                       $workstations .= $workstation->workstation->name . '<br>';
+                    }
+                    return $workstations;
+                } else {
+                    return '';
+                }
+                
+            })
+            ->escapeColumns([])
+            ->addColumn('timePeriods', function($row){
+                $timePeriods = '';
+                $joinDate = '';
+                $releaseDate = '';
+                if (!empty($row->employeeTransfer)) {
+                    foreach ($row->employeeTransfer as $key => $date) {
+                        $joinDate = Carbon::parse($date->joining_date);
+                        $releaseDate = Carbon::parse($date->release_date);
+                        $timePeriods .= NumberToBangla::bnNum($joinDate->format('d')).'-'.
+                                       NumberToBangla::bnNum($joinDate->format('m')).'-'.
+                                       NumberToBangla::bnNum($joinDate->format('Y')).' / '.
+                                       NumberToBangla::bnNum($releaseDate->format('d')).'-'.
+                                       NumberToBangla::bnNum($releaseDate->format('m')).'-'.
+                                       NumberToBangla::bnNum($releaseDate->format('Y')). '<br>';
+                    }
+                    return $timePeriods;
+                } else {
+                    return '';
+                }
+                
+            })
+            ->escapeColumns([])
+            ->make(True);
+        }
+        return view ('employee.generalInformation.report');
     }
 }

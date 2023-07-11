@@ -287,17 +287,19 @@
                                         <span class="menu-text">পেনশন/পি আর এল তালিকা</span>
                                     </a>
                                 <!-------------- transfer application ------------>
-                                <li >
+                                {{-- <li >
                                     <a href="{{$baseUrl.'/'.config('app.hr').'/employee-transfer-application-list'}}" class="{{($url==config('app.hr').'/employee-transfer-application-list' || $url==config('app.hr').'/employee-transfer-application-list/create' || $url==(request()->is(config('app.hr').'/employee-transfer-application-list/*/edit')) || $url==(request()->is(config('app.hr').'/employee-transfer-application-list/*'))) ? 'selectedMenue':''}}">
                                         <i class="icon-message"></i>
                                         <span class="menu-text">স্থানান্তর আবেদন পত্র</span>
                                     </a>
-                                </li>
+                                </li> --}}
                                  <!-------------- workstation designation information part ------------>
                                  <li class="default-sidebar-dropdown {{(
                                     $url==config('app.hr').'/transfer-status-report' ||
-                                    $url==config('app.hr').'/transfer-status-time' ||
                                     $url==config('app.hr').'/workstations' || $url==(request()->is(config('app.hr').'/workstations-report/*')) ||
+                                    $url==config('app.hr').'/job-report' ||
+                                    $url==config('app.hr').'/up-coming-prls' ||
+                                    $url==config('app.hr').'/transfer-status-time' ||
                                     $url==config('app.hr').'/empty-designations-report' ||
                                     $url==config('app.hr').'/up-coming-pensions') ? 'active':''}}">
                                     <a href="javascript::void(0)">
@@ -310,10 +312,16 @@
                                                 <a href="{{$baseUrl.'/'.config('app.hr').'/transfer-status-report'}}" class="{{($url==config('app.hr').'/transfer-status-report') ? 'current-page':''}}"> পদওয়ারী বর্তমান কর্মস্থল </a>
                                             </li>
                                             <li>
-                                                <a href="{{$baseUrl.'/'.config('app.hr').'/transfer-status-time'}}" class="{{($url==config('app.hr').'/transfer-status-time') ? 'current-page':''}}"> পদভিত্তিক কর্মস্থলে কার্যকাল </a>
+                                                <a href="{{$baseUrl.'/'.config('app.hr').'/workstations'}}" class="{{($url==config('app.hr').'/workstations' || $url==(request()->is(config('app.hr').'/workstations-report/*'))) ? 'current-page':''}}"> কার্যালয়ভিত্তিক জনবলের তথ্য </a>
                                             </li>
                                             <li>
-                                                <a href="{{$baseUrl.'/'.config('app.hr').'/workstations'}}" class="{{($url==config('app.hr').'/workstations' || $url==(request()->is(config('app.hr').'/workstations-report/*'))) ? 'current-page':''}}"> কার্যালয়ভিত্তিক জনবলের তথ্য </a>
+                                                <a href="{{$baseUrl.'/'.config('app.hr').'/job-report'}}" class="{{($url==config('app.hr').'/job-report') ? 'current-page':''}}"> চাকুরী সংক্রান্ত তথ্য </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.hr').'/up-coming-prls'}}" class="{{($url==config('app.hr').'/up-coming-prls') ? 'current-page':''}}"> পদভিত্তিক পিআরএল-এর তথ্য </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.hr').'/transfer-status-time'}}" class="{{($url==config('app.hr').'/transfer-status-time') ? 'current-page':''}}"> পদভিত্তিক কর্মস্থলে কার্যকাল </a>
                                             </li>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.hr').'/empty-designations-report'}}" class="{{($url==config('app.hr').'/empty-designations-report') ? 'current-page':''}}">শূন্য পদসমূহ</a>

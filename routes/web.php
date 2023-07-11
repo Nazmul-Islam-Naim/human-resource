@@ -100,6 +100,7 @@ Route::middleware('auth')->group(function () {
         Route::put('employee-pension-prl-edit/{id}', 'App\Http\Controllers\EmployeeController@pensionAndPrlFormUpdate')->name('employee-pension-prl-update');
         Route::get('employee-pension-prl-delete/{id}', 'App\Http\Controllers\EmployeeController@pensionAndPrlDelete')->name('employee-pension-prl-delete');
         Route::get('up-coming-pensions', 'App\Http\Controllers\EmployeeController@upComingPension')->name('up-coming-pensions');
+        Route::get('up-coming-prls', 'App\Http\Controllers\EmployeeController@upComingPrl')->name('up-coming-prls');
 
     });
 
@@ -122,6 +123,11 @@ Route::middleware('auth')->group(function () {
     Route::prefix(config('app.hr'))->group(function () {
         Route::resource('empty-designations', 'App\Http\Controllers\EmptyDesignationController');
         Route::get('empty-designations-report', 'App\Http\Controllers\EmptyDesignationController@report')->name('empty-designations-report');
+    });
+
+    //******** job repotr *******//
+    Route::prefix(config('app.hr'))->group(function () {
+        Route::get('job-report', 'App\Http\Controllers\GeneralInformationController@report')->name('job-report');
     });
 
       //******** dashboard reports *******//
