@@ -138,4 +138,26 @@ class EducationalInformationController extends Controller
             return redirect()->back()->with('status_color','danger');
         }
     }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function report(Request $request)
+    {
+        if ($request->ajax()) {
+            $alldata= GeneralInformation::with([
+                'educationalInformationFirst',
+                'presentDesignation',
+                'presentWorkstation',
+                'educationalInformationFirst.degree',
+                'educationalInformationFirst.passingYear',
+                'educationalInformationFirst.readingSubject',
+                'educationalInformationFirst.board'
+                ])
+                ->get();
+            return DataTables::of($alldata)
+            ->addIndexColumn()->make(True);
+        }
+        return view ('employee.educationalInformation.report');
+    }
 }

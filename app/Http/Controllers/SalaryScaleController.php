@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SalaryScale\CreateRequest;
+use App\Http\Requests\SalaryScale\UpdateRequest;
 use Illuminate\Http\Request;
 use App\Models\SalaryScale;
+use Illuminate\Support\Arr;
 use Validator;
 use Response;
 use Session;
@@ -39,35 +42,13 @@ class SalaryScaleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'salary' => 'required',
-        ]);
-        if ($validator->fails()) {
-            Session::flash('flash_message', $validator->errors());
-            return redirect()->back()->with('status_color','warning');
-        }
-
-        $input = $request->all();
-        $input['branch_id'] = session('branch_id');
-        $input['status'] = 1;
-
-        DB::beginTransaction();
         try{
-            $bug=0;
-            $insert= SalaryScale::create($input);
-            DB::commit();
-        }catch(\Exception $e){
-            $bug=$e->errorInfo[1];
-            DB::rollback();
-        }
-
-        if($bug==0){
+            SalaryScale::create($request->all());
             Session::flash('flash_message','Grade Successfully Added !');
-            return redirect()->back()->with('status_color','success');
-        }else{
+            return redirect()->route('salary-scale.index')->with('status_color','success');
+        }catch(\Exception $e){
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
@@ -104,31 +85,16 @@ class SalaryScaleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
-        $data=SalaryScale::findOrFail($id);
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'salary' => 'required',
-        ]);
-        if ($validator->fails()) {
-            Session::flash('flash_message', $validator->errors());
-            return redirect()->back()->with('status_color','warning');
-        }
-              
-        $input = $request->all();
         try{
-            $bug=0;
-            $data->update($input);
-        }catch(\Exception $e){
-            $bug=$e->errorInfo[1];
-        }
-
-        if($bug==0){
+            $data = $request->all();
+            $method = Arr::pull($data, '_method');
+            $token = Arr::pull($data, '_token');
+            SalaryScale::where('id',$id)->update($data); 
             Session::flash('flash_message','Grade Successfully Updated !');
-            return redirect()->back()->with('status_color','warning');
-        }else{
+            return redirect()->route('salary-scale.index')->with('status_color','warning');
+        }catch(\Exception $e){
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
@@ -142,13 +108,11 @@ class SalaryScaleController extends Controller
      */
     public function destroy($id)
     {
-        $data = SalaryScale::findOrFail($id);
-        $action = $data->delete();
-
-        if($action){
+        try{
+            SalaryScale::where('id',$id)->delete(); 
             Session::flash('flash_message','Grade Successfully Deleted !');
-            return redirect()->back()->with('status_color','danger');
-        }else{
+            return redirect()->route('salary-scale.index')->with('status_color','warning');
+        }catch(\Exception $e){
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }

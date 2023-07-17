@@ -234,7 +234,7 @@
                                 <!-------------- employee inforamation part ------------>
                                 <li class="default-sidebar-dropdown {{(
                                     $url==config('app.hr').'/generalInformations' || $url==config('app.hr').'/generalInformations/create' || $url==(request()->is(config('app.hr').'/generalInformations/*/edit')) ||
-                                    $url==config('app.hr').'/educationalInformations' || $url==config('app.hr').'/educationalInformations/create' || $url==(request()->is(config('app.hr').'/educationalInformations/*/edit')) ||
+                                    $url==config('app.hr').'/educationalInformations-report' || $url==config('app.hr').'/educationalInformations/create' ||
                                     $url==config('app.hr').'/trainingInformations' || $url==config('app.hr').'/trainingInformations/create' || $url==(request()->is(config('app.hr').'/trainingInformations/*/edit')) ||
                                     $url==config('app.hr').'/publicationInformations' || $url==config('app.hr').'/publicationInformations/create' || $url==(request()->is(config('app.hr').'/publicationInformations/*/edit')) ||
                                     $url==config('app.hr').'/promotionInformations' || $url==config('app.hr').'/promotionInformations/create' || $url==(request()->is(config('app.hr').'/promotionInformations/*/edit')) ||
@@ -249,7 +249,7 @@
                                                 <a href="{{$baseUrl.'/'.config('app.hr').'/generalInformations'}}" class="{{($url==config('app.hr').'/generalInformations' || $url==config('app.hr').'/generalInformations/create' || $url==(request()->is(config('app.hr').'/generalInformations/*/edit'))) ? 'current-page':''}}"> সাধারন তথ্য </a>
                                             </li>
                                             <li>
-                                                <a href="{{$baseUrl.'/'.config('app.hr').'/educationalInformations'}}" class="{{($url==config('app.hr').'/educationalInformations' || $url==config('app.hr').'/educationalInformations/create' || $url==(request()->is(config('app.hr').'/educationalInformations/*/edit'))) ? 'current-page':''}}"> শিক্ষাসংক্রান্ত তথ্য </a>
+                                                <a href="{{$baseUrl.'/'.config('app.hr').'/educationalInformations-report'}}" class="{{($url==config('app.hr').'/educationalInformations-report' || $url==config('app.hr').'/educationalInformations/create') ? 'current-page':''}}"> শিক্ষাসংক্রান্ত তথ্য </a>
                                             </li>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.hr').'/trainingInformations'}}" class="{{($url==config('app.hr').'/trainingInformations' || $url==config('app.hr').'/trainingInformations/create' || $url==(request()->is(config('app.hr').'/trainingInformations/*/edit'))) ? 'current-page':''}}"> প্রশিক্ষন সম্পর্কিত তথ্য </a>
@@ -334,6 +334,7 @@
                                 </li>
                                  <!-------------- amendment information part ------------>
                                  <li class="default-sidebar-dropdown {{(
+                                    $url==config('app.hr').'/educationalInformations' || $url==(request()->is(config('app.hr').'/educationalInformations/*/edit')) ||
                                     $url==config('app.hr').'/transfer-status-index' ||
                                     $url==config('app.hr').'/empty-designations' || $url==(request()->is(config('app.hr').'/empty-designations/*/edit'))) ? 'active':''}}">
                                     <a href="javascript::void(0)">
@@ -347,6 +348,9 @@
                                             </li>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.hr').'/empty-designations'}}" class="{{($url==config('app.hr').'/empty-designations' || $url==(request()->is(config('app.hr').'/empty-designations/*/edit'))) ? 'current-page':''}}">শূন্য পদসমূহ</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.hr').'/educationalInformations'}}" class="{{($url==config('app.hr').'/educationalInformations' || $url==(request()->is(config('app.hr').'/educationalInformations/*/edit'))) ? 'current-page':''}}"> প্রশিক্ষন সম্পর্কিত তথ্য </a>
                                             </li>
                                         </ul>
                                     </div>

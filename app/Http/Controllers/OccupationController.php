@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Occupation\CreateRequest;
+use App\Http\Requests\Occupation\UpdateRequest;
 use Illuminate\Http\Request;
 use App\Models\Occupation;
+use Illuminate\Support\Arr;
 use Validator;
 use Response;
 use Session;
@@ -39,32 +42,13 @@ class OccupationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-        ]);
-        if ($validator->fails()) {
-            Session::flash('flash_message', $validator->errors());
-            return redirect()->back()->with('status_color','warning');
-        }
-
-        $input = $request->all();
-
-        DB::beginTransaction();
         try{
-            $bug=0;
-            $insert= Occupation::create($input);
-            DB::commit();
-        }catch(\Exception $e){
-            $bug=$e->errorInfo[1];
-            DB::rollback();
-        }
-
-        if($bug==0){
+            Occupation::create($request->all());
             Session::flash('flash_message','Occupation Successfully Added !');
-            return redirect()->back()->with('status_color','success');
-        }else{
+            return redirect()->route('occupation.index')->with('status_color','success');
+        }catch(\Exception $e){
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
@@ -101,30 +85,16 @@ class OccupationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
-        $data=Occupation::findOrFail($id);
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-        ]);
-        if ($validator->fails()) {
-            Session::flash('flash_message', $validator->errors());
-            return redirect()->back()->with('status_color','warning');
-        }
-              
-        $input = $request->all();
         try{
-            $bug=0;
-            $data->update($input);
-        }catch(\Exception $e){
-            $bug=$e->errorInfo[1];
-        }
-
-        if($bug==0){
+            $data = $request->all();
+            $method = Arr::pull($data, '_method');
+            $token = Arr::pull($data, '_token');
+            Occupation::where('id',$id)->update($data); 
             Session::flash('flash_message','Occupation Successfully Updated !');
-            return redirect()->back()->with('status_color','warning');
-        }else{
+            return redirect()->route('occupation.index')->with('status_color','warning');
+        }catch(\Exception $e){
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
@@ -138,13 +108,11 @@ class OccupationController extends Controller
      */
     public function destroy($id)
     {
-        $data = Occupation::findOrFail($id);
-        $action = $data->delete();
-
-        if($action){
+        try{
+            Occupation::where('id',$id)->delete(); 
             Session::flash('flash_message','Occupation Successfully Deleted !');
-            return redirect()->back()->with('status_color','danger');
-        }else{
+            return redirect()->route('occupation.index')->with('status_color','danger');
+        }catch(\Exception $e){
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }

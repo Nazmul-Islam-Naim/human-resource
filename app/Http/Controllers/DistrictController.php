@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\District\CreateRequest;
+use App\Http\Requests\District\UpdateRequest;
 use Illuminate\Http\Request;
 use App\Models\District;
+use Illuminate\Support\Arr;
 use Validator;
 use Response;
 use Session;
@@ -39,34 +42,13 @@ class DistrictController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-        ]);
-        if ($validator->fails()) {
-            Session::flash('flash_message', $validator->errors());
-            return redirect()->back()->with('status_color','warning');
-        }
-
-        $input = $request->all();
-        $input['branch_id'] = session('branch_id');
-        $input['status'] = 1;
-
-        DB::beginTransaction();
         try{
-            $bug=0;
-            $insert= District::create($input);
-            DB::commit();
+             District::create($request->all());
+             Session::flash('flash_message','District Successfully Added !');
+             return redirect()->route('district.index')->with('status_color','success');
         }catch(\Exception $e){
-            $bug=$e->errorInfo[1];
-            DB::rollback();
-        }
-
-        if($bug==0){
-            Session::flash('flash_message','District Successfully Added !');
-            return redirect()->back()->with('status_color','success');
-        }else{
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
@@ -103,30 +85,16 @@ class DistrictController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
-        $data=District::findOrFail($id);
-
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-        ]);
-        if ($validator->fails()) {
-            Session::flash('flash_message', $validator->errors());
-            return redirect()->back()->with('status_color','warning');
-        }
-              
-        $input = $request->all();
         try{
-            $bug=0;
-            $data->update($input);
-        }catch(\Exception $e){
-            $bug=$e->errorInfo[1];
-        }
-
-        if($bug==0){
+            $data = $request->all();
+            $method = Arr::pull($data, '_method');
+            $token = Arr::pull($data, '_token');
+            District::where('id',$id)->update($data);
             Session::flash('flash_message','District Successfully Updated !');
-            return redirect()->back()->with('status_color','warning');
-        }else{
+            return redirect()->route('district.index')->with('status_color','danger');
+        }catch(\Exception $e){
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
@@ -140,13 +108,11 @@ class DistrictController extends Controller
      */
     public function destroy($id)
     {
-        $data = District::findOrFail($id);
-        $action = $data->delete();
-
-        if($action){
+        try{
+            District::where('id',$id)->delete();
             Session::flash('flash_message','District Successfully Deleted !');
-            return redirect()->back()->with('status_color','danger');
-        }else{
+            return redirect()->route('district.index')->with('status_color','danger');
+        }catch(\Exception $e){
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }

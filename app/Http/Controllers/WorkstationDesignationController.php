@@ -32,9 +32,9 @@ class WorkstationDesignationController extends Controller
                 ob_start() ?>
 
                 <ul class="list-inline m-0">
-                    <li class="list-inline-item">
+                    <!-- <li class="list-inline-item">
                         <a href="<?php echo route('workstation-designations.edit',$row->id); ?>" class="badge bg-info badge-sm" data-id="<?php echo $row->id; ?>" title="Edit"><i class="icon-edit1"></i></a>
-                    </li>
+                    </li> -->
                     <li class="list-inline-item">
                         <button data-id="<?php echo $row->id; ?>" class="badge bg-danger badge-sm button-delete"><i class="icon-delete"></i></button>
                     </li>
@@ -68,10 +68,16 @@ class WorkstationDesignationController extends Controller
     {
         try{
             foreach ($request->designation_id as $key => $value) {
-                DesignationWorkstation::create([
-                    'workstation_id' => $request->workstation_id,
-                    'designation_id' => $value
-                ]);
+                DesignationWorkstation::updateOrCreate(
+                    [
+                        'workstation_id' => $request->workstation_id,
+                        'designation_id' => $value
+                    ],
+                    [
+                        'workstation_id' => $request->workstation_id,
+                        'designation_id' => $value
+                    ]
+                );
             }
             Session::flash('flash_message','Workstation Designation Successfully Added !');
             return redirect()->route('workstation-designations.index')->with('status_color','success');

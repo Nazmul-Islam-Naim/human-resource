@@ -50,7 +50,10 @@ class GeneralInformation extends Model
     public function spouseDistrict(){
         return $this->belongsTo(District::class,'spouse_district_id');
     }
-
+    public function educationalInformationFirst(){
+        return $this->hasOne(EducationalInformation::class)->orderBy('id','desc');
+    }
+    // one to many
     public function educationalInformation(){
         return $this->hasMany(EducationalInformation::class);
     }

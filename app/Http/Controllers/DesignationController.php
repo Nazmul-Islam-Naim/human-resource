@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Designation\CreateRequest;
+use App\Http\Requests\Designation\UpdateRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Designation;
 use Validator;
@@ -42,35 +45,14 @@ class DesignationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
         // Gate::authorize('app.designations.create');
-        $validator = Validator::make($request->all(), [
-            'title' => 'required',
-        ]);
-        if ($validator->fails()) {
-            Session::flash('flash_message', $validator->errors());
-            return redirect()->back()->with('status_color','warning');
-        }
-
-        $input = $request->all();
-        $input['slug']  = Str::slug($request->title);
-
-        DB::beginTransaction();
         try{
-            $bug=0;
-            $insert= Designation::create($input);
-            DB::commit();
-        }catch(\Exception $e){
-            $bug=$e->errorInfo[1];
-            dd($e->getMessage());
-            DB::rollback();
-        }
-
-        if($bug==0){
+            Designation::create($request->all());
             Session::flash('flash_message','Designation Successfully Added !');
-            return redirect()->back()->with('status_color','success');
-        }else{
+            return redirect()->route('designation.index')->with('status_color','success');
+        }catch(\Exception $e){
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
@@ -108,32 +90,17 @@ class DesignationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
-        // Gate::authorize('app.designations.edit');
-        $data=Designation::findOrFail($id);
-
-        $validator = Validator::make($request->all(), [
-            'title' => 'required',
-        ]);
-        if ($validator->fails()) {
-            Session::flash('flash_message', $validator->errors());
-            return redirect()->back()->with('status_color','warning');
-        }
-              
-        $input = $request->all();
-        $input['slug']  = Str::slug($request->title);
+        // Gate::authorize('app.designations.edit');   
         try{
-            $bug=0;
-            $data->update($input);
-        }catch(\Exception $e){
-            $bug=$e->errorInfo[1];
-        }
-
-        if($bug==0){
+            $data = $request->all();
+            $method = Arr::pull($data, '_method');
+            $token = Arr::pull($data, '_token');
+            Designation::where('id',$id)->update($data); 
             Session::flash('flash_message','Designation Successfully Updated !');
-            return redirect()->back()->with('status_color','warning');
-        }else{
+            return redirect()->route('designation.index')->with('status_color','warning');
+        }catch(\Exception $e){
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
@@ -148,13 +115,11 @@ class DesignationController extends Controller
     public function destroy($id)
     {
         // Gate::authorize('app.designations.destroy');
-        $data = Designation::findOrFail($id);
-        $action = $data->delete();
-
-        if($action){
+        try{
+            Designation::where('id',$id)->delete(); 
             Session::flash('flash_message','Designation Successfully Deleted !');
-            return redirect()->back()->with('status_color','danger');
-        }else{
+            return redirect()->route('designation.index')->with('status_color','danger');
+        }catch(\Exception $e){
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }

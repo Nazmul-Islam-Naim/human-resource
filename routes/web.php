@@ -65,6 +65,11 @@ Route::middleware('auth')->group(function () {
         Route::resource('promotionInformations', 'App\Http\Controllers\PromotionInformationController');
         Route::resource('caseInformations', 'App\Http\Controllers\CaseInformationController');
     });
+    //******** educational information *******//
+    Route::prefix(config('app.hr'))->group(function () {
+        Route::resource('educationalInformations', 'App\Http\Controllers\EducationalInformationController');
+        Route::get('educationalInformations-report', 'App\Http\Controllers\EducationalInformationController@report')->name('educationalInformations-report');
+    });
     
     //******** Human Resource *******//
     Route::prefix(config('app.hr'))->group(function () {
