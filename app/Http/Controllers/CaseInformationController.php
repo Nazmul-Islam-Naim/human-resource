@@ -64,7 +64,7 @@ class CaseInformationController extends Controller
                 $employee->caseInformation()->create($data);
             }
             Session::flash('flash_message','Information Successfully Added !');
-            return redirect()->route('caseInformations.index')->with('status_color','success');
+            return redirect()->route('caseInformations-report')->with('status_color','success');
         } catch (\Exception $exception) {
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
@@ -125,5 +125,23 @@ class CaseInformationController extends Controller
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function report(Request $request)
+    {
+        if ($request->ajax()) {
+            $alldata= GeneralInformation::with([
+                'caseInformationFirst',
+                'presentDesignation',
+                'presentWorkstation'
+            ])
+            ->get();
+            return DataTables::of($alldata)
+            ->addIndexColumn()->make(True);
+        }
+        return view ('employee.caseInformation.report');
     }
 }

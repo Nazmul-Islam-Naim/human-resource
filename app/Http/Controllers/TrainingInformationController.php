@@ -37,7 +37,7 @@ class TrainingInformationController extends Controller
                     </li>
                 </ul>
 
-<?php return ob_get_clean();
+                <?php return ob_get_clean();
             })->make(True);
         }
         return view ('employee.trainingInformation.index');
@@ -68,7 +68,7 @@ class TrainingInformationController extends Controller
                 $employee->trainingInformation()->create($data);
             }
             Session::flash('flash_message','Information Successfully Added !');
-            return redirect()->route('trainingInformations.index')->with('status_color','success');
+            return redirect()->route('trainingInformations-report')->with('status_color','success');
         } catch (\Exception $exception) {
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
@@ -131,5 +131,25 @@ class TrainingInformationController extends Controller
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function report(Request $request)
+    {
+        if ($request->ajax()) {
+            $alldata= GeneralInformation::with([
+                'trainingInformationFirst',
+                'presentDesignation',
+                'presentWorkstation',
+                'trainingInformationFirst.course',
+                'trainingInformationFirst.institute'
+                ])
+                ->get();
+            return DataTables::of($alldata)
+            ->addIndexColumn()->make(True);
+        }
+        return view ('employee.trainingInformation.report');
     }
 }

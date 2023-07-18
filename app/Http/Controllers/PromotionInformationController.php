@@ -37,7 +37,7 @@ class PromotionInformationController extends Controller
                     </li>
                 </ul>
 
-<?php return ob_get_clean();
+                <?php return ob_get_clean();
             })->make(True);
         }
         return view ('employee.promotionInformation.index');
@@ -64,7 +64,7 @@ class PromotionInformationController extends Controller
             $employee->promotionInformation()->create($request->all());
             $employee->update(['main_designation_id'=>$request->designation_id]);
             Session::flash('flash_message','Information Successfully Added !');
-            return redirect()->route('promotionInformations.index')->with('status_color','success');
+            return redirect()->route('promotionInformations-report')->with('status_color','success');
         } catch (\Exception $exception) {
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
@@ -129,5 +129,25 @@ class PromotionInformationController extends Controller
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function report(Request $request)
+    {
+        if ($request->ajax()) {
+            $alldata= GeneralInformation::with([
+                'promotionInformationFirst',
+                'presentDesignation',
+                'presentWorkstation',
+                'promotionInformationFirst.promotionDesignation',
+                'promotionInformationFirst.salaryScale'
+            ])
+            ->get();
+            return DataTables::of($alldata)
+            ->addIndexColumn()->make(True);
+        }
+        return view ('employee.promotionInformation.report');
     }
 }

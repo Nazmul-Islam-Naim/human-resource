@@ -50,8 +50,25 @@ class GeneralInformation extends Model
     public function spouseDistrict(){
         return $this->belongsTo(District::class,'spouse_district_id');
     }
+
     public function educationalInformationFirst(){
         return $this->hasOne(EducationalInformation::class)->orderBy('id','desc');
+    }
+    
+    public function trainingInformationFirst(){
+        return $this->hasOne(TrainingInformation::class)->orderBy('id','desc');
+    }
+    
+    public function publicationInformationFirst(){
+        return $this->hasOne(PublicationInformation::class)->orderBy('id','desc');
+    }
+    
+    public function promotionInformationFirst(){
+        return $this->hasOne(PromotionInformation::class)->orderBy('id','desc');
+    }
+    
+    public function caseInformationFirst(){
+        return $this->hasOne(CaseInformation::class)->orderBy('id','desc');
     }
     // one to many
     public function educationalInformation(){

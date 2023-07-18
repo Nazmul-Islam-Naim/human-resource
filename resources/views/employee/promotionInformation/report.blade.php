@@ -1,5 +1,5 @@
 @extends('layouts.layout')
-@section('title', 'কর্মকর্তা/কর্মচারীর শিক্ষাসংক্রান্ত তথ্যাদির তালিকা')
+@section('title', 'কর্মকর্তা/কর্মচারীর পদোন্নতি সম্পর্কিত তথ্যাদির তালিকা')
 @section('content')
 <!-- Content Header (Page header) -->
 <?php
@@ -17,11 +17,11 @@
         @include('common.commonFunction')
       </div>
   
-      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"> 
         <div class="card card-primary">
           <div class="card-header d-flex justify-content-between align-items-center">
-              <h3 class="card-title">কর্মকর্তা/কর্মচারীর শিক্ষাসংক্রান্ত তথ্যাদির তালিকা</h3>
-              <a href="{{route('educationalInformations.create')}}" class="btn btn-success btn-sm pull-right"><i class="icon-plus-circle"></i> <b>তথ্য যোগ করুন</b></a>
+              <h3 class="card-title">কর্মকর্তা/কর্মচারীর পদোন্নতি সম্পর্কিত তথ্যাদির তালিকা</h3>
+              <a href="{{route('promotionInformations.create')}}" class="btn btn-success btn-sm pull-right"><i class="icon-plus-circle"></i> <b>তথ্য যোগ করুন</b></a>
             </div>
           <!-- /.box-header -->
           <div class="card-body">
@@ -35,11 +35,10 @@
                         <th>নাম</th>
                         <th>বর্তমান পদবী</th> 
                         <th>বর্তমান কর্মস্থল</th> 
-                        <th>ডিগ্রী </th> 
-                        <th>পাসের সন </th> 
-                        <th>পাঠিত বিষয় </th> 
-                        <th>বোর্ড/বিশ্ববিদ্যালয় </th> 
-                        <th>ফলাফল </th> 
+                        <th>পদের নাম </th> 
+                        <th>পদোন্নতির তারিখ</th> 
+                        <th>আদেশ নং ও তারিখ</th>
+                        <th>পে-স্কেল </th> 
                       </tr>
                     </thead>
                   </table>
@@ -83,11 +82,11 @@
 		'use strict';
 
    
-    var table = $('#example').DataTable({
+    var table = $('#example').DataTable({ 
 			serverSide: true,
 			processing: true,
 			ajax: {
-        url: "{{route('educationalInformations-report')}}",
+        url: "{{route('promotionInformations-report')}}",
       },
       "lengthMenu": [[ 100, 150, 250, -1 ],[ '100', '150', '250', 'All' ]],
       dom: 'Blfrtip',
@@ -141,7 +140,7 @@
 				{data: 'present_designation.title'},
 				{data: 'present_workstation.name'},
 				{
-          data: 'educational_information_first.degree.name',
+          data: 'promotion_information_first.promotion_designation.title',
           render:function(data, type, row){
             if (data != null) {
               return data;
@@ -151,7 +150,29 @@
           }
         },
 				{
-          data: 'educational_information_first.passing_year.name',
+          data: 'promotion_information_first.promotion_date',
+          render:function(data, type, row){
+            if (data != null) {
+              const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
+              return toBn(dateFormat(new Date(data)).toString());
+            } else {
+              return '';
+            }
+          }
+        },
+				{
+          data: 'promotion_information_first.date',
+          render:function(data, type, row){
+            if (data != null) {
+              const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
+              return toBn(dateFormat(new Date(data)).toString());
+            } else {
+              return '';
+            }
+          }
+        },
+				{
+          data: 'promotion_information_first.salary_scale.salary',
           render:function(data, type, row){
             if (data != null) {
               return data;
@@ -160,37 +181,33 @@
             }
           }
         },
-				{
-          data: 'educational_information_first.reading_subject.name',
-          render:function(data, type, row){
-            if (data != null) {
-              return data;
-            } else {
-              return '';
-            }
-          }
-        },
-				{
-          data: 'educational_information_first.board.name',
-          render:function(data, type, row){
-            if (data != null) {
-              return data;
-            } else {
-              return '';
-            }
-          }
-        },
-				{
-          data: 'educational_information_first.result',
-          render:function(data, type, row){
-            if (data != null) {
-              return data;
-            } else {
-              return '';
-            }
-          }
-        }
 			]
+    });
+
+     //-------- Delete single data with Ajax --------------//
+     $("#example").on("click", ".button-delete", function(e) {
+			  e.preventDefault();
+
+        var confirm = window.confirm('Are you sure want to delete data?');
+        if (confirm != true) {
+          return false;
+        }
+        var id = $(this).data('id');
+        var link = '{{route("promotionInformations.destroy",":id")}}';
+        var link = link.replace(':id', id);
+        var token = '{{csrf_token()}}';
+        $.ajax({
+          url: link,
+          type: 'POST',
+          data: {
+            '_method': 'DELETE',
+            '_token': token
+          },
+          success: function(data) {
+            table.ajax.reload();
+          },
+
+        });
     });
 
 });

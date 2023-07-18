@@ -1,5 +1,5 @@
 @extends('layouts.layout')
-@section('title', 'কর্মকর্তা/কর্মচারীর শিক্ষাসংক্রান্ত তথ্যাদির তালিকা')
+@section('title', 'কর্মকর্তা/কর্মচারীর প্রকাশনা সম্পর্কিত তথ্যাদির তালিকা')
 @section('content')
 <!-- Content Header (Page header) -->
 <?php
@@ -20,8 +20,8 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card card-primary">
           <div class="card-header d-flex justify-content-between align-items-center">
-              <h3 class="card-title">কর্মকর্তা/কর্মচারীর শিক্ষাসংক্রান্ত তথ্যাদির তালিকা</h3>
-              <a href="{{route('educationalInformations.create')}}" class="btn btn-success btn-sm pull-right"><i class="icon-plus-circle"></i> <b>তথ্য যোগ করুন</b></a>
+              <h3 class="card-title">কর্মকর্তা/কর্মচারীর প্রকাশনা সম্পর্কিত তথ্যাদির তালিকা</h3>
+              <a href="{{route('publicationInformations.create')}}" class="btn btn-success btn-sm pull-right"><i class="icon-plus-circle"></i> <b>তথ্য যোগ করুন</b></a>
             </div>
           <!-- /.box-header -->
           <div class="card-body">
@@ -35,11 +35,10 @@
                         <th>নাম</th>
                         <th>বর্তমান পদবী</th> 
                         <th>বর্তমান কর্মস্থল</th> 
-                        <th>ডিগ্রী </th> 
-                        <th>পাসের সন </th> 
-                        <th>পাঠিত বিষয় </th> 
-                        <th>বোর্ড/বিশ্ববিদ্যালয় </th> 
-                        <th>ফলাফল </th> 
+                        <th>প্রকাশনার শিরোনাম </th> 
+                        <th>জার্নালের নাম/বইয়ের নাম</th> 
+                        <th>প্রকাশকাল </th> 
+                        <th>মন্তব্য </th> 
                       </tr>
                     </thead>
                   </table>
@@ -83,11 +82,11 @@
 		'use strict';
 
    
-    var table = $('#example').DataTable({
+    var table = $('#example').DataTable({ 
 			serverSide: true,
 			processing: true,
 			ajax: {
-        url: "{{route('educationalInformations-report')}}",
+        url: "{{route('publicationInformations-report')}}",
       },
       "lengthMenu": [[ 100, 150, 250, -1 ],[ '100', '150', '250', 'All' ]],
       dom: 'Blfrtip',
@@ -96,7 +95,7 @@
             {
                 extend: 'excel',
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7]
+                    columns: [ 0, 1, 2, 3,4,5,6]
                 },
                 messageTop: 'The information in this table is copyright to Sirius Cybernetics Corp.'
             },
@@ -121,7 +120,7 @@
                 $(win.document.body).find('table tbody td').css('border','1px solid #ddd');  
                 },
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3,4,5,6,7],
+                    columns: [ 0, 1, 2, 3,4,5,6]
                 },
                 messageBottom: null
             }
@@ -141,7 +140,7 @@
 				{data: 'present_designation.title'},
 				{data: 'present_workstation.name'},
 				{
-          data: 'educational_information_first.degree.name',
+          data: 'publication_information_first.publication.name',
           render:function(data, type, row){
             if (data != null) {
               return data;
@@ -151,7 +150,7 @@
           }
         },
 				{
-          data: 'educational_information_first.passing_year.name',
+          data: 'publication_information_first.books_name',
           render:function(data, type, row){
             if (data != null) {
               return data;
@@ -161,7 +160,18 @@
           }
         },
 				{
-          data: 'educational_information_first.reading_subject.name',
+          data: 'publication_information_first.publication_date',
+          render:function(data, type, row){
+            if (data != null) {
+              const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
+              return toBn(dateFormat(new Date(data)).toString());
+            } else {
+              return '';
+            }
+          }
+        },
+				{
+          data: 'publication_information_first.comment',
           render:function(data, type, row){
             if (data != null) {
               return data;
@@ -170,26 +180,6 @@
             }
           }
         },
-				{
-          data: 'educational_information_first.board.name',
-          render:function(data, type, row){
-            if (data != null) {
-              return data;
-            } else {
-              return '';
-            }
-          }
-        },
-				{
-          data: 'educational_information_first.result',
-          render:function(data, type, row){
-            if (data != null) {
-              return data;
-            } else {
-              return '';
-            }
-          }
-        }
 			]
     });
 

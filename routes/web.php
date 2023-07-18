@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('user-list', UserController::class);
         Route::resource('user-role', RoleController::class);
     });
+
     //******** catalog *******//
     Route::prefix(config('app.cat'))->group(function () {
         Route::resource('department', 'App\Http\Controllers\DepartmentController');
@@ -46,6 +47,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('workstation-designations', 'App\Http\Controllers\WorkstationDesignationController');
         Route::resource('occupation', 'App\Http\Controllers\OccupationController');
     });
+
     //******** educational information *******//
     Route::prefix(config('app.education'))->group(function () {
         Route::resource('degrees', 'App\Http\Controllers\DegreeController');
@@ -56,21 +58,42 @@ Route::middleware('auth')->group(function () {
         Route::resource('institutes', 'App\Http\Controllers\InstituteController');
         Route::resource('publications', 'App\Http\Controllers\PublicationController');
     });
-    //******** employee *******//
+
+    //******** general information *******//
     Route::prefix(config('app.hr'))->group(function () {
         Route::resource('generalInformations', 'App\Http\Controllers\GeneralInformationController');
-        Route::resource('educationalInformations', 'App\Http\Controllers\EducationalInformationController');
-        Route::resource('trainingInformations', 'App\Http\Controllers\TrainingInformationController');
-        Route::resource('publicationInformations', 'App\Http\Controllers\PublicationInformationController');
-        Route::resource('promotionInformations', 'App\Http\Controllers\PromotionInformationController');
-        Route::resource('caseInformations', 'App\Http\Controllers\CaseInformationController');
     });
+
     //******** educational information *******//
     Route::prefix(config('app.hr'))->group(function () {
         Route::resource('educationalInformations', 'App\Http\Controllers\EducationalInformationController');
         Route::get('educationalInformations-report', 'App\Http\Controllers\EducationalInformationController@report')->name('educationalInformations-report');
     });
-    
+        
+    //******** training information *******//
+    Route::prefix(config('app.hr'))->group(function () {
+        Route::resource('trainingInformations', 'App\Http\Controllers\TrainingInformationController');
+        Route::get('trainingInformations-report', 'App\Http\Controllers\TrainingInformationController@report')->name('trainingInformations-report');
+    });
+        
+    //******** publication information *******//
+    Route::prefix(config('app.hr'))->group(function () {
+        Route::resource('publicationInformations', 'App\Http\Controllers\PublicationInformationController');
+        Route::get('publicationInformations-report', 'App\Http\Controllers\PublicationInformationController@report')->name('publicationInformations-report');
+    });
+        
+    //******** promotion information *******//
+    Route::prefix(config('app.hr'))->group(function () {
+        Route::resource('promotionInformations', 'App\Http\Controllers\PromotionInformationController');
+        Route::get('promotionInformations-report', 'App\Http\Controllers\PromotionInformationController@report')->name('promotionInformations-report');
+    });
+        
+    //******** case information *******//
+    Route::prefix(config('app.hr'))->group(function () {
+        Route::resource('caseInformations', 'App\Http\Controllers\CaseInformationController');
+        Route::get('caseInformations-report', 'App\Http\Controllers\CaseInformationController@report')->name('caseInformations-report');
+    });
+
     //******** Human Resource *******//
     Route::prefix(config('app.hr'))->group(function () {
         Route::get('employee-list', 'App\Http\Controllers\EmployeeController@index')->name('employee-list');

@@ -72,7 +72,7 @@ class EducationalInformationController extends Controller
                 $employee->educationalInformation()->create($data);
             }
             Session::flash('flash_message','Information Successfully Added !');
-            return redirect()->route('educationalInformations.index')->with('status_color','success');
+            return redirect()->route('educationalInformations-report')->with('status_color','success');
         } catch (\Exception $exception) {
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
