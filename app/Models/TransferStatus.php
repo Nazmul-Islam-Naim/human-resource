@@ -9,7 +9,9 @@ class TransferStatus extends Model
 {
     use HasFactory;
     protected $table = 'transfer_statuses';
-    protected $fillable = ['general_information_id', 'present_joining_date', 'workstation_id', 'designation_id', 'previous_joining_date'];
+    protected $fillable = [
+        'general_information_id', 'present_joining_date', 'workstation_id', 'designation_id', 'previous_joining_date', 'comment', 'discipline'
+    ];
 
     //relationship
 

@@ -88,6 +88,8 @@ class EmployeeController extends Controller
                     'workstation_id' => $employee->present_workstation_id,
                     'designation_id' => $employee->present_designation_id,
                     'previous_joining_date' => $employee->transferStatus->present_joining_date,
+                    'comment' => $query->comment,
+                    'discipline' => $query->discipline
                 ]);
                 
                 DesignationWorkstation::where([['workstation_id', $query->workstation_id], ['designation_id', $query->designation_id]])->update([

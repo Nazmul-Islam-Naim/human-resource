@@ -219,6 +219,21 @@
                 @error('comment')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
+              <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-12">
+                <!-- Field wrapper start -->
+                <div class="field-wrapper">
+                  <div class="input-group">
+                    <input type="text" 
+                    name="discipline" 
+                    class="form-control @error('discipline') is-invalid @enderror" 
+                    value="{{old('discipline')}}"
+                    autocomplete="off">
+                  </div>
+                  <div class="field-placeholder">বিশেষ শৃংখলা (যদি থাকে)</div>
+                </div>
+                @error('discipline')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
                 <!-- Field wrapper end -->
               </div>
             </div>

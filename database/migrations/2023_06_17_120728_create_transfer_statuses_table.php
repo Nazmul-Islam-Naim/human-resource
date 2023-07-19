@@ -18,6 +18,8 @@ return new class extends Migration
             $table->foreignId('workstation_id')->nullable()->comment('previous workstation')->constrained('workstations')->onDelete('cascade');
             $table->foreignId('designation_id')->nullable()->comment('previous designation')->constrained('designations')->onDelete('cascade');
             $table->date('previous_joining_date')->nullable()->comment('previous workstation joining date')->nullable();
+            $table->string('discipline')->nullable();
+            $table->string('comment')->nullable();
             $table->timestamps();
         });
     }

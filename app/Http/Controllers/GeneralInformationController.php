@@ -168,7 +168,9 @@ class GeneralInformationController extends Controller
                     'present_joining_date' => $data['joining_date']
                 ]);
 
-                $generalInformation->employeeTransfer()->update([
+                $transfer = $generalInformation->employeeTransfer()->first();
+
+                $transfer->update([
                     'workstation_id' => $generalInformation->present_workstation_id,
                     'designation_id' => $generalInformation->present_designation_id,
                     'salary_scale_id' => $generalInformation->salary_scale_id,

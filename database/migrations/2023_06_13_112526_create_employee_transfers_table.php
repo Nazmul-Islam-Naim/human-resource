@@ -24,6 +24,7 @@ return new class extends Migration
             $table->date('transferred_date')->nullable();
             $table->date('joining_date');
             $table->date('release_date')->nullable();
+            $table->string('discipline')->nullable();
             $table->string('comment')->nullable();
             $table->timestamps();
         });

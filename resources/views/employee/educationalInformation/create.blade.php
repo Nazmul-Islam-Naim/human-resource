@@ -104,7 +104,7 @@
                            </select>
                         </td>
                         <td style="border: 1px solid #fff; width:15%">
-                          <input type="text" class="form-control" name="addmore[0][result]" autocomplete="off" required>
+                          <input type="text" class="form-control" name="addmore[0][result]" autocomplete="off" placeholder="Max:15 letters" required>
                         </td>
                         <td style="border: 1px solid #fff; width:20%">
                           <input type="file" class="form-control" name="addmore[0][document]" autocomplete="off">
@@ -183,7 +183,7 @@ function addrow() {
       row += '</select>';
       row += '</td>';
       row += '<td style="border: 1px solid #fff; width:15%">';
-      row += ' <input type="text" class="form-control" name="addmore['+i+'][result]" autocomplete="off" required>';
+      row += ' <input type="text" class="form-control" name="addmore['+i+'][result]" placeholder="max:15 letters" autocomplete="off" required>';
       row += '</td>';
       row += '<td style="border: 1px solid #fff; width:20%">';
       row += ' <input type="file" class="form-control" name="addmore['+i+'][document]" autocomplete="off">';

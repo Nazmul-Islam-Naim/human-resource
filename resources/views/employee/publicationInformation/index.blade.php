@@ -105,10 +105,7 @@
                 extend: 'print',
                 title:"",
                 messageTop: function () {
-                  var top = '<center><p class ="text-center"><img src="{{asset("logo")}}/logo.png" width="40px" height="40px"/></p></center>';
-                  top += '<center><h3>ইসলামিক ফাউন্ডেশন</h3></center>';
-                  top += '<center><p style="margin-top:-10px">প্রতিষ্ঠাতা - জাতির পিতা বঙ্গবন্ধু শেখ মজিবুর রহমান </p></center>';
-                  top += '<center><p style="margin-top:-10px">হেড অফিস</p></center>';
+                  var top = '<center><p class ="text-center"><img src="{{asset("backend/custom/images")}}/header.png" height="100"/></p></center>';
                   
                   return top;
                 },
