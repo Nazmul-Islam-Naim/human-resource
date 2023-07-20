@@ -24,6 +24,7 @@ use App\Models\EmployeePensionPrl;
 use App\Models\EmployeeTransferApplication;
 use DataTables;
 use Illuminate\Support\Arr;
+use Rakibhstu\Banglanumber\Facades\NumberToBangla;
 use Session;
 require_once('ConverterController.php');
 include(app_path() . '/library/commonFunction.php');
@@ -447,28 +448,65 @@ class EmployeeController extends Controller
             return redirect()->back()->with('status_color','danger');
         }
     }
+    public function upComingPrl(Request $request)
+    {
+        $designations = Designation::select('id', 'title')->get();
+        if ($request->ajax()) {
+            if ($request->designation_id != '') {
+                $alldata= GeneralInformation::with(['presentDesignation'])
+                                ->where('status',1)
+                                ->where('present_designation_id',$request->designation_id)
+                                ->get();
+                return DataTables::of($alldata)
+                ->addIndexColumn()->make(True);
+            } else {
+                $alldata= GeneralInformation::with(['presentDesignation'])
+                                ->where('status',1)
+                                ->get();
+                return DataTables::of($alldata)
+                ->addIndexColumn()->make(True);
+            }
+        }
+        return view ('employee.pensionPrlInformation.upComingPrl', compact('designations'));   
+    }
     public function upComingPension(Request $request)
     {
         if ($request->ajax()) {
-            $alldata= GeneralInformation::with(['district', 'mainDesignation', 'presentWorkStation', 'presentDesignation'])
-                            ->whereDate('prl_date','>=', Carbon::now())
-                            ->whereDate('prl_date','<=', Carbon::now()->addDays(15))
-                            ->get();
-            return DataTables::of($alldata)
-            ->addIndexColumn()->make(True);
+            if ($request->start_date != '' && $request->end_date != '') {
+                $alldata= GeneralInformation::with(['district', 'mainDesignation', 'presentWorkStation', 'presentDesignation'])
+                                ->whereDate('prl_date','>=', Carbon::now())
+                                ->whereDate('prl_date','<=', Carbon::now()->addDays(15))
+                                ->whereDate('prl_date', '>=', $request->start_date)
+                                ->whereDate('prl_date', '<=', $request->end_date)
+                                ->where('status',1)
+                                ->get();
+                return DataTables::of($alldata)
+                ->addIndexColumn()
+                ->addColumn('timePeriod', function($row){
+                    $joiningDate = Carbon::parse($row->joining_date);
+                    $timePriod = $joiningDate->diff($row->prl_date);
+                    return NumberToBangla::bnNum($timePriod->format('%y')).' বছর '.
+                        NumberToBangla::bnNum($timePriod->format('%m')).' মাস '.
+                        NumberToBangla::bnNum($timePriod->format('%d')).' দিন';
+                })->make(True);
+            } else {
+                $alldata= GeneralInformation::with(['district', 'mainDesignation', 'presentWorkStation', 'presentDesignation'])
+                                ->whereDate('prl_date','>=', Carbon::now())
+                                ->whereDate('prl_date','<=', Carbon::now()->addDays(15))
+                                ->where('status',1)
+                                ->get();
+                return DataTables::of($alldata)
+                ->addIndexColumn()
+                ->addColumn('timePeriod', function($row){
+                    $joiningDate = Carbon::parse($row->joining_date);
+                    $timePriod = $joiningDate->diff($row->prl_date);
+                    return NumberToBangla::bnNum($timePriod->format('%y')).' বছর '.
+                        NumberToBangla::bnNum($timePriod->format('%m')).' মাস '.
+                        NumberToBangla::bnNum($timePriod->format('%d')).' দিন';
+                })->make(True);
+            }
+            
         }
         return view ('employee.pensionPrlInformation.upComingReport');   
-    }
-    public function upComingPrl(Request $request)
-    {
-        if ($request->ajax()) {
-            $alldata= GeneralInformation::with(['presentDesignation'])
-                            ->whereDate('prl_date','>=', Carbon::now())
-                            ->whereDate('prl_date','<=', Carbon::now()->addDays(15))
-                            ->get();
-            return DataTables::of($alldata)
-            ->addIndexColumn()->make(True);
-        }
-        return view ('employee.pensionPrlInformation.upComingPrl');   
     }
 }

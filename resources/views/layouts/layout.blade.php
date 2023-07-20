@@ -321,13 +321,13 @@
                                                 <a href="{{$baseUrl.'/'.config('app.hr').'/up-coming-prls'}}" class="{{($url==config('app.hr').'/up-coming-prls') ? 'current-page':''}}"> পদভিত্তিক পিআরএল-এর তথ্য </a>
                                             </li>
                                             <li>
+                                                <a href="{{$baseUrl.'/'.config('app.hr').'/up-coming-pensions'}}" class="{{($url==config('app.hr').'/up-coming-pensions') ? 'current-page':''}}">১৫ দিন পরে পিআরএল-এ গমন</a>
+                                            </li>
+                                            <li>
                                                 <a href="{{$baseUrl.'/'.config('app.hr').'/transfer-status-time'}}" class="{{($url==config('app.hr').'/transfer-status-time') ? 'current-page':''}}"> পদভিত্তিক কর্মস্থলে কার্যকাল </a>
                                             </li>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.hr').'/empty-designations-report'}}" class="{{($url==config('app.hr').'/empty-designations-report') ? 'current-page':''}}">শূন্য পদসমূহ</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{$baseUrl.'/'.config('app.hr').'/up-coming-pensions'}}" class="{{($url==config('app.hr').'/up-coming-pensions') ? 'current-page':''}}">আসন্ন পেনশন তালিকা</a>
                                             </li>
                                         </ul>
                                     </div>

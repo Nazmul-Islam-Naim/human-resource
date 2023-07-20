@@ -16,7 +16,7 @@
         @include('common.message')
         @include('common.commonFunction')
       </div>
-  
+
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card card-primary">
           <div class="card-header d-flex justify-content-between align-items-center">
@@ -80,12 +80,12 @@
   }
 
 	$(document).ready(function() {
-		'use strict';
-   
+	  'use strict';
+
     var table = $('#example').DataTable({
-			serverSide: true,
-			processing: true,
-			ajax: {
+      serverSide: true,
+      processing: true,
+      ajax: {
         url: '{{route("job-report")}}',
       },
       "lengthMenu": [[ 100, 150, 250, -1 ],[ '100', '150', '250', 'All' ]],
@@ -118,9 +118,9 @@
                 customize: function (win){
                 $(win.document.body).addClass('white-bg');
                 $(win.document.body).css('font-size', '10px');
- 
+
                 $(win.document.body).find('table').css('font-size', 'inherit');
- 
+
                 $(win.document.body).find('table thead th').css('border','1px solid #ddd');  
                 $(win.document.body).find('table tbody td').css('border','1px solid #ddd');   
                 },
@@ -138,11 +138,11 @@
                 messageBottom: null
             }
         ],
-			aaSorting: [[0, "asc"]],
+      aaSorting: [[0, "asc"]],
 
-			columns: [
+      columns: [
         {data: 'DT_RowIndex'},
-				{
+        {
           data: 'name_in_bangla',
           render:function(data, type, row){
             if(data != null){
@@ -152,16 +152,16 @@
             }
           }
         },
-				{
+        {
           data: 'joining_date',
           render: function(data, type, row) {
             if (data != null) {
               const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
               return toBn(dateFormat(new Date(data)).toString());
             }
-					}
+          }
         },
-				{
+        {
           data: 'joining_designation.title',
           render:function(data, type, row){
             if(data != null){
@@ -171,7 +171,7 @@
             }
           }
         },
-				{
+        {
           data: 'present_designation.title',
           render:function(data, type, row){
             if(data != null){
@@ -181,7 +181,7 @@
             }
           }
         },
-				{
+        {
           data: 'main_designation.title',
           render:function(data, type, row){
             if(data != null){
@@ -193,18 +193,18 @@
         },
         {data: 'workstations'},
         {data: 'timePeriods'},
-				{
+        {
           data: 'prl_date',
           render: function(data, type, full, meta) {
-						if (data != null) {
+            if (data != null) {
               const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
-							return toBn(dateFormat(new Date(data)).toString());
-						}else{
+              return toBn(dateFormat(new Date(data)).toString());
+            }else{
               return '';
             }
-					}
+          }
         },
-			]
+      ]
     });
 });
 </script>

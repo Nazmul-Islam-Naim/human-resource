@@ -60,15 +60,29 @@ class TransferStatusController extends Controller
     }
 
     public function report(Request $request){
+        $designations = Designation::select('id', 'title')->get();
         if ($request->ajax()) {
-            $transferStatuses = TransferStatus::with('generalInformation', 'generalInformation.mainDesignation', 'generalInformation.district',
-                                                     'generalInformation.presentDesignation', 'generalInformation.presentWorkStation',
-                                                     'previousWorkstation', 'previousDesignation'
-                                                     )->get();
-            return DataTables::of($transferStatuses)->addIndexColumn()->make(true);
+            if ($request->designation_id != '') {
+                $transferStatuses = TransferStatus::with('generalInformation', 'generalInformation.mainDesignation', 'generalInformation.district',
+                                                         'generalInformation.presentDesignation', 'generalInformation.presentWorkStation',
+                                                         'previousWorkstation', 'previousDesignation'
+                                                         )
+                                                         ->whereHas('generalInformation',function($query) use($request){
+                                                            $query->where('present_designation_id',$request->designation_id);
+                                                         })
+                                                         ->get();
+                return DataTables::of($transferStatuses)->addIndexColumn()->make(true);
+            } else {
+                $transferStatuses = TransferStatus::with('generalInformation', 'generalInformation.mainDesignation', 'generalInformation.district',
+                                                         'generalInformation.presentDesignation', 'generalInformation.presentWorkStation',
+                                                         'previousWorkstation', 'previousDesignation'
+                                                         )->get();
+                return DataTables::of($transferStatuses)->addIndexColumn()->make(true);
+            }
+            
         }
 
-        return view('employee.transferStatus.report');
+        return view('employee.transferStatus.report', compact('designations'));
     }
 
     public function time(Request $request){

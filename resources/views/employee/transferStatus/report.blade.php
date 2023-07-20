@@ -13,7 +13,58 @@
         @include('common.message')
         @include('common.commonFunction')
       </div>
-  
+      
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+        <!-- general form elements -->
+        <div class="card card-primary">
+          <div class="card-header">
+            <h3 class="card-title">পদবী অনুযায়ী কর্মকর্তা/কর্মচারী খুজুন </h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div class="col-md-12">
+                <div class="form-inline">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <div class="field-wrapper">
+                        <div class="input-group">
+                          <select name="designation_id" id="designation_id"
+                          class="form-control select2 @error('designation_id') is-invalid @enderror">
+                            <option value="">Select</option>
+                            @foreach($designations as $designation)
+                            <option value="{{$designation->id}}">
+                              {{$designation->title}}
+                            </option>
+                            @endforeach
+                          </select>
+                        </div>
+                        <div class="field-placeholder">পদবী নির্বাচন করুন </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="field-wrapper">
+                        <div class="input-group">
+                          <input type="submit" value="খুজুন" class="btn btn-success btn-md" id="filter">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="field-wrapper">
+                        <div class="input-group">
+                          <input type="submit" value="রিফ্রেশ" class="btn btn-secondary btn-md" id="reset">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card card-primary">
           <div class="card-header d-flex justify-content-between align-items-center">
@@ -33,7 +84,7 @@
                         <th class="dt-wrap">বর্তমান কর্মস্থলে যোগদানের তারিখ</th>
                         <th class="dt-wrap">পূর্ববর্তী কর্মস্থল</th>
                         <th class="dt-wrap">পিআরএল- এর তারিখ</th>
-                        <th class="dt-wrap">শৃংখলামূলক ব্যবস্থা (যদি থাকে)</th>
+                        <th class="dt-wrap">নিজ জেলা</th>
                         <th class="dt-wrap">বিশেষ মন্তব্য</th>
                       </tr>
                     </thead>
@@ -80,13 +131,13 @@
 
     filter_view();
 
-    function filter_view(start_date = '',end_date = '') {
+    function filter_view(designation_id = '') {
       var table = $('#example').DataTable({
 			serverSide: true,
 			processing: true,
 			ajax: {
         url: "{{route('transfer-status-report')}}",
-        data: {start_date: start_date, end_date: end_date}
+        data: {designation_id: designation_id}
       },
       "lengthMenu": [[ 100, 150, 250, -1 ],[ '100', '150', '250', 'All' ]],
       dom: 'Blfrtip',
@@ -140,7 +191,7 @@
 						return '<a href=' + url +'>'+ data +'</a>';
 					}
         },
-				{data: 'general_information.main_designation.title'},
+				{data: 'general_information.present_designation.title'},
 				{
           data: 'present_joining_date',
           render: function(data, type, full, meta) {
@@ -169,11 +220,27 @@
 						}
 					}
         },
-        {data:'discipline'},
+        {data:'general_information.district.name'},
         {data:'comment'}
 			]
     });
   }
+
+  $('#filter').click(function (e) { 
+    e.preventDefault();
+    var designation_id = $('#designation_id').val();
+
+    if (designation_id != '') {
+      $('#example').DataTable().destroy();
+      filter_view(designation_id);
+    } 
+  });
+  $('#reset').click(function (e) { 
+    e.preventDefault();
+    $('#designation_id').val('');
+    $('#example').DataTable().destroy();
+    filter_view();
+  });
 
 });
 </script>
