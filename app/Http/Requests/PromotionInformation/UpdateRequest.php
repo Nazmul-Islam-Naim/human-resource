@@ -23,6 +23,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'designation_id' => ['required'],
+            'workstation_id' => ['required'],
             'promotion_date' => ['required', 'date', 'date_format:Y-m-d'],
             'order_no' => ['required', 'max:255'],
             'date' => ['required', 'date', 'date_format:Y-m-d'],

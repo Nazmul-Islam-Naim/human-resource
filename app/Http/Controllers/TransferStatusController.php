@@ -86,18 +86,35 @@ class TransferStatusController extends Controller
     }
 
     public function time(Request $request){
+        $designations = Designation::select('id', 'title')->get();
         if ($request->ajax()) {
-            $transferStatuses = TransferStatus::with('generalInformation', 'generalInformation.mainDesignation', 'generalInformation.district',
-                                                     'generalInformation.presentDesignation', 'generalInformation.presentWorkStation',
-                                                     )->get();
-            return DataTables::of($transferStatuses)->addIndexColumn()->addColumn('timePeriod', function($row){
-                $joiningDate = Carbon::parse($row->present_joining_date);
-                $timePriod = $joiningDate->diff(Carbon::now());
-                return NumberToBangla::bnNum($timePriod->format('%y')).' বছর '.NumberToBangla::bnNum($timePriod->format('%m')).' মাস '.NumberToBangla::bnNum($timePriod->format('%d')).' দিন';
-            })->make(true);
+            if ($request->designation_id != '') {
+                $transferStatuses = TransferStatus::with('generalInformation', 'generalInformation.mainDesignation', 'generalInformation.district',
+                                                         'generalInformation.presentDesignation', 'generalInformation.presentWorkStation',
+                                                         )
+                                                         ->whereHas('generalInformation', function($query) use($request){
+                                                            $query->where('present_designation_id',$request->designation_id);
+                                                         })
+                                                         ->get();
+                return DataTables::of($transferStatuses)->addIndexColumn()->addColumn('timePeriod', function($row){
+                    $joiningDate = Carbon::parse($row->present_joining_date);
+                    $timePriod = $joiningDate->diff(Carbon::now());
+                    return NumberToBangla::bnNum($timePriod->format('%y')).' বছর '.NumberToBangla::bnNum($timePriod->format('%m')).' মাস '.NumberToBangla::bnNum($timePriod->format('%d')).' দিন';
+                })->make(true);
+            } else {
+                $transferStatuses = TransferStatus::with('generalInformation', 'generalInformation.mainDesignation', 'generalInformation.district',
+                                                         'generalInformation.presentDesignation', 'generalInformation.presentWorkStation',
+                                                         )->get();
+                return DataTables::of($transferStatuses)->addIndexColumn()->addColumn('timePeriod', function($row){
+                    $joiningDate = Carbon::parse($row->present_joining_date);
+                    $timePriod = $joiningDate->diff(Carbon::now());
+                    return NumberToBangla::bnNum($timePriod->format('%y')).' বছর '.NumberToBangla::bnNum($timePriod->format('%m')).' মাস '.NumberToBangla::bnNum($timePriod->format('%d')).' দিন';
+                })->make(true);
+            }
+            
         }
 
-        return view('employee.transferStatus.time');
+        return view('employee.transferStatus.time', compact('designations'));
     }
 
 }

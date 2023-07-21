@@ -46,7 +46,7 @@ class CaseInformationController extends Controller
      */
     public function create()
     {
-        $data['generalInformations'] = GeneralInformation::all();
+        $data['generalInformations'] = GeneralInformation::where('status',1)->get();
         return view('employee.caseInformation.create',$data);
     }
 
@@ -85,7 +85,7 @@ class CaseInformationController extends Controller
      */
     public function edit($id)
     { 
-        $data['generalInformations'] = GeneralInformation::all();
+        $data['generalInformations'] = GeneralInformation::where('status',1)->get();
         $data['caseInformation'] = CaseInformation::findOrFail($id);
         return view('employee.caseInformation.edit',$data);
     }
@@ -138,6 +138,7 @@ class CaseInformationController extends Controller
                 'presentDesignation',
                 'presentWorkstation'
             ])
+            ->where('status',1)
             ->get();
             return DataTables::of($alldata)
             ->addIndexColumn()->make(True);

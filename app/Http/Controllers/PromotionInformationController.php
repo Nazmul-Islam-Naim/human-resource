@@ -8,6 +8,7 @@ use App\Models\Designation;
 use App\Models\GeneralInformation;
 use App\Models\PromotionInformation;
 use App\Models\SalaryScale;
+use App\Models\Workstation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Session;
@@ -48,8 +49,9 @@ class PromotionInformationController extends Controller
      */
     public function create()
     {
-        $data['generalInformations'] = GeneralInformation::all();
+        $data['generalInformations'] = GeneralInformation::where('status',1)->get();
         $data['promotionDesignations'] = Designation::all();
+        $data['promotionWorkstations'] = Workstation::all();
         $data['salaryScales'] = SalaryScale::all();
         return view('employee.promotionInformation.create',$data);
     }
@@ -87,6 +89,7 @@ class PromotionInformationController extends Controller
     { 
         $data['generalInformations'] = GeneralInformation::all();
         $data['promotionDesignations'] = Designation::all();
+        $data['promotionWorkstations'] = Workstation::all();
         $data['salaryScales'] = SalaryScale::all();
         $data['promotionInformation'] = PromotionInformation::findOrFail($id);
         return view('employee.promotionInformation.edit',$data);
@@ -144,10 +147,52 @@ class PromotionInformationController extends Controller
                 'promotionInformationFirst.promotionDesignation',
                 'promotionInformationFirst.salaryScale'
             ])
+            ->where('status',1)
             ->get();
             return DataTables::of($alldata)
             ->addIndexColumn()->make(True);
         }
         return view ('employee.promotionInformation.report');
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function promotion(Request $request)
+    {
+        $designations = Designation::all();
+        if ($request->ajax()) {
+            if ($request->designation_id != '') {
+                $alldata= GeneralInformation::with([
+                    'promotionInformationFirst',
+                    'presentDesignation',
+                    'presentWorkstation',
+                    'district',
+                    'promotionInformationFirst.promotionDesignation',
+                    'promotionInformationFirst.promotionWorkstation',
+                ])
+                ->where('status',1)
+                ->whereHas('promotionInformationFirst', function($query) use($request){
+                    $query->where('designation_id', $request->designation_id);
+                })
+                ->get();
+                return DataTables::of($alldata)
+                ->addIndexColumn()->make(True);
+            } else {
+                $alldata= GeneralInformation::with([
+                    'promotionInformationFirst',
+                    'presentDesignation',
+                    'presentWorkstation',
+                    'district',
+                    'promotionInformationFirst.promotionDesignation',
+                    'promotionInformationFirst.promotionWorkstation',
+                ])
+                ->where('status',1)
+                ->get();
+                return DataTables::of($alldata)
+                ->addIndexColumn()->make(True);
+            }
+        }
+        return view ('employee.promotionInformation.promotion', compact('designations'));
     }
 }

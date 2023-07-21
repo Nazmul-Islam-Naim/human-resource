@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('general_information_id')->constrained('general_information')->onDelete('cascade');
             $table->foreignId('designation_id')->comment('promotioned designation')->constrained('designations')->onDelete('cascade');
+            $table->foreignId('workstation_id')->comment('promotioned workstation')->constrained('workstations')->onDelete('cascade');
             $table->date('promotion_date')->comment('promotion date');
             $table->string('order_no');
             $table->date('date')->comment('order and date');

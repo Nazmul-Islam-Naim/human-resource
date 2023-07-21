@@ -50,7 +50,7 @@ class EducationalInformationController extends Controller
      */
     public function create()
     {
-        $data['generalInformations'] = GeneralInformation::all();
+        $data['generalInformations'] = GeneralInformation::where('status',1)->get();
         $data['degrees'] = Degree::all();
         $data['passingYears'] = PassingYear::all();
         $data['readingSubjects'] = ReadingSubject::all();
@@ -93,7 +93,7 @@ class EducationalInformationController extends Controller
      */
     public function edit($id)
     { 
-        $data['generalInformations'] = GeneralInformation::all();
+        $data['generalInformations'] = GeneralInformation::where('status',1)->get();
         $data['degrees'] = Degree::all();
         $data['passingYears'] = PassingYear::all();
         $data['readingSubjects'] = ReadingSubject::all();
@@ -154,6 +154,7 @@ class EducationalInformationController extends Controller
                 'educationalInformationFirst.readingSubject',
                 'educationalInformationFirst.board'
                 ])
+                ->where('status',1)
                 ->get();
             return DataTables::of($alldata)
             ->addIndexColumn()->make(True);

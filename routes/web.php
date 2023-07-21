@@ -86,6 +86,7 @@ Route::middleware('auth')->group(function () {
     Route::prefix(config('app.hr'))->group(function () {
         Route::resource('promotionInformations', 'App\Http\Controllers\PromotionInformationController');
         Route::get('promotionInformations-report', 'App\Http\Controllers\PromotionInformationController@report')->name('promotionInformations-report');
+        Route::get('promotionInformations-promotion', 'App\Http\Controllers\PromotionInformationController@promotion')->name('promotionInformations-promotion');
     });
         
     //******** case information *******//

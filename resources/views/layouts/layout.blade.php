@@ -299,9 +299,10 @@
                                     $url==config('app.hr').'/workstations' || $url==(request()->is(config('app.hr').'/workstations-report/*')) ||
                                     $url==config('app.hr').'/job-report' ||
                                     $url==config('app.hr').'/up-coming-prls' ||
+                                    $url==config('app.hr').'/up-coming-pensions' ||
+                                    $url==config('app.hr').'/promotionInformations-promotion' ||
                                     $url==config('app.hr').'/transfer-status-time' ||
-                                    $url==config('app.hr').'/empty-designations-report' ||
-                                    $url==config('app.hr').'/up-coming-pensions') ? 'active':''}}">
+                                    $url==config('app.hr').'/empty-designations-report') ? 'active':''}}">
                                     <a href="javascript::void(0)">
                                         <i class="icon-book"></i>
                                         <span class="menu-text">পদভিত্তিক কর্মস্থল</span>
@@ -322,6 +323,9 @@
                                             </li>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.hr').'/up-coming-pensions'}}" class="{{($url==config('app.hr').'/up-coming-pensions') ? 'current-page':''}}">১৫ দিন পরে পিআরএল-এ গমন</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.hr').'/promotionInformations-promotion'}}" class="{{($url==config('app.hr').'/promotionInformations-promotion') ? 'current-page':''}}">পদোন্নতি সংক্রান্ত তথ্য</a>
                                             </li>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.hr').'/transfer-status-time'}}" class="{{($url==config('app.hr').'/transfer-status-time') ? 'current-page':''}}"> পদভিত্তিক কর্মস্থলে কার্যকাল </a>

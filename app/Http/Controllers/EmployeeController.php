@@ -11,7 +11,6 @@ use App\Http\Requests\TransferApplication\ApplicationCreateRequest;
 use App\Http\Requests\TransferApplication\ApplicationUpdateRequest;
 use App\Models\DesignationWorkstation;
 use App\Models\GeneralInformation;
-use App\Models\TransferStatus;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\User;

@@ -47,7 +47,7 @@ class PublicationInformationController extends Controller
      */
     public function create()
     {
-        $data['generalInformations'] = GeneralInformation::all();
+        $data['generalInformations'] = GeneralInformation::where('status',1)->get();
         $data['publications'] = Publication::all();
         return view('employee.publicationInformation.create',$data);
     }
@@ -87,7 +87,7 @@ class PublicationInformationController extends Controller
      */
     public function edit($id)
     { 
-        $data['generalInformations'] = GeneralInformation::all();
+        $data['generalInformations'] = GeneralInformation::where('status',1)->get();
         $data['publications'] = Publication::all();
         $data['publicationInformation'] = PublicationInformation::findOrFail($id);
         return view('employee.publicationInformation.edit',$data);
@@ -140,8 +140,10 @@ class PublicationInformationController extends Controller
                 'publicationInformationFirst',
                 'presentDesignation',
                 'presentWorkstation',
-                'publicationInformationFirst.publication'])
-                            ->get();
+                'publicationInformationFirst.publication'
+                ])
+                ->where('status',1)
+                ->get();
             return DataTables::of($alldata)
             ->addIndexColumn()->make(True);
         }

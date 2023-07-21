@@ -70,6 +70,24 @@
                     <div class="col-md-4">
                       <div class="field-wrapper">
                         <div class="input-group">
+                          <select name="workstation_id" 
+                          class="form-control select2 @error('workstation_id') is-invalid @enderror" 
+                          required="">
+                            <option value="">Select</option>
+                            @foreach($promotionWorkstations as $promotionWorkstation)
+                            <option value="{{$promotionWorkstation->id}}" {{(old('workstation_id') == $promotionWorkstation->id) ? 'selected' : ''}}>{{$promotionWorkstation->name}}</option>
+                            @endforeach
+                          </select>
+                        </div>
+                        <div class="field-placeholder">যোগদানকৃত কর্মস্থলের নাম <span class="text-danger">*</span></div>
+                      </div>
+                      @error('workstation_id')
+                          <div class="alert alert-danger">{{ $message }}</div>
+                      @enderror
+                    </div>
+                    <div class="col-md-4">
+                      <div class="field-wrapper">
+                        <div class="input-group">
                           <input type="date" 
                           name="promotion_date" 
                           class="form-control @error('promotion_date') is-invalid @enderror" 

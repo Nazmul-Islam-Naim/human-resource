@@ -9,7 +9,7 @@ class PromotionInformation extends Model
 {
     use HasFactory;
     protected $table = 'promotion_information';
-    protected $fillable = ['general_information_id', 'designation_id', 'promotion_date', 'order_no', 'date', 'salary_scale_id', 'salary'];
+    protected $fillable = ['general_information_id', 'designation_id', 'workstation_id', 'promotion_date', 'order_no', 'date', 'salary_scale_id', 'salary'];
 
     //relationship
 
@@ -19,6 +19,10 @@ class PromotionInformation extends Model
 
     public function promotionDesignation(){
         return $this->belongsTo(Designation::class,'designation_id');
+    }
+
+    public function promotionWorkstation(){
+        return $this->belongsTo(Workstation::class,'workstation_id');
     }
 
     public function salaryScale(){

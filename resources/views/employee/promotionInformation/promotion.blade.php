@@ -1,5 +1,5 @@
 @extends('layouts.layout')
-@section('title', 'পদভিত্তিক কর্মস্থলে কার্যকাল')
+@section('title', 'কর্মকর্তা/কর্মচারীর পদোন্নতি সংক্রান্ত তথ্য')
 @section('content')
 <!-- Content Header (Page header) -->
 <?php
@@ -17,11 +17,12 @@
         @include('common.commonFunction')
       </div>
       
+      
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <!-- general form elements -->
         <div class="card card-primary">
           <div class="card-header">
-            <h3 class="card-title">বর্তমান পদবী অনুযায়ী কর্মকর্তা/কর্মচারী খুজুন </h3>
+            <h3 class="card-title">পদোন্নতিপ্রাপ্ত পদবী অনুযায়ী কর্মকর্তা/কর্মচারী খুজুন </h3>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
@@ -41,7 +42,7 @@
                             @endforeach
                           </select>
                         </div>
-                        <div class="field-placeholder">পদবী নির্বাচন করুন </div>
+                        <div class="field-placeholder">পদোন্নতিপ্রাপ্ত পদবী নির্বাচন করুন </div>
                       </div>
                     </div>
                     <div class="col-md-3">
@@ -67,31 +68,30 @@
         </div>
         <!-- /.card -->
       </div>
-  
-      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+
+      <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"> 
         <div class="card card-primary">
           <div class="card-header d-flex justify-content-between align-items-center">
-              <h3 class="card-title">পদভিত্তিক কর্মস্থলে কার্যকাল</h3>
+              <h3 class="card-title">কর্মকর্তা/কর্মচারীর পদোন্নতি সংক্রান্ত তথ্যঃ</h3>
             </div>
           <!-- /.box-header -->
           <div class="card-body">
             <div class="row">
               <div class="col-md-12">
                 <div class="table-responsive">
-                  <table class="table table-bordered cell-border compact hover nowrap order-column row-border stripe" id="example"> 
+                  <table class="table table-bordered cell-border compact hover order-column row-border stripe" id="example"> 
                     <thead> 
                       <tr> 
                         <th>সিঃ</th>
-                        <th>নাম</th>
-                        <th>বর্তমান পদবী</th>
-                        <th>মূল পদ</th>
-                        <th>নিজ জেলা</th> 
+                        <th>কর্মকর্তা / কর্মচারীর নাম</th>
+                        <th>বর্তমান পদবী</th> 
                         <th>বর্তমান কর্মস্থল</th> 
-                        <th>বর্তমান কর্মস্থলে <br>যোগদানের তারিখ</th>
-                        <th>বর্তমান পদে মোট <br> কার্যকাল</th>
+                        <th>পদোন্নতিপ্রাপ্ত পদবী </th> 
+                        <th>পদোন্নতির পর যোগদানকৃত কর্মস্থলের নাম</th> 
+                        <th>নিজ জেলা</th>
+                        <th>জন্ম তারিখ</th> 
                       </tr>
                     </thead>
-                    <tbody></tbody>
                   </table>
                 </div>
               </div>
@@ -134,12 +134,12 @@
 
     filter_view();
 
-    function filter_view(designation_id = '',) {
-      var table = $('#example').DataTable({
+    function filter_view(designation_id = '') {
+      var table = $('#example').DataTable({ 
         serverSide: true,
         processing: true,
         ajax: {
-          url: "{{route('transfer-status-time')}}",
+          url: "{{route('promotionInformations-promotion')}}",
           data: {designation_id: designation_id}
         },
         "lengthMenu": [[ 100, 150, 250, -1 ],[ '100', '150', '250', 'All' ]],
@@ -169,15 +169,9 @@
   
                   $(win.document.body).find('table thead th').css('border','1px solid #ddd');  
                   $(win.document.body).find('table tbody td').css('border','1px solid #ddd');  
-  
                   },
                   exportOptions: {
                       columns: [ 0, 1, 2, 3,4,5,6,7],
-                      format: {
-                        header: function (data, columnIdx) {
-                              return data.replace(/<br\s*\/?>/gi, '<br>');
-                          }
-                      }
                   },
                   messageBottom: null
               }
@@ -187,42 +181,68 @@
         columns: [
           {data: 'DT_RowIndex'},
           {
-            data: 'general_information.name_in_bangla',
+            data: 'name_in_bangla',
             render: function(data, type, row) {
               var url = '{{route("generalInformations.show",":id")}}'; 
               var url = url.replace(':id', row.id);
               return '<a href=' + url +'>'+ data +'</a>';
             }
           },
-          {data: 'general_information.present_designation.title'},
-          {data: 'general_information.main_designation.title'},
-          {data: 'general_information.district.name'},
-          {data: 'general_information.present_work_station.name'},
+          {data: 'present_designation.title'},
+          {data: 'present_workstation.name'},
           {
-            data: 'present_joining_date',
-            render: function(data, type, full, meta) {
+            data: 'promotion_information_first.promotion_designation.title',
+            render:function(data, type, row){
               if (data != null) {
-                const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
-                return toBn(dateFormat(new Date(data)).toString());
+                return data;
+              } else {
+                return '';
               }
             }
           },
           {
-            data: 'timePeriod'
-          }
+            data: 'promotion_information_first.promotion_workstation.name',
+            render:function(data, type, row){
+              if (data != null) {
+                return data;
+              } else {
+                return '';
+              }
+            }
+          },
+          {
+            data: 'district.name',
+            render:function(data, type, row){
+              if (data != null) {
+                return data;
+              } else {
+                return '';
+              }
+            }
+          },
+          {
+            data: 'birth_date',
+            render:function(data, type, row){
+              if (data != null) {
+                const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
+                return toBn(dateFormat(new Date(data)).toString());
+              } else {
+                return '';
+              }
+            }
+          },
         ]
       });
     }
 
-  $('#filter').click(function (e) { 
+    $('#filter').click(function (e) { 
     e.preventDefault();
     var designation_id = $('#designation_id').val();
 
     if (designation_id != '') {
       $('#example').DataTable().destroy();
       filter_view(designation_id);
-    } else {
-    }
+    } 
   });
   $('#reset').click(function (e) { 
     e.preventDefault();

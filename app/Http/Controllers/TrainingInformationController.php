@@ -48,7 +48,7 @@ class TrainingInformationController extends Controller
      */
     public function create()
     {
-        $data['generalInformations'] = GeneralInformation::all();
+        $data['generalInformations'] = GeneralInformation::where('status',1)->get();
         $data['courses'] = Course::all();
         $data['institutes'] = Institute::all();
         return view('employee.trainingInformation.create',$data);
@@ -89,7 +89,7 @@ class TrainingInformationController extends Controller
      */
     public function edit($id)
     { 
-        $data['generalInformations'] = GeneralInformation::all();
+        $data['generalInformations'] = GeneralInformation::where('status',1)->get();
         $data['courses'] = Course::all();
         $data['institutes'] = Institute::all();
         $data['trainingInformation'] = TrainingInformation::findOrFail($id);
@@ -146,6 +146,7 @@ class TrainingInformationController extends Controller
                 'trainingInformationFirst.course',
                 'trainingInformationFirst.institute'
                 ])
+                ->where('status',1)
                 ->get();
             return DataTables::of($alldata)
             ->addIndexColumn()->make(True);

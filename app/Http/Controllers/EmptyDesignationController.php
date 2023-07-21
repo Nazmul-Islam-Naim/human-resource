@@ -97,7 +97,7 @@ class EmptyDesignationController extends Controller
      */
     public function edit($id)
     {
-        $data['generalInformations'] = GeneralInformation::select('id','name_in_bangla')->get();
+        $data['generalInformations'] = GeneralInformation::where('status',1)->select('id','name_in_bangla')->get();
         $data['workstationDesignation'] = DesignationWorkstation::findOrFail($id);
         return view('employee.emptyDesignation.edit',$data);
     }
