@@ -151,7 +151,8 @@ Route::middleware('auth')->group(function () {
     //******** empty designations *******//
     Route::prefix(config('app.hr'))->group(function () {
         Route::resource('empty-designations', 'App\Http\Controllers\EmptyDesignationController');
-        Route::get('empty-designations-report', 'App\Http\Controllers\EmptyDesignationController@report')->name('empty-designations-report');
+        Route::get('empty-designation', 'App\Http\Controllers\EmptyDesignationController@emptyDesignation')->name('empty-designation');
+        Route::get('empty-designations-report/{designationId}', 'App\Http\Controllers\EmptyDesignationController@report')->name('empty-designations-report');
     });
 
     //******** job repotr *******//

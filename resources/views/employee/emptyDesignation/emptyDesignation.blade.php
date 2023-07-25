@@ -1,5 +1,5 @@
 @extends('layouts.layout')
-@section('title', 'শূন্য পদের তালিকা')
+@section('title', 'শূন্য পদের তথ্য')
 @section('content')
 <!-- Content Header (Page header) -->
 <?php
@@ -16,26 +16,25 @@
         @include('common.message')
         @include('common.commonFunction')
       </div>
-      <input type="hidden" name="designationId" id="designationId" value="{{$designationId}}">
+  
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card card-primary">
           <div class="card-header d-flex justify-content-between align-items-center">
-              <h3 class="card-title">শূন্য পদ কার্যালয়ের তথ্য</h3>
+              <h3 class="card-title">শূন্য পদের তথ্য</h3>
             </div>
           <!-- /.box-header -->
           <div class="card-body">
             <div class="row">
               <div class="col-md-12">
                 <div class="table-responsive">
-                  <table class="table table-bordered cell-border compact hover order-column row-border stripe" id="example"> 
+                  <table class="table table-bordered cell-border compact hover nowrap order-column row-border stripe" id="example"> 
                     <thead> 
                       <tr> 
                         <th>সিঃ</th>
-                        <th>কার্যালয়ের নাম</th>
-                        <th>পদের পদবী</th> 
-                        <th>পদ শূন্য হওয়ার সময়</th> 
-                        <th>সর্বশেষ শূন্য হওয়ার তারিখ</th> 
-                        <th>সর্বশেষ কর্মকর্তা / কর্মচারীর নাম</th> 
+                        <th>পদের নাম</th>
+                        <th>মোট পদ</th> 
+                        <th>কর্মরত</th> 
+                        <th>শূন্য </th> 
                       </tr>
                     </thead>
                   </table>
@@ -79,27 +78,24 @@
 	$(document).ready(function() {
 		'use strict';
 
-    var designationId = $('#designationId').val();
-    var url = '{{route("empty-designations-report",":id")}}'; 
-    var url = url.replace(':id', designationId);
     var table = $('#example').DataTable({
 			serverSide: true,
 			processing: true,
 			ajax: {
-        url: url,
+        url: "{{route('empty-designation')}}",
       },
       "lengthMenu": [[ 100, 150, 250, -1 ],[ '100', '150', '250', 'All' ]],
       dom: 'Blfrtip',
       "language": {
           search: "খুজুন:",
-          searchPlaceholder: "কার্যালয়"
+          searchPlaceholder: "পদবী"
         },
         buttons: [
             'copy',
             {
                 extend: 'excel',
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3]
+                    columns: [ 0, 1, 2, 3, 4]
                 },
                 messageTop: 'The information in this table is copyright to Sirius Cybernetics Corp.'
             },
@@ -121,7 +117,7 @@
                 $(win.document.body).find('table tbody td').css('border','1px solid #ddd');  
                 },
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3]
+                    columns: [ 0, 1, 2, 3, 4]
                 },
                 messageBottom: null
             }
@@ -131,45 +127,43 @@
 			columns: [
         {data: 'DT_RowIndex'},
 				{
-          data: 'workstation.name',
-          render:function(data, type, row){
-            if (data != null) {
-              return data;
-            } else {
-              return ''
-            }
-          }
-        },
-				{
-          data: 'designation.title',
-          render:function(data, type, row){
-            if (data != null) {
-              return data;
-            } else {
-              return ''
-            }
-          }
-        },
-        {data: 'timePeriod'},
-        {
-          data: 'release_date',
-          render: function(data, type, full, meta) {
-						if (data != null) {
-              const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
-							return toBn(dateFormat(new Date(data)).toString());
-						}
+          data: 'title',
+          render: function(data, type, row) {
+            var url = '{{route("empty-designations-report",":id")}}'; 
+            var url = url.replace(':id', row.id);
+						return '<a href=' + url +'>'+ data +'</a>';
 					}
         },
         {
-          data: 'lastEmployee',
+          data: 'designations',
           render:function(data, type, row){
             if (data != null) {
-              return data;
+              return data.length;
             } else {
-              return ''
+              return 0;
             }
           }
-        }
+        },
+        {
+          data: 'working_designations',
+          render:function(data, type, row){
+            if (data != null) {
+              return data.length;
+            } else {
+              return 0;
+            }
+          }
+        },
+        {
+          data: 'zero_designations',
+          render:function(data, type, row){
+            if (data != null) {
+              return data.length;
+            } else {
+              return 0;
+            }
+          }
+        },
 			]
     });
 

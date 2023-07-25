@@ -85,6 +85,10 @@
       },
       "lengthMenu": [[ 100, 150, 250, -1 ],[ '100', '150', '250', 'All' ]],
       dom: 'Blfrtip',
+      "language": {
+          search: "খুজুন:",
+          searchPlaceholder: "কার্যলয়"
+        },
         buttons: [
             'copy',
             {

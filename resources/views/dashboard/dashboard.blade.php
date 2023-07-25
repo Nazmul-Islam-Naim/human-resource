@@ -90,7 +90,7 @@
 				</a>
 			</div>
 			<div class="col-xl-4 col-lg-4 col-md-4 col-sm-6 col-12">
-				<a href="{{route('empty-designations-report')}}" target="_blank">
+				<a href="{{route('empty-designation')}}" target="_blank">
 					<div class="stats-tile">
 						<div class="sale-icon">
 							<img src="{{asset('custom/img/dashboard/designation.gif')}}" alt="">

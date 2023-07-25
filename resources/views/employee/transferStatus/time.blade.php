@@ -144,6 +144,10 @@
         },
         "lengthMenu": [[ 100, 150, 250, -1 ],[ '100', '150', '250', 'All' ]],
         dom: 'Blfrtip',
+      "language": {
+          search: "খুজুন:",
+          searchPlaceholder: "কর্মকর্তা  / কর্মচারীর নাম"
+        },
           buttons: [
               'copy',
               {

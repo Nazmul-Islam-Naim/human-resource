@@ -88,6 +88,10 @@
       },
       "lengthMenu": [[ 100, 150, 250, -1 ],[ '100', '150', '250', 'All' ]],
       dom: 'Blfrtip',
+      "language": {
+          search: "খুজুন:",
+          searchPlaceholder: "পদবী  / কার্যালয়"
+        },
         buttons: [
             'copy',
             {
@@ -124,8 +128,26 @@
 
 			columns: [
         {data: 'DT_RowIndex'},
-				{data: 'workstation.name'},
-				{data: 'designation.title'},
+				{
+          data: 'workstation.name',
+          render:function(data, type, row){
+            if (data != null) {
+              return data;
+            } else {
+              return ''
+            }
+          }
+        },
+				{
+          data: 'designation.title',
+          render:function(data, type, row){
+            if (data != null) {
+              return data;
+            } else {
+              return ''
+            }
+          }
+        },
         {data: 'general_information.name_in_bangla',
           render: function(data, type, full, meta) {
 						if (data != null) {

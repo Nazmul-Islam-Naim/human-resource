@@ -6,6 +6,7 @@ use App\Http\Requests\DesignationWorkstation\CreateRequest;
 use App\Http\Requests\DesignationWorkstation\UpdateRequest;
 use App\Models\Designation;
 use App\Models\DesignationWorkstation;
+use App\Models\EmployeeTransfer;
 use App\Models\GeneralInformation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -140,19 +141,51 @@ class EmptyDesignationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function report(Request $request)
+    public function emptyDesignation(Request $request)
+    {
+        // $alldata = Designation::findOrFail(6);
+        // dd($alldata->zeroDesignations);
+        if ($request->ajax()) {
+            $alldata= Designation::with(['designations', 'workingDesignations', 'zeroDesignations'])
+                            ->get();
+            return DataTables::of($alldata)
+            ->addIndexColumn()->make(True);
+        }
+        return view ('employee.emptyDesignation.emptyDesignation');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function report(Request $request, $designationId)
     {
         if ($request->ajax()) {
             $alldata= DesignationWorkstation::with(['workstation', 'designation'])
+                            ->where('designation_id',$request->designationId)
                             ->where('general_information_id',null)
                             ->get();
             return DataTables::of($alldata)
-            ->addIndexColumn()->addColumn('timePeriod', function($row){
-                $releaseDate = Carbon::parse($row->release_date);
-                $timePriod = $releaseDate->diff(Carbon::now());
-                return NumberToBangla::bnNum($timePriod->format('%y')).' বছর '.NumberToBangla::bnNum($timePriod->format('%m')).' মাস '.NumberToBangla::bnNum($timePriod->format('%d')).' দিন';
-            })->make(True);
+                ->addIndexColumn()
+                ->addColumn('timePeriod', function($row){
+                    $releaseDate = Carbon::parse($row->release_date);
+                    $timePriod = $releaseDate->diff(Carbon::now());
+                    return NumberToBangla::bnNum($timePriod->format('%y')).' বছর '.
+                        NumberToBangla::bnNum($timePriod->format('%m')).' মাস '.
+                        NumberToBangla::bnNum($timePriod->format('%d')).' দিন';
+                })
+                ->addColumn('lastEmployee', function($row){
+                    $lastEmployee = EmployeeTransfer::with(['generalInformation'])
+                                    ->where('workstation_id', $row->workstation_id)
+                                    ->where('designation_id', $row->designation_id)
+                                    ->latest()
+                                    ->skip(1)
+                                    ->first();
+                    return $lastEmployee = $lastEmployee->generalInformation->name_in_bangla ?? '';
+                })
+                ->make(True);
         }
-        return view ('employee.emptyDesignation.report');
+        return view ('employee.emptyDesignation.report', compact('designationId'));
     }
 }
