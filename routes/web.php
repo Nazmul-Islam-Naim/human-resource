@@ -40,11 +40,12 @@ Route::middleware('auth')->group(function () {
     //******** catalog *******//
     Route::prefix(config('app.cat'))->group(function () {
         Route::resource('department', 'App\Http\Controllers\DepartmentController');
+        Route::resource('workstation', 'App\Http\Controllers\WorkstationController');
         Route::resource('designation', 'App\Http\Controllers\DesignationController');
+        Route::resource('workstation-designations', 'App\Http\Controllers\WorkstationDesignationController');
+        Route::resource('department-workstations', 'App\Http\Controllers\DepartmentWorkstationController');
         Route::resource('salary-scale', 'App\Http\Controllers\SalaryScaleController');
         Route::resource('district', 'App\Http\Controllers\DistrictController');
-        Route::resource('workstation', 'App\Http\Controllers\WorkstationController');
-        Route::resource('workstation-designations', 'App\Http\Controllers\WorkstationDesignationController');
         Route::resource('occupation', 'App\Http\Controllers\OccupationController');
     });
 
@@ -146,6 +147,12 @@ Route::middleware('auth')->group(function () {
     Route::prefix(config('app.hr'))->group(function () {
         Route::get('workstations', 'App\Http\Controllers\WorkstationDesignationController@workstations')->name('workstations');
         Route::get('workstations-report/{id}', 'App\Http\Controllers\WorkstationDesignationController@report')->name('workstations-report');
+    });
+
+    //******** department wise employee *******//
+    Route::prefix(config('app.hr'))->group(function () {
+        Route::get('departments', 'App\Http\Controllers\DepartmentWorkstationController@departments')->name('departments');
+        Route::get('departments-report/{id}', 'App\Http\Controllers\DepartmentWorkstationController@report')->name('departments-report');
     });
 
     //******** empty designations *******//

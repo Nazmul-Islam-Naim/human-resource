@@ -157,7 +157,9 @@
 						if (data != null) {
               const toBn = n => n.replace(/\d/g, d => "০১২৩৪৫৬৭৮৯"[d]);
 							return toBn(dateFormat(new Date(data)).toString());
-						}
+						} else {
+              return '';
+            }
 					}
         },
         {

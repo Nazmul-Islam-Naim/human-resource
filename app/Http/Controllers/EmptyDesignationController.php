@@ -180,7 +180,6 @@ class EmptyDesignationController extends Controller
                                     ->where('workstation_id', $row->workstation_id)
                                     ->where('designation_id', $row->designation_id)
                                     ->latest()
-                                    ->skip(1)
                                     ->first();
                     return $lastEmployee = $lastEmployee->generalInformation->name_in_bangla ?? '';
                 })

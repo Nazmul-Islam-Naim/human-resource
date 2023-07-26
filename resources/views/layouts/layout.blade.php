@@ -148,6 +148,7 @@
                                     $url==config('app.cat').'/workstation' || $url==config('app.cat').'/workstation/create' || $url==(request()->is(config('app.cat').'/workstation/*/edit')) ||
                                     $url==config('app.cat').'/designation' || $url==config('app.cat').'/designation/create' || $url==(request()->is(config('app.cat').'/designation/*/edit')) ||
                                     $url==config('app.cat').'/workstation-designations' || $url==config('app.cat').'/workstation-designations/create' || $url==(request()->is(config('app.cat').'/workstation-designations/*/edit')) ||
+                                    $url==config('app.cat').'/department-workstations' || $url==config('app.cat').'/department-workstations/create' || $url==(request()->is(config('app.cat').'/department-workstations/*/edit')) ||
                                     $url==config('app.cat').'/salary-scale' || $url==config('app.cat').'/salary-scale/create' || $url==(request()->is(config('app.cat').'/salary-scale/*/edit')) ||
                                     $url==config('app.cat').'/district' || $url==config('app.cat').'/district/create' || $url==(request()->is(config('app.cat').'/district/*/edit')) ||
                                     $url==config('app.cat').'/occupation' || $url==config('app.cat').'/occupation/create' || $url==(request()->is(config('app.cat').'/occupation/*/edit'))) ? 'active':''}}">
@@ -168,6 +169,9 @@
                                             </li>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.cat').'/workstation-designations'}}" class="{{($url==config('app.cat').'/workstation-designations' || $url==config('app.cat').'/workstation-designations/create' || $url==(request()->is(config('app.cat').'/workstation-designations/*/edit'))) ? 'current-page':''}}">কর্মস্থলের পদবী</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.cat').'/department-workstations'}}" class="{{($url==config('app.cat').'/department-workstations' || $url==config('app.cat').'/department-workstations/create' || $url==(request()->is(config('app.cat').'/department-workstations/*/edit'))) ? 'current-page':''}}">ডিপার্টমেন্টের কার্যালয়</a>
                                             </li>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.cat').'/salary-scale'}}" class="{{($url==config('app.cat').'/salary-scale' || $url==config('app.cat').'/salary-scale/create' || $url==(request()->is(config('app.cat').'/salary-scale/*/edit'))) ? 'current-page':''}}"> বেতন স্কেল </a>
@@ -297,6 +301,7 @@
                                  <li class="default-sidebar-dropdown {{(
                                     $url==config('app.hr').'/transfer-status-report' ||
                                     $url==config('app.hr').'/workstations' || $url==(request()->is(config('app.hr').'/workstations-report/*')) ||
+                                    $url==config('app.hr').'/departments' || $url==(request()->is(config('app.hr').'/departments-report/*')) ||
                                     $url==config('app.hr').'/job-report' ||
                                     $url==config('app.hr').'/up-coming-prls' ||
                                     $url==config('app.hr').'/up-coming-pensions' ||
@@ -315,6 +320,9 @@
                                             </li>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.hr').'/workstations'}}" class="{{($url==config('app.hr').'/workstations' || $url==(request()->is(config('app.hr').'/workstations-report/*'))) ? 'current-page':''}}"> কার্যালয়ভিত্তিক জনবলের তথ্য </a>
+                                            </li>
+                                            <li>
+                                                <a href="{{$baseUrl.'/'.config('app.hr').'/departments'}}" class="{{($url==config('app.hr').'/departments' || $url==(request()->is(config('app.hr').'/departments-report/*'))) ? 'current-page':''}}"> ডিপার্টমেন্ট অনুযায়ী জনবলের তথ্য </a>
                                             </li>
                                             <li>
                                                 <a href="{{$baseUrl.'/'.config('app.hr').'/job-report'}}" class="{{($url==config('app.hr').'/job-report') ? 'current-page':''}}"> চাকুরী সংক্রান্ত তথ্য </a>

@@ -11,4 +11,9 @@ class Department extends Model
     use HasFactory,SoftDeletes;
     protected $table = 'departments';
     protected $fillable = ['name','status'];
+
+    //relationship
+    public function departments(){
+        return $this->hasMany(DepartmentWorkstation::class);
+    }
 }

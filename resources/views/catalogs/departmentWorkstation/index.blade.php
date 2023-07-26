@@ -1,5 +1,5 @@
 @extends('layouts.layout')
-@section('title', 'শূন্য পদের তালিকা')
+@section('title', 'Department Workstations')
 @section('content')
 <!-- Content Header (Page header) -->
 <?php
@@ -20,7 +20,8 @@
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card card-primary">
           <div class="card-header d-flex justify-content-between align-items-center">
-              <h3 class="card-title">শূন্য পদের তালিকা</h3>
+              <h3 class="card-title">Department Workstations</h3>
+              <a href="{{route('department-workstations.create')}}" class="btn btn-success btn-sm pull-right"><i class="icon-plus-circle"></i> <b>তথ্য যোগ করুন</b></a>
             </div>
           <!-- /.box-header -->
           <div class="card-body">
@@ -30,13 +31,10 @@
                   <table class="table table-bordered cell-border compact hover nowrap order-column row-border stripe" id="example"> 
                     <thead> 
                       <tr> 
-                        <th>সিঃ</th>
-                        <th>কর্মস্থল</th>
-                        <th>পদবী</th> 
-                        <th>কর্মকর্তা/কর্মচারী</th> 
-                        <th>যোগদানের তারিখ</th> 
-                        <th>রিলেজ তারিখ</th> 
-                        <th>একশন</th>
+                        <th>Sl</th>
+                        <th>Department</th>
+                        <th>Workstation</th> 
+                        <th width="15%">Action</th>
                       </tr>
                     </thead>
                   </table>
@@ -59,45 +57,24 @@
 {!!Html::script('custom/yajraTableJs/dataTable.js')!!}
 {!!Html::script('custom/yajraTableJs/query.dataTables1.12.1.js')!!}
 <script>
-
-  function dateFormat(data) { 
-    let date, month, year;
-    date = data.getDate();
-    month = data.getMonth() + 1;
-    year = data.getFullYear();
-
-    date = date
-        .toString()
-        .padStart(2, '0');
-
-    month = month
-        .toString()
-        .padStart(2, '0');
-
-    return `${date}-${month}-${year}`;
-  }
-
 	$(document).ready(function() {
 		'use strict';
 
+   
     var table = $('#example').DataTable({
 			serverSide: true,
 			processing: true,
 			ajax: {
-        url: "{{route('empty-designations.index')}}",
+        url: "{{route('department-workstations.index')}}",
       },
       "lengthMenu": [[ 100, 150, 250, -1 ],[ '100', '150', '250', 'All' ]],
       dom: 'Blfrtip',
-      "language": {
-          search: "খুজুন:",
-          searchPlaceholder: "পদবী  / কার্যালয়"
-        },
         buttons: [
             'copy',
             {
                 extend: 'excel',
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3, 4, 5]
+                    columns: [ 0, 1, 2]
                 },
                 messageTop: 'The information in this table is copyright to Sirius Cybernetics Corp.'
             },
@@ -119,7 +96,7 @@
                 $(win.document.body).find('table tbody td').css('border','1px solid #ddd');  
                 },
                 exportOptions: {
-                    columns: [ 0, 1, 2, 3, 4, 5]
+                    columns: [ 0, 1, 2]
                 },
                 messageBottom: null
             }
@@ -128,55 +105,40 @@
 
 			columns: [
         {data: 'DT_RowIndex'},
+				{data: 'department.name'},
+				{data: 'workstation.name'},
 				{
-          data: 'workstation.name',
-          render:function(data, type, row){
-            if (data != null) {
-              return data;
-            } else {
-              return ''
-            }
-          }
-        },
-				{
-          data: 'designation.title',
-          render:function(data, type, row){
-            if (data != null) {
-              return data;
-            } else {
-              return ''
-            }
-          }
-        },
-        {data: 'general_information.name_in_bangla',
-          render: function(data, type, full, meta) {
-						if (data != null) {
-							return data;
-						}else{
-              return ''
-            }
-					}
-        },
-        {data: 'joining_date',
-          render: function(data, type, full, meta) {
-						if (data != null) {
-							return dateFormat(new Date(data)).toString();
-						} else {
-              return '';
-            }
-					}
-        },
-        {data: 'release_date',
-          render: function(data, type, full, meta) {
-						if (data != null) {
-							return dateFormat(new Date(data)).toString();
-						} else {
-              return '';
-            }
-					}
-        },
-        {data: 'action'}
+          data: 'action',
+          orderable:true,
+          searchable:true
+				}
 			]
+    });
+
+     //-------- Delete single data with Ajax --------------//
+     $("#example").on("click", ".button-delete", function(e) {
+			  e.preventDefault();
+
+        var confirm = window.confirm('Are you sure want to delete data?');
+        if (confirm != true) {
+          return false;
+        }
+        var id = $(this).data('id');
+        var link = '{{route("department-workstations.destroy",":id")}}';
+        var link = link.replace(':id', id);
+        var token = '{{csrf_token()}}';
+        $.ajax({
+          url: link,
+          type: 'POST',
+          data: {
+            '_method': 'DELETE',
+            '_token': token
+          },
+          success: function(data) {
+            table.ajax.reload();
+          },
+
+        });
     });
 
 });

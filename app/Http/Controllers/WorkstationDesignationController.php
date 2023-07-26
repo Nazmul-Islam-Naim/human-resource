@@ -82,7 +82,6 @@ class WorkstationDesignationController extends Controller
             Session::flash('flash_message','Workstation Designation Successfully Added !');
             return redirect()->route('workstation-designations.index')->with('status_color','success');
         }catch(\Exception $e){
-            dd($e->getMessage());
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
