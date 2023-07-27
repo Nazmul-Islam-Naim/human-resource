@@ -138,7 +138,8 @@ class DepartmentWorkstationController extends Controller
         if ($request->ajax()) {
             $alldata= Department::with([
                     'departments',
-                    'departments.workstation'
+                    'departments.workstation',
+                    'departments.workstation.workstations'
                 ])
                 ->get();
             return DataTables::of($alldata)
@@ -155,9 +156,12 @@ class DepartmentWorkstationController extends Controller
             })
             ->addColumn('totalEmployee', function($row){
                 if (!empty($row->departments)) {
+                    $totalEmployee = 0;
                     foreach ($row->departments as $key => $department) {
-                        return $department->workstation->workstations->where('general_information_id', '!=', null)->count();
+                        $totalEmployee += $department->workstation->workstations->where('general_information_id', '!=', null)->count();
+                        
                     }
+                    return $totalEmployee;
                 } else {
                     return '0';
                 }
