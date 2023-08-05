@@ -36,6 +36,10 @@ Route::middleware('auth')->group(function () {
         Route::resource('user-list', UserController::class);
         Route::resource('user-role', RoleController::class);
     });
+    
+    // change password part
+    Route::get('settings', 'App\Http\Controllers\SettingController@index');
+    Route::put('update-user-password/{id}', 'App\Http\Controllers\SettingController@updateUserPassword')->name('update-user-password');
 
     //******** catalog *******//
     Route::prefix(config('app.cat'))->group(function () {
