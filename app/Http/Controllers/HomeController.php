@@ -42,7 +42,10 @@ class HomeController extends Controller
         $data['assitantDirectors'] = GeneralInformation::where('status',1)->where('present_designation_id',5)->count();
         $data['subAssitantDirectors'] = GeneralInformation::where('status',1)->where('present_designation_id',6)->count();
         $data['runningEmployees'] = GeneralInformation::where('status',1)->count();
-        $data['upComingPensions'] = GeneralInformation::whereDate('prl_date','>=', Carbon::now()->subDays(15))->whereDate('prl_date','<=', Carbon::now()->addDays(15))->count();
+        $data['upComingPensions'] = GeneralInformation::whereDate('prl_date','>=', Carbon::now())
+                                ->whereDate('prl_date','<=', Carbon::now()->addDays(15))
+                                ->where('status',1)
+                                ->count();
         $data['pensionEmployees'] = GeneralInformation::where('status',0)->count();
         return view('dashboard.dashboard',$data);
     }
