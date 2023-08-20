@@ -104,6 +104,7 @@
                 title:"",
                 messageTop: function () {
                   var top = '<center><p class ="text-center"><img src="{{asset("backend/custom/images")}}/header.png" height="100"/></p></center>';
+                   top += '<h5>শূন্য পদের তথ্যঃ</h5>';
                   
                   return top;
                 },

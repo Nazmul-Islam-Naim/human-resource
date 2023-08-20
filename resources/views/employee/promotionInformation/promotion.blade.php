@@ -162,6 +162,7 @@
                   title:"",
                   messageTop: function () {
                     var top = '<center><p class ="text-center"><img src="{{asset("backend/custom/images")}}/header.png" height="100"/></p></center>';
+                    top += '<h5>কর্মকর্তা/কর্মচারীর পদোন্নতি সংক্রান্ত তথ্যঃ</h5>';
                     
                     return top;
                   },

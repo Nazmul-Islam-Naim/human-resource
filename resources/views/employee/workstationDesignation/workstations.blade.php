@@ -32,6 +32,7 @@
                       <tr class="dt-top"> 
                         <th class="dt-wrap">ক্রমিক নং</th>
                         <th class="dt-wrap">কার্যলয়ের নাম</th>
+                        <th class="dt-wrap">সর্বমোট কর্মকর্তা / কর্মচারী</th>
                         <th class="dt-wrap">একশন</th>
                       </tr>
                     </thead>
@@ -94,7 +95,7 @@
             {
                 extend: 'excel',
                 exportOptions: {
-                    columns: [ 0, 1]
+                    columns: [ 0, 1, 2]
                 },
                 messageTop: 'The information in this table is copyright to Sirius Cybernetics Corp.'
             },
@@ -103,6 +104,7 @@
                 title:"",
                 messageTop: function () {
                   var top = '<center><p class ="text-center"><img src="{{asset("backend/custom/images")}}/header.png" height="100"/></p></center>';
+                    top += '<h5>কার্যালয়ভিত্তিক জনবলের তথ্যঃ</h5>';
                   
                   return top;
                 },
@@ -116,7 +118,7 @@
                 $(win.document.body).find('table tbody td').css('border','1px solid #ddd');  
                 },
                 exportOptions: {
-                    columns: [ 0, 1]
+                    columns: [ 0, 1, 2]
                 },
                 messageBottom: null
             }
@@ -132,6 +134,16 @@
             var url = url.replace(':id', row.id);
 						return '<a href=' + url +'>'+ data +'</a>';
 					}
+        },
+        {
+          data: 'totalEmployee',
+          render: function(data, type, row){
+            if (data != null) {
+              return data;
+            }else{
+              return '0';
+            }
+          }
         },
 				{data: 'action'},
 			]

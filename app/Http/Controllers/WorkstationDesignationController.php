@@ -160,7 +160,9 @@ class WorkstationDesignationController extends Controller
     public function workstations(Request $request)
     {
         if ($request->ajax()) {
-            $alldata= Workstation::all();
+            $alldata= Workstation::with([
+                'workstations'
+            ]);
             return DataTables::of($alldata)
             ->addIndexColumn()->addColumn('action', function($row){
                 ob_start() ?>
@@ -172,7 +174,17 @@ class WorkstationDesignationController extends Controller
                 </ul>
 
                 <?php return ob_get_clean();
-            })->make(True);
+            })
+            ->addColumn('totalEmployee', function($row){
+                if (!empty($row->workstations)) {
+                    $totalEmployee = $row->workstations->where('general_information_id', '!=', null)->count();
+                    return $totalEmployee;
+                } else {
+                    return '0';
+                }
+                
+            })
+            ->make(True);
         }
         return view ('employee.workstationDesignation.workstations');
     }
