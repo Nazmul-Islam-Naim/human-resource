@@ -162,7 +162,7 @@ class WorkstationDesignationController extends Controller
         if ($request->ajax()) {
             $alldata= Workstation::with([
                 'workstations'
-            ]);
+            ])->get();
             return DataTables::of($alldata)
             ->addIndexColumn()->addColumn('action', function($row){
                 ob_start() ?>
