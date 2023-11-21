@@ -69,9 +69,9 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="table-responsive">
-                  <table class="table table-bordered cell-border compact hover nowrap order-column row-border stripe" id="example"> 
-                    <thead> 
-                      <tr> 
+                  <table class="table table-bordered cell-border compact hover order-column row-border stripe" id="example">
+                    <thead>
+                      <tr>
                         <th>সিঃ</th>
                         <th>বদলীর তারিখ</th>
                         <th>কর্মকর্তা/কর্মচারীর নাম</th>
@@ -105,7 +105,7 @@
 {!!Html::script('custom/yajraTableJs/query.dataTables1.12.1.js')!!}
 <script>
   // ==================== date format ===========
-  function dateFormat(data) { 
+  function dateFormat(data) {
     let date, month, year;
     date = data.getDate();
     month = data.getMonth() + 1;
@@ -152,7 +152,7 @@
 				{
           data: 'employee_transfer.general_information.name_in_bangla',
           render: function(data, type, row) {
-            var url = '{{route("generalInformations.show",":id")}}'; 
+            var url = '{{route("generalInformations.show",":id")}}';
             var url = url.replace(':id', row.employee_transfer.general_information.id);
 						return '<a href=' + url +'>'+ data +'</a>';
 					}
@@ -170,7 +170,7 @@
     });
   }
 
-  $('#filter').click(function (e) { 
+  $('#filter').click(function (e) {
     e.preventDefault();
     var start_date = $('#start_date').val();
     var end_date = $('#end_date').val();
@@ -178,9 +178,9 @@
     if (start_date != '' && end_date != '') {
       $('#example').DataTable().destroy();
       filter_view(start_date, end_date);
-    } 
+    }
   });
-  $('#reset').click(function (e) { 
+  $('#reset').click(function (e) {
     e.preventDefault();
     $('#start_date').val('');
     $('#end_date').val('');
@@ -190,4 +190,4 @@
 
 });
 </script>
-@endsection 
+@endsection

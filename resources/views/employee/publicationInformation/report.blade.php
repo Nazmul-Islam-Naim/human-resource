@@ -16,7 +16,7 @@
         @include('common.message')
         @include('common.commonFunction')
       </div>
-  
+
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card card-primary">
           <div class="card-header d-flex justify-content-between align-items-center">
@@ -28,17 +28,17 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="table-responsive">
-                  <table class="table table-bordered cell-border compact hover nowrap order-column row-border stripe" id="example"> 
-                    <thead> 
-                      <tr> 
+                  <table class="table table-bordered cell-border compact hover order-column row-border stripe" id="example">
+                    <thead>
+                      <tr>
                         <th>সিঃ</th>
                         <th>নাম</th>
-                        <th>বর্তমান পদবী</th> 
-                        <th>বর্তমান কর্মস্থল</th> 
-                        <th>প্রকাশনার শিরোনাম </th> 
-                        <th>জার্নালের নাম/বইয়ের নাম</th> 
-                        <th>প্রকাশকাল </th> 
-                        <th>মন্তব্য </th> 
+                        <th>বর্তমান পদবী</th>
+                        <th>বর্তমান কর্মস্থল</th>
+                        <th>প্রকাশনার শিরোনাম </th>
+                        <th>জার্নালের নাম/বইয়ের নাম</th>
+                        <th>প্রকাশকাল </th>
+                        <th>মন্তব্য </th>
                       </tr>
                     </thead>
                   </table>
@@ -62,7 +62,7 @@
 {!!Html::script('custom/yajraTableJs/query.dataTables1.12.1.js')!!}
 <script>
    // ==================== date format ===========
-   function dateFormat(data) { 
+   function dateFormat(data) {
     let date, month, year;
     date = data.getDate();
     month = data.getMonth() + 1;
@@ -81,8 +81,8 @@
 	$(document).ready(function() {
 		'use strict';
 
-   
-    var table = $('#example').DataTable({ 
+
+    var table = $('#example').DataTable({
 			serverSide: true,
 			processing: true,
 			ajax: {
@@ -109,17 +109,17 @@
                 messageTop: function () {
                   var top = '<center><p class ="text-center"><img src="{{asset("backend/custom/images")}}/header.png" height="100"/></p></center>';
                     top += '<h5>কর্মকর্তা/কর্মচারীর প্রকাশনা সম্পর্কিত তথ্যাদির তালিকাঃ</h5>';
-                  
+
                   return top;
                 },
                 customize: function (win){
                 $(win.document.body).addClass('white-bg');
                 $(win.document.body).css('font-size', '10px');
- 
+
                 $(win.document.body).find('table').css('font-size', 'inherit');
- 
-                $(win.document.body).find('table thead th').css('border','1px solid #ddd');  
-                $(win.document.body).find('table tbody td').css('border','1px solid #ddd');  
+
+                $(win.document.body).find('table thead th').css('border','1px solid #ddd');
+                $(win.document.body).find('table tbody td').css('border','1px solid #ddd');
                 },
                 exportOptions: {
                     columns: [ 0, 1, 2, 3,4,5,6]
@@ -134,7 +134,7 @@
 				{
           data: 'name_in_bangla',
           render: function(data, type, row) {
-            var url = '{{route("generalInformations.show",":id")}}'; 
+            var url = '{{route("generalInformations.show",":id")}}';
             var url = url.replace(':id', row.id);
 						return '<a href=' + url +'>'+ data +'</a>';
 					}
@@ -187,4 +187,4 @@
 
 });
 </script>
-@endsection 
+@endsection

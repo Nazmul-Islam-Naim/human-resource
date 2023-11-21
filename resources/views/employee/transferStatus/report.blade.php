@@ -13,7 +13,7 @@
         @include('common.message')
         @include('common.commonFunction')
       </div>
-      
+
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <!-- general form elements -->
         <div class="card card-primary">
@@ -75,17 +75,17 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="table-responsive">
-                  <table class="table table-bordered cell-border compact hover nowrap order-column row-border stripe" id="example"> 
-                    <thead> 
-                      <tr class="dt-top"> 
-                        <th class="dt-wrap">ক্রমিক নং</th>
-                        <th class="dt-wrap">কর্মকর্তা / কর্মচারীর নাম</th>
-                        <th class="dt-wrap">মূলপদ</th>
-                        <th class="dt-wrap">বর্তমান কর্মস্থলে যোগদানের তারিখ</th>
-                        <th class="dt-wrap">পূর্ববর্তী কর্মস্থল</th>
-                        <th class="dt-wrap">পিআরএল- এর তারিখ</th>
-                        <th class="dt-wrap">নিজ জেলা</th>
-                        <th class="dt-wrap">বিশেষ মন্তব্য</th>
+                  <table class="table table-bordered cell-border compact hover order-column row-border stripe" id="example">
+                    <thead>
+                      <tr>
+                        <th>ক্রমিক নং</th>
+                        <th>কর্মকর্তা / কর্মচারীর নাম</th>
+                        <th>মূলপদ</th>
+                        <th>বর্তমান কর্মস্থলে যোগদানের তারিখ</th>
+                        <th>পূর্ববর্তী কর্মস্থল</th>
+                        <th>পিআরএল- এর তারিখ</th>
+                        <th>নিজ জেলা</th>
+                        <th>বিশেষ মন্তব্য</th>
                       </tr>
                     </thead>
                     <tbody></tbody>
@@ -110,7 +110,7 @@
 {!!Html::script('custom/yajraTableJs/query.dataTables1.12.1.js')!!}
 <script>
    // ==================== date format ===========
-   function dateFormat(data) { 
+   function dateFormat(data) {
     let date, month, year;
     date = data.getDate();
     month = data.getMonth() + 1;
@@ -160,23 +160,23 @@
                 messageTop: function () {
                   var top = '<center><p class ="text-center"><img src="{{asset("backend/custom/images")}}/header.png" height="100"/></p></center>';
                     top += '<h5>কর্মকর্তা / কর্মচারীগণের পদওয়ারী বর্তমান কর্মস্থলঃ</h5>';
-                  
+
                   return top;
                 },
                 customize: function (win){
                 $(win.document.body).addClass('white-bg');
                 $(win.document.body).find('table').css('font-size', '12px');
- 
+
                 $(win.document.body).find('table').css('font-size', 'inherit');
- 
-                $(win.document.body).find('table thead th').css('border','1px solid #ddd');  
-                $(win.document.body).find('table tbody td').css('border','1px solid #ddd'); 
-                $(win.document.body).find('table thead tr').css('top', '0'); 
-                $(win.document.body).find('table thead tr').css('position', 'sticky'); 
-                $(win.document.body).find('table thead tr th').css('text-align', 'center'); 
-                $(win.document.body).find('table thead tr th').css('word-wrap', 'break-word'); 
-                $(win.document.body).find('table thead tr th').css('white-space', 'normal !important'); 
- 
+
+                $(win.document.body).find('table thead th').css('border','1px solid #ddd');
+                $(win.document.body).find('table tbody td').css('border','1px solid #ddd');
+                $(win.document.body).find('table thead tr').css('top', '0');
+                $(win.document.body).find('table thead tr').css('position', 'sticky');
+                $(win.document.body).find('table thead tr th').css('text-align', 'center');
+                $(win.document.body).find('table thead tr th').css('word-wrap', 'break-word');
+                $(win.document.body).find('table thead tr th').css('white-space', 'normal !important');
+
                 },
                 exportOptions: {
                     columns: [ 0, 1, 2, 3,4,5,6,7]
@@ -191,7 +191,7 @@
 				{
           data: 'general_information.name_in_bangla',
           render: function(data, type, row) {
-            var url = '{{route("generalInformations.show",":id")}}'; 
+            var url = '{{route("generalInformations.show",":id")}}';
             var url = url.replace(':id', row.id);
 						return '<a href=' + url +'>'+ data +'</a>';
 					}
@@ -231,16 +231,16 @@
     });
   }
 
-  $('#filter').click(function (e) { 
+  $('#filter').click(function (e) {
     e.preventDefault();
     var designation_id = $('#designation_id').val();
 
     if (designation_id != '') {
       $('#example').DataTable().destroy();
       filter_view(designation_id);
-    } 
+    }
   });
-  $('#reset').click(function (e) { 
+  $('#reset').click(function (e) {
     e.preventDefault();
     $('#designation_id').val('');
     $('#example').DataTable().destroy();
@@ -249,4 +249,4 @@
 
 });
 </script>
-@endsection 
+@endsection

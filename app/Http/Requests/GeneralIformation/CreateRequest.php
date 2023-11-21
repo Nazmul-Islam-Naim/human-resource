@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests\GeneralIformation;
 
+use App\Enum\JoiningType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CreateRequest extends FormRequest
 {
@@ -33,6 +35,7 @@ class CreateRequest extends FormRequest
             'present_designation_id' => ['required'],
             'present_workstation_id' => ['required'],
             'salary_scale_id' => ['required'],
+            'joining_type' => ['required', 'max:15', Rule::in(array_keys(JoiningType::get()))],
             'joining_date' => ['nullable', 'date'],
             'joining_designation_id' => ['nullable'],
             'main_designation_id' => ['nullable'],

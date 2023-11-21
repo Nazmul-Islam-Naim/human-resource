@@ -16,11 +16,12 @@
         @include('common.message')
         @include('common.commonFunction')
       </div>
-  
+
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card card-primary">
           <div class="card-header d-flex justify-content-between align-items-center">
-              <h3 class="card-title">ডিপার্টমেন্ট অনুযায়ী জনবলের তথ্যঃ</h3>
+              <h3 class="card-title">ডিপার্টমেন্ট({{$departmentName}}) অনুযায়ী জনবলের তথ্যঃ</h3>
+              <input type="hidden" value="{{$departmentName}}" id="departmentName">
               <input type="hidden" value="{{$departmentId}}" id="departmentId">
             </div>
           <!-- /.box-header -->
@@ -28,15 +29,15 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="table-responsive">
-                  <table class="table table-bordered cell-border compact hover nowrap order-column row-border stripe" id="example"> 
-                    <thead> 
-                      <tr class="dt-top"> 
-                        <th class="dt-wrap">ক্রমিক নং</th>
-                        <th class="dt-wrap">ডিপার্টমেন্টের নাম</th>
-                        <th class="dt-wrap">কর্মকর্তা / কর্মচারীর নাম</th>
-                        <th class="dt-wrap">কর্মরত কার্যালয়ের পদবী</th> 
-                        <th class="dt-wrap">অধীনস্থ কার্যালয়</th> 
-                        <th class="dt-wrap">কার্যালয়ের জনবলের সংখ্যা</th> 
+                  <table class="table table-bordered cell-border compact hover order-column row-border stripe" id="example">
+                    <thead>
+                      <tr>
+                        <th>ক্রমিক নং</th>
+                        <th>ডিপার্টমেন্টের নাম</th>
+                        <th>কর্মকর্তা / কর্মচারীর নাম</th>
+                        <th>কর্মরত কার্যালয়ের পদবী</th>
+                        <th>অধীনস্থ কার্যালয়</th>
+                        <th>কার্যালয়ের জনবলের সংখ্যা</th>
                       </tr>
                     </thead>
                   </table>
@@ -60,7 +61,7 @@
 {!!Html::script('custom/yajraTableJs/query.dataTables1.12.1.js')!!}
 <script>
 
-  function dateFormat(data) { 
+  function dateFormat(data) {
     let date, month, year;
     date = data.getDate();
     month = data.getMonth() + 1;
@@ -80,9 +81,9 @@
 	$(document).ready(function() {
 		'use strict';
     const id = $('#departmentId').val();
-    var url = '{{route("departments-report",":id")}}'; 
+    var url = '{{route("departments-report",":id")}}';
     var url = url.replace(':id', id);
-   
+
     var table = $('#example').DataTable({
 			serverSide: true,
 			processing: true,
@@ -117,19 +118,20 @@
                 extend: 'print',
                 title:"",
                 messageTop: function () {
+                    var departmentName = document.getElementById('departmentName').value;
                   var top = '<center><p class ="text-center"><img src="{{asset("backend/custom/images")}}/header.png" height="100"/></p></center>';
-                   top += '<h5>ডিপার্টমেন্ট অনুযায়ী জনবলের তথ্যঃ</h5>';
-                  
+                   top += '<h5>ডিপার্টমেন্ট('+departmentName+') অনুযায়ী জনবলের তথ্যঃ</h5>';
+
                   return top;
                 },
                 customize: function (win){
                 $(win.document.body).addClass('white-bg');
                 $(win.document.body).css('font-size', '10px');
- 
+
                 $(win.document.body).find('table').css('font-size', 'inherit');
- 
-                $(win.document.body).find('table thead th').css('border','1px solid #ddd');  
-                $(win.document.body).find('table tbody td').css('border','1px solid #ddd');  
+
+                $(win.document.body).find('table thead th').css('border','1px solid #ddd');
+                $(win.document.body).find('table tbody td').css('border','1px solid #ddd');
                 },
                 exportOptions: {
                     columns: [ 0, 1, 2, 3, 4, 5],
@@ -194,4 +196,4 @@
 
 });
 </script>
-@endsection 
+@endsection

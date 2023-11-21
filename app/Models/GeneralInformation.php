@@ -12,7 +12,7 @@ class GeneralInformation extends Model
     protected $table = 'general_information';
     protected $fillable = [
         'employee_id', 'name_in_bangla', 'name_in_english', 'fathers_name_in_bangla', 'mothers_name_in_bangla', 'district_id', 'maritial_status', 'birth_date', 'prl_date',
-        'present_designation_id', 'present_workstation_id', 'salary_scale_id', 'joining_date', 'joining_designation_id', 'main_designation_id', 'permanent_date', 'order_no',
+        'present_designation_id', 'present_workstation_id', 'salary_scale_id', 'joining_type', 'joining_date', 'joining_designation_id', 'main_designation_id', 'permanent_date', 'order_no',
         'permanent_address', 'present_address', 'mobile', 'email', 'sex', 'maritial_status', 'spouse_name_in_bangla', 'occupation_id', 'spouse_district_id',
         'photo', 'signature', 'status'
     ];
@@ -54,19 +54,19 @@ class GeneralInformation extends Model
     public function educationalInformationFirst(){
         return $this->hasOne(EducationalInformation::class)->orderBy('id','desc');
     }
-    
+
     public function trainingInformationFirst(){
         return $this->hasOne(TrainingInformation::class)->orderBy('id','desc');
     }
-    
+
     public function publicationInformationFirst(){
         return $this->hasOne(PublicationInformation::class)->orderBy('id','desc');
     }
-    
+
     public function promotionInformationFirst(){
         return $this->hasOne(PromotionInformation::class)->orderBy('id','desc');
     }
-    
+
     public function caseInformationFirst(){
         return $this->hasOne(CaseInformation::class)->orderBy('id','desc');
     }

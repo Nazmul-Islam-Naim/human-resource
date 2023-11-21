@@ -182,7 +182,7 @@ class WorkstationDesignationController extends Controller
                 } else {
                     return '0';
                 }
-                
+
             })
             ->make(True);
         }
@@ -196,6 +196,7 @@ class WorkstationDesignationController extends Controller
      */
     public function report(Request $request, $id)
     {
+        $workstationName = Workstation::select('name')->where('id', $id)->first()->name;
         if ($request->ajax()) {
             $alldata= DesignationWorkstation::with(['generalInformation','generalInformation.mainDesignation','generalInformation.presentDesignation','workstation', 'designation'])
                             ->where('workstation_id', $id)
@@ -215,7 +216,7 @@ class WorkstationDesignationController extends Controller
                 } else {
                     return '';
                 }
-                
+
             })->addColumn('timePeriods', function($row){
                 if (!empty($row->general_information_id)) {
                     $generalInformation = $row->generalInformation;
@@ -231,9 +232,9 @@ class WorkstationDesignationController extends Controller
                 } else {
                     return '';
                 }
-                
+
             })->make(True);
         }
-        return view ('employee.workstationDesignation.report', ['workstationId' => $id]);
+        return view ('employee.workstationDesignation.report', ['workstationId' => $id, 'workstationName' => $workstationName]);
     }
 }

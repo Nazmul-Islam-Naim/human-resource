@@ -69,16 +69,16 @@ class EmployeeController extends Controller
     public function trnasferFormStore(CreateRequest $request,$id)
     {
         $employee = GeneralInformation::findOrFail($id);
-        
+
         DesignationWorkstation::where([['workstation_id', $employee->present_workstation_id], ['designation_id', $employee->present_designation_id]])->update([
             'general_information_id' => null,
             'release_date' => $request->transferred_date
         ]);
-        
+
         try{
             tap($employee->employeeTransfer()->create($request->all()), function($query) use ($employee){
                 $query->generalInformation()->update([
-                    'present_designation_id' => $query->designation_id, 
+                    'present_designation_id' => $query->designation_id,
                     'present_workstation_id' => $query->workstation_id,
                     'salary_scale_id' => $query->salary_scale_id,
                 ]);
@@ -91,7 +91,7 @@ class EmployeeController extends Controller
                     'comment' => $query->comment,
                     'discipline' => $query->discipline
                 ]);
-                
+
                 DesignationWorkstation::where([['workstation_id', $query->workstation_id], ['designation_id', $query->designation_id]])->update([
                     'general_information_id' => $employee->id,
                     'joining_date' => $query->joining_date
@@ -159,7 +159,7 @@ class EmployeeController extends Controller
             }
         }
         return view ('employee.transferInformation.list');
-        
+
     }
 
     public function employeeTransferredListUpdate($id)
@@ -184,11 +184,11 @@ class EmployeeController extends Controller
             ]);
 
             $employee->update([
-                'present_designation_id' => $request->designation_id, 
+                'present_designation_id' => $request->designation_id,
                 'present_workstation_id' => $request->workstation_id,
                 'salary_scale_id' => $request->salary_scale_id,
             ]);
-    
+
             $employee->transferStatus()->update([
                 'present_joining_date' => $request->joining_date,
             ]);
@@ -210,7 +210,7 @@ class EmployeeController extends Controller
         $data['employeeTransfer']= EmployeeTransfer::findOrFail($id);
         return view ('employee.transferInformation.release',$data);
     }
-    
+
     public function employeeReleaseUpdate(Request $request, $id)
     {
         try{
@@ -334,7 +334,7 @@ class EmployeeController extends Controller
         }
     }
     // ============= pansion and prl by naim ===============
-    
+
     public function employeePensionPrlForm($id)
     {
         $data['generalInformation']= GeneralInformation::findOrFail($id);
@@ -406,19 +406,19 @@ class EmployeeController extends Controller
             }
         }
         return view ('employee.pensionPrlInformation.index');
-        
+
     }
     public function employeePensionHistory($id)
     {
        $data['employeePensionPrl'] = EmployeePensionPrl::findOrFail($id);
         return view ('employee.pensionPrlInformation.show',$data);
-        
+
     }
     public function pensionAndPrlFormEdit($id)
     {
        $data['employeePensionPrl'] = EmployeePensionPrl::findOrFail($id);
         return view ('employee.pensionPrlInformation.edit',$data);
-        
+
     }
     public function pensionAndPrlFormUpdate(PensionUpdateRequest $request, $id)
     {
@@ -466,7 +466,7 @@ class EmployeeController extends Controller
                 ->addIndexColumn()->make(True);
             }
         }
-        return view ('employee.pensionPrlInformation.upComingPrl', compact('designations'));   
+        return view ('employee.pensionPrlInformation.upComingPrl', compact('designations'));
     }
     public function upComingPension(Request $request)
     {
@@ -504,8 +504,8 @@ class EmployeeController extends Controller
                         NumberToBangla::bnNum($timePriod->format('%d')).' দিন';
                 })->make(True);
             }
-            
+
         }
-        return view ('employee.pensionPrlInformation.upComingReport');   
+        return view ('employee.pensionPrlInformation.upComingReport');
     }
 }

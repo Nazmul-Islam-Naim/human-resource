@@ -16,7 +16,7 @@
         @include('common.message')
         @include('common.commonFunction')
       </div>
-  
+
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card card-primary">
           <div class="card-header d-flex justify-content-between align-items-center">
@@ -28,12 +28,12 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="table-responsive">
-                  <table class="table table-bordered cell-border compact hover nowrap order-column row-border stripe" id="example"> 
-                    <thead> 
-                      <tr> 
+                  <table class="table table-bordered cell-border compact hover order-column row-border stripe" id="example">
+                    <thead>
+                      <tr>
                         <th>Sl</th>
                         <th>Workstaion</th>
-                        <th>Designation</th> 
+                        <th>Designation</th>
                         <th width="15%">Action</th>
                       </tr>
                     </thead>
@@ -60,7 +60,7 @@
 	$(document).ready(function() {
 		'use strict';
 
-   
+
     var table = $('#example').DataTable({
 			serverSide: true,
 			processing: true,
@@ -83,17 +83,17 @@
                 title:"",
                 messageTop: function () {
                   var top = '<center><p class ="text-center"><img src="{{asset("backend/custom/images")}}/header.png" height="100"/></p></center>';
-                  
+
                   return top;
                 },
                 customize: function (win){
                 $(win.document.body).addClass('white-bg');
                 $(win.document.body).css('font-size', '10px');
- 
+
                 $(win.document.body).find('table').css('font-size', 'inherit');
- 
-                $(win.document.body).find('table thead th').css('border','1px solid #ddd');  
-                $(win.document.body).find('table tbody td').css('border','1px solid #ddd');  
+
+                $(win.document.body).find('table thead th').css('border','1px solid #ddd');
+                $(win.document.body).find('table tbody td').css('border','1px solid #ddd');
                 },
                 exportOptions: {
                     columns: [ 0, 1, 2]
@@ -143,4 +143,4 @@
 
 });
 </script>
-@endsection 
+@endsection

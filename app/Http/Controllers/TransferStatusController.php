@@ -15,7 +15,7 @@ use Yajra\DataTables\Facades\DataTables;
 
 class TransferStatusController extends Controller
 {
-    
+
     public function index(Request $request){
         if ($request->ajax()) {
             $transferStatuses = TransferStatus::with('generalInformation', 'generalInformation.mainDesignation', 'generalInformation.district',
@@ -79,7 +79,7 @@ class TransferStatusController extends Controller
                                                          )->get();
                 return DataTables::of($transferStatuses)->addIndexColumn()->make(true);
             }
-            
+
         }
 
         return view('employee.transferStatus.report', compact('designations'));
@@ -111,7 +111,7 @@ class TransferStatusController extends Controller
                     return NumberToBangla::bnNum($timePriod->format('%y')).' বছর '.NumberToBangla::bnNum($timePriod->format('%m')).' মাস '.NumberToBangla::bnNum($timePriod->format('%d')).' দিন';
                 })->make(true);
             }
-            
+
         }
 
         return view('employee.transferStatus.time', compact('designations'));

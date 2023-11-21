@@ -19,7 +19,7 @@ class DepartmentWorkstationController extends Controller
      */
     public function index(Request $request)
     {
-        
+
         if ($request->ajax()) {
             $alldata= DepartmentWorkstation::with(['department', 'workstation'])
                             ->get();
@@ -159,19 +159,19 @@ class DepartmentWorkstationController extends Controller
                     $totalEmployee = 0;
                     foreach ($row->departments as $key => $department) {
                         $totalEmployee += $department->workstation->workstations->where('general_information_id', '!=', null)->count();
-                        
+
                     }
                     return $totalEmployee;
                 } else {
                     return '0';
                 }
-                
+
             })
             ->make(True);
         }
         return view ('employee.departmentWorkstation.departments');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -179,6 +179,7 @@ class DepartmentWorkstationController extends Controller
      */
     public function report(Request $request, $id)
     {
+        $departmentName = Department::select('name')->where('id', $id)->first()->name;
         if ($request->ajax()) {
             $alldata= DepartmentWorkstation::with([
                             'department',
@@ -226,6 +227,6 @@ class DepartmentWorkstationController extends Controller
             ->escapeColumns([])
             ->make(True);
         }
-        return view ('employee.departmentWorkstation.report', ['departmentId' => $id]);
+        return view ('employee.departmentWorkstation.report', ['departmentId' => $id, 'departmentName' => $departmentName]);
     }
 }

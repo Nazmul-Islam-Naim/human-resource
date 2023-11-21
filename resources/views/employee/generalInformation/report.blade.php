@@ -27,18 +27,18 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="table-responsive">
-                  <table class="table table-bordered cell-border compact hover nowrap order-column row-border stripe" id="example"> 
-                    <thead> 
-                      <tr class="dt-top"> 
-                        <th class="dt-wrap">ক্রমিক নং</th>
-                        <th class="dt-wrap">কর্মকর্তা / কর্মচারীর নাম</th>
-                        <th class="dt-wrap">১ম যোগদানের তারিখ</th> 
-                        <th class="dt-wrap">১ম যোগদাকৃত পদবী</th> 
-                        <th class="dt-wrap">সর্বশেষ পদবী</th> 
-                        <th class="dt-wrap">সর্বশেষ মূলপদ</th> 
-                        <th class="dt-wrap">কর্মস্থলসমূহের নাম</th> 
-                        <th class="dt-wrap">কর্মস্থলসমূহের কর্মকাল (... থেকে ...)</th> 
-                        <th class="dt-wrap">পিআরএল-এ গমনের তারিখ</th> 
+                  <table class="table table-bordered cell-border compact nowrap hover order-column row-border stripe" id="example">
+                    <thead>
+                      <tr>
+                        <th>ক্রমিক নং</th>
+                        <th>কর্মকর্তা / কর্মচারীর <br> নাম</th>
+                        <th>১ম যোগদানের <br> তারিখ</th>
+                        <th>১ম যোগদাকৃত <br> পদবী</th>
+                        <th>সর্বশেষ <br> পদবী</th>
+                        <th>সর্বশেষ <br> মূলপদ</th>
+                        <th>কর্মস্থলসমূহের <br> নাম</th>
+                        <th>কর্মস্থলসমূহের কর্মকাল <br> (... থেকে ...)</th>
+                        <th>পিআরএল-এ <br> গমনের তারিখ</th>
                       </tr>
                     </thead>
                   </table>
@@ -62,7 +62,7 @@
 {!!Html::script('custom/yajraTableJs/query.dataTables1.12.1.js')!!}
 <script>
 
-  function dateFormat(data) { 
+  function dateFormat(data) {
     let date, month, year;
     date = data.getDate();
     month = data.getMonth() + 1;
@@ -117,7 +117,7 @@
                 messageTop: function () {
                   var top = '<center><p class ="text-center"><img src="{{asset("backend/custom/images")}}/header.png" height="100"/></p></center>';
                    top += '<h5>কর্মকর্তা / কর্মচারীর চাকুরী সংক্রান্ত তথ্যঃ</h5>';
-                  
+
                   return top;
                 },
                 customize: function (win){
@@ -126,8 +126,8 @@
 
                 $(win.document.body).find('table').css('font-size', 'inherit');
 
-                $(win.document.body).find('table thead th').css('border','1px solid #ddd');  
-                $(win.document.body).find('table tbody td').css('border','1px solid #ddd');   
+                $(win.document.body).find('table thead th').css('border','1px solid #ddd');
+                $(win.document.body).find('table tbody td').css('border','1px solid #ddd');
                 },
                 exportOptions: {
                     columns: [ 0, 1, 2, 3, 4, 5, 6, 7, 8],
@@ -213,4 +213,4 @@
     });
 });
 </script>
-@endsection 
+@endsection

@@ -24,6 +24,7 @@ return new class extends Migration
             $table->foreignId('present_designation_id')->constrained('designations')->onDelete('cascade');
             $table->foreignId('present_workstation_id')->constrained('workstations')->onDelete('cascade');
             $table->foreignId('salary_scale_id')->comment('present salary scale id')->constrained('salary_scales')->onDelete('cascade');
+            $table->string('joining_type', 15)->nullable()->comment('Revenue = রাজাস্ব, Development = উন্নয়ন');
             $table->date('joining_date')->nullable();
             $table->foreignId('joining_designation_id')->nullable()->constrained('designations')->onDelete('cascade');
             $table->foreignId('main_designation_id')->nullable()->constrained('designations')->onDelete('cascade');

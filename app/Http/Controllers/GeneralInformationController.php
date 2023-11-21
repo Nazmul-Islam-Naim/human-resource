@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\JoiningType;
 use App\Enum\MaritialStatusEnum;
 use App\Enum\SexEnum;
 use App\Http\Requests\GeneralIformation\CreateRequest;
@@ -64,6 +65,7 @@ class GeneralInformationController extends Controller
         $data['salaryScales'] = SalaryScale::all();
         $data['districts'] = District::all();
         $data['workstations'] = Workstation::all();
+        $data['joiningTypes'] = JoiningType::get();
         $data['sexes'] = SexEnum::getEnum();
         $data['maritialStatus'] = MaritialStatusEnum::getEnum();
         return view('employee.generalInformation.create',$data);
@@ -84,7 +86,7 @@ class GeneralInformationController extends Controller
                 $data['signature'] = (Arr::pull($data, 'signature'))->store('signatures');
             }
             $joiningDate = Carbon::parse($request->birth_date);
-            $data['prl_date'] = $joiningDate->addYears(59);
+            $data['prl_date'] = $joiningDate->addYears(59)->subDay();
             tap(GeneralInformation::create($data), function($query){
                 $query->transferStatus()->create([
                     'present_joining_date' => $query->joining_date
@@ -130,6 +132,7 @@ class GeneralInformationController extends Controller
         $data['salaryScales'] = SalaryScale::all();
         $data['districts'] = District::all();
         $data['workstations'] = Workstation::all();
+        $data['joiningTypes'] = JoiningType::get();
         $data['sexes'] = SexEnum::getEnum();
         $data['maritialStatus'] = MaritialStatusEnum::getEnum();
         $data['generalInformation'] = GeneralInformation::findOrFail($id);
@@ -157,7 +160,7 @@ class GeneralInformationController extends Controller
             $data['prl_date'] = $joiningDate->addYears(59);
 
             $generalInformation = GeneralInformation::findOrFail($id);
-            
+
             DesignationWorkstation::where([['workstation_id', $generalInformation->present_workstation_id], ['designation_id', $generalInformation->present_designation_id]])->update([
                 'general_information_id' => null,
                 'joining_date' => null
@@ -207,7 +210,7 @@ class GeneralInformationController extends Controller
         }
     }
 
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -231,7 +234,7 @@ class GeneralInformationController extends Controller
                 } else {
                     return '';
                 }
-                
+
             })
             ->escapeColumns([])
             ->addColumn('timePeriods', function($row){
@@ -253,7 +256,7 @@ class GeneralInformationController extends Controller
                 } else {
                     return '';
                 }
-                
+
             })
             ->escapeColumns([])
             ->make(True);

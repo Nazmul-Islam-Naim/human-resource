@@ -16,7 +16,7 @@
         @include('common.message')
         @include('common.commonFunction')
       </div>
-  
+
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
         <div class="card card-primary">
           {!! Form::open(array('route' =>['generalInformations.store'],'method'=>'POST','enctype'=>'multipart/form-data')) !!}
@@ -30,11 +30,11 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="text" 
-                    name="employee_id" 
-                    class="form-control @error('employee_id') is-invalid @enderror" 
+                    <input type="text"
+                    name="employee_id"
+                    class="form-control @error('employee_id') is-invalid @enderror"
                     value="{{old('employee_id')}}"
-                    placeholder="০১২৩" 
+                    placeholder="০১২৩"
                     autocomplete="off">
                   </div>
                   <div class="field-placeholder">ইমপ্লোয়ী আইডি</div>
@@ -46,11 +46,11 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="text" 
-                    name="name_in_bangla" 
-                    class="form-control @error('name_in_bangla') is-invalid @enderror" 
+                    <input type="text"
+                    name="name_in_bangla"
+                    class="form-control @error('name_in_bangla') is-invalid @enderror"
                     value="{{old('name_in_bangla')}}"
-                    placeholder="কর্মকর্তা/কর্মচারীর নাম" 
+                    placeholder="কর্মকর্তা/কর্মচারীর নাম"
                     autocomplete="off" required>
                   </div>
                   <div class="field-placeholder">নাম (বাংলায়) <span class="text-danger">*</span></div>
@@ -62,11 +62,11 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="text" 
-                    name="name_in_english" 
+                    <input type="text"
+                    name="name_in_english"
                     class="form-control @error('name_in_english') is-invalid @enderror"
-                    value="{{old('name_in_english')}}" 
-                    placeholder="Employee name" 
+                    value="{{old('name_in_english')}}"
+                    placeholder="Employee name"
                     autocomplete="off">
                   </div>
                   <div class="field-placeholder">নাম (ইংরেজি)</div>
@@ -78,11 +78,11 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="text" 
-                    name="fathers_name_in_bangla" 
-                    class="form-control @error('fathers_name_in_bangla') is-invalid @enderror" 
+                    <input type="text"
+                    name="fathers_name_in_bangla"
+                    class="form-control @error('fathers_name_in_bangla') is-invalid @enderror"
                     value="{{old('fathers_name_in_bangla')}}"
-                    placeholder="বাবার নাম" 
+                    placeholder="বাবার নাম"
                     required="" autocomplete="off">
                   </div>
                   <div class="field-placeholder">বাবার নাম (বাংলায়)<span class="text-danger">*</span></div>
@@ -94,11 +94,11 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="text" 
-                    name="mothers_name_in_bangla" 
-                    class="form-control @error('mothers_name_in_bangla') is-invalid @enderror" 
+                    <input type="text"
+                    name="mothers_name_in_bangla"
+                    class="form-control @error('mothers_name_in_bangla') is-invalid @enderror"
                     value="{{old('mothers_name_in_bangla')}}"
-                    placeholder="মায়ের নাম" 
+                    placeholder="মায়ের নাম"
                     required="" autocomplete="off">
                   </div>
                   <div class="field-placeholder">মায়ের নাম (বাংলায়)<span class="text-danger">*</span></div>
@@ -110,8 +110,8 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <select name="district_id" 
-                    class="form-control select2 @error('district_id') is-invalid @enderror" 
+                    <select name="district_id"
+                    class="form-control select2 @error('district_id') is-invalid @enderror"
                     required="">
                       <option value="">Select</option>
                       @foreach($districts as $district)
@@ -128,9 +128,9 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="date" 
-                    name="birth_date" 
-                    class="form-control @error('birth_date') is-invalid @enderror" 
+                    <input type="date"
+                    name="birth_date"
+                    class="form-control @error('birth_date') is-invalid @enderror"
                     value="{{old('birth_date')??date('Y-m-d')}}"
                     autocomplete="off">
                   </div>
@@ -143,8 +143,8 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <select name="present_designation_id" 
-                    class="form-control select2 @error('present_designation_id') is-invalid @enderror" 
+                    <select name="present_designation_id"
+                    class="form-control select2 @error('present_designation_id') is-invalid @enderror"
                     required="">
                       <option value="">Select</option>
                       @foreach($designations as $designation)
@@ -161,8 +161,8 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <select name="present_workstation_id" 
-                    class="form-control select2 @error('present_workstation_id') is-invalid @enderror" 
+                    <select name="present_workstation_id"
+                    class="form-control select2 @error('present_workstation_id') is-invalid @enderror"
                     required="">
                       <option value="">Select</option>
                       @foreach($workstations as $workstation)
@@ -179,8 +179,8 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <select name="salary_scale_id" 
-                    class="form-control select2 @error('salary_scale_id') is-invalid @enderror" 
+                    <select name="salary_scale_id"
+                    class="form-control select2 @error('salary_scale_id') is-invalid @enderror"
                     required="">
                       <option value="">Select</option>
                       @foreach($salaryScales as $salaryScale)
@@ -197,9 +197,27 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="date" 
-                    name="joining_date" 
-                    class="form-control @error('joining_date') is-invalid @enderror" 
+                    <select name="joining_type"
+                    class="form-control select2 @error('joining_type') is-invalid @enderror"
+                    required="">
+                      <option value="">Select</option>
+                      @foreach($joiningTypes as $key => $value)
+                      <option value="{{$key}}" {{(old('joining_type') == $key) ? 'selected' : ''}}>{{$value}}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <div class="field-placeholder">যোগদানের ধরন  <span class="text-danger">*</span></div>
+                </div>
+                @error('joining_type')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+              </div>
+              <div class="col-md-4">
+                <div class="field-wrapper">
+                  <div class="input-group">
+                    <input type="date"
+                    name="joining_date"
+                    class="form-control @error('joining_date') is-invalid @enderror"
                     value="{{old('joining_date')??date('Y-m-d')}}"
                     autocomplete="off">
                   </div>
@@ -212,8 +230,8 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <select name="joining_designation_id" 
-                    class="form-control select2 @error('joining_designation_id') is-invalid @enderror" 
+                    <select name="joining_designation_id"
+                    class="form-control select2 @error('joining_designation_id') is-invalid @enderror"
                     >
                       <option value="">Select</option>
                       @foreach($designations as $designation)
@@ -230,8 +248,8 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <select name="main_designation_id" 
-                    class="form-control select2 @error('main_designation_id') is-invalid @enderror" 
+                    <select name="main_designation_id"
+                    class="form-control select2 @error('main_designation_id') is-invalid @enderror"
                     >
                       <option value="">Select</option>
                       @foreach($designations as $designation)
@@ -248,9 +266,9 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="date" 
-                    name="permanent_date" 
-                    class="form-control @error('permanent_date') is-invalid @enderror" 
+                    <input type="date"
+                    name="permanent_date"
+                    class="form-control @error('permanent_date') is-invalid @enderror"
                     value="{{old('permanent_date')??date('Y-m-d')}}"
                     autocomplete="off">
                   </div>
@@ -263,9 +281,9 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="text" 
-                    name="order_no" 
-                    class="form-control @error('order_no') is-invalid @enderror" 
+                    <input type="text"
+                    name="order_no"
+                    class="form-control @error('order_no') is-invalid @enderror"
                     value="{{old('order_no')}}"
                     placeholder="ইফা. প্রশা./উন্নয়ন প্রকল্প-১৭(৮)/২৯২/৯৪(ভলি-১)৪৪৫০"
                     autocomplete="off">
@@ -279,7 +297,7 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <textarea name="permanent_address" id="permanent_address" 
+                    <textarea name="permanent_address" id="permanent_address"
                     class="form-control @error('permanent_address') is-invalid @enderror"
                     placeholder="ঢাকা, বাংলাদেশ"
                     style="height: 40px">
@@ -295,7 +313,7 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <textarea name="present_address" id="present_address" 
+                    <textarea name="present_address" id="present_address"
                     class="form-control @error('present_address') is-invalid @enderror"
                     placeholder="ঢাকা, বাংলাদেশ"
                     style="height: 40px">
@@ -311,9 +329,9 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="text" 
-                    name="mobile" 
-                    class="form-control @error('mobile') is-invalid @enderror" 
+                    <input type="text"
+                    name="mobile"
+                    class="form-control @error('mobile') is-invalid @enderror"
                     value="{{old('mobile')}}"
                     placeholder="০১***********"
                     autocomplete="off">
@@ -327,9 +345,9 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="email" 
-                    name="email" 
-                    class="form-control @error('email') is-invalid @enderror" 
+                    <input type="email"
+                    name="email"
+                    class="form-control @error('email') is-invalid @enderror"
                     value="{{old('email')}}"
                     placeholder="nin@mail.com"
                     autocomplete="off">
@@ -343,8 +361,8 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <select name="sex" 
-                    class="form-control select2 @error('sex') is-invalid @enderror" 
+                    <select name="sex"
+                    class="form-control select2 @error('sex') is-invalid @enderror"
                     required="">
                       <option value="">Select</option>
                       @foreach($sexes as $value => $name)
@@ -361,8 +379,8 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <select name="maritial_status" 
-                    class="form-control select2 @error('maritial_status') is-invalid @enderror" 
+                    <select name="maritial_status"
+                    class="form-control select2 @error('maritial_status') is-invalid @enderror"
                     required="">
                       <option value="">Select</option>
                       @foreach($maritialStatus as $value => $name)
@@ -379,9 +397,9 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="text" 
-                    name="spouse_name_in_bangla" 
-                    class="form-control @error('spouse_name_in_bangla') is-invalid @enderror" 
+                    <input type="text"
+                    name="spouse_name_in_bangla"
+                    class="form-control @error('spouse_name_in_bangla') is-invalid @enderror"
                     value="{{old('spouse_name_in_bangla')}}"
                     placeholder="স্বামী/স্ত্রীর নাম"
                     autocomplete="off">
@@ -395,8 +413,8 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <select name="occupation_id" 
-                    class="form-control select2 @error('occupation_id') is-invalid @enderror" 
+                    <select name="occupation_id"
+                    class="form-control select2 @error('occupation_id') is-invalid @enderror"
                     >
                       <option value="">Select</option>
                       @foreach($occupations as $occupation)
@@ -413,8 +431,8 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <select name="spouse_district_id" 
-                    class="form-control select2 @error('spouse_district_id') is-invalid @enderror" 
+                    <select name="spouse_district_id"
+                    class="form-control select2 @error('spouse_district_id') is-invalid @enderror"
                     >
                       <option value="">Select</option>
                       @foreach($districts as $district)
@@ -433,7 +451,7 @@
                   <div class="input-group">
                     <input type="file" name="photo" class="form-control" value="" autocomplete="off">
                   </div>
-                  <div class="field-placeholder">ছবি (পাসপোর্ট সাইজের)</div> 
+                  <div class="field-placeholder">ছবি (পাসপোর্ট সাইজের)</div>
                 </div>
               </div>
               <div class="col-md-4">
@@ -441,7 +459,7 @@
                   <div class="input-group">
                     <input type="file" name="signature" class="form-control" value="" autocomplete="off">
                   </div>
-                  <div class="field-placeholder">সাক্ষর</div> 
+                  <div class="field-placeholder">সাক্ষর</div>
                 </div>
               </div>
             </div>
@@ -460,10 +478,10 @@
 {!!Html::script('custom/ninja/jquery.min.3.6.0.js')!!}
 <script>
 $(document).ready(function () {
-  $('#salary_scale_id').change(function (e) { 
+  $('#salary_scale_id').change(function (e) {
     e.preventDefault();
     var scale = $(this).val();
   });
 });
 </script>
-@endsection 
+@endsection

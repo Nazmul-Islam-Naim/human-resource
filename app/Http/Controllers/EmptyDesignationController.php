@@ -161,6 +161,7 @@ class EmptyDesignationController extends Controller
      */
     public function report(Request $request, $designationId)
     {
+        $designationName = Designation::select('title')->where('id', $designationId)->first()->title;
         if ($request->ajax()) {
             $alldata= DesignationWorkstation::with(['workstation', 'designation'])
                             ->where('designation_id',$request->designationId)
@@ -185,6 +186,6 @@ class EmptyDesignationController extends Controller
                 })
                 ->make(True);
         }
-        return view ('employee.emptyDesignation.report', compact('designationId'));
+        return view ('employee.emptyDesignation.report', compact('designationId', 'designationName'));
     }
 }
