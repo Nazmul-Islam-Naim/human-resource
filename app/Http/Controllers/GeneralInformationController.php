@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\DocumentTitleEnum;
 use App\Enum\JoiningType;
 use App\Enum\MaritialStatusEnum;
 use App\Enum\SexEnum;
@@ -10,6 +11,7 @@ use App\Http\Requests\GeneralIformation\UpdateRequest;
 use App\Models\Designation;
 use App\Models\DesignationWorkstation;
 use App\Models\District;
+use App\Models\DocumentHistory;
 use App\Models\GeneralInformation;
 use App\Models\Occupation;
 use App\Models\SalaryScale;
@@ -82,8 +84,8 @@ class GeneralInformationController extends Controller
                 $data['photo'] = (Arr::pull($data, 'photo'))->store('photos');
             }
 
-            if(Arr::has($data, 'signature')){
-                $data['signature'] = (Arr::pull($data, 'signature'))->store('signatures');
+            if(Arr::has($data, 'document')){
+                $data['document'] = (Arr::pull($data, 'document'))->store('offerLetters');
             }
             $joiningDate = Carbon::parse($request->birth_date);
             $data['prl_date'] = $joiningDate->addYears(59)->subDay();
@@ -104,6 +106,14 @@ class GeneralInformationController extends Controller
                     'general_information_id' => $query->id,
                     'joining_date' => $query->joining_date
                 ]);
+
+                if (!empty($query->document) || $query->document != '') {
+                    $query->offerLetters()->create([
+                        'general_information_id' => $query->id,
+                        'document_title' => DocumentTitleEnum::Offer_Letter->toString(),
+                        'document' => $query->document
+                    ]);
+                }
             });
             Session::flash('flash_message','Information Successfully Added !');
             return redirect()->route('generalInformations.index')->with('status_color','success');
@@ -150,14 +160,14 @@ class GeneralInformationController extends Controller
                 $data['photo'] = (Arr::pull($data, 'photo'))->store('photos');
             }
 
-            if(Arr::has($data, 'signature')){
-                $data['signature'] = (Arr::pull($data, 'signature'))->store('signatures');
+            if(Arr::has($data, 'document')){
+                $data['document'] = (Arr::pull($data, 'document'))->store('offerLetters');
             }
             $method = Arr::pull($data, '_method');
             $token = Arr::pull($data, '_token');
 
             $joiningDate = Carbon::parse($request->birth_date);
-            $data['prl_date'] = $joiningDate->addYears(59);
+            $data['prl_date'] = $joiningDate->addYears(59)->subDay();
 
             $generalInformation = GeneralInformation::findOrFail($id);
 
@@ -185,6 +195,14 @@ class GeneralInformationController extends Controller
                     'general_information_id' => $generalInformation->id,
                     'joining_date' => $data['joining_date']
                 ]);
+
+                if (!empty($data['document'])) {
+                    $generalInformation->offerLetters()->create([
+                        'general_information_id' => $generalInformation->id,
+                        'document_title' => DocumentTitleEnum::Offer_Letter->toString(),
+                        'document' => $data['document']
+                    ]);
+                }
             });
             GeneralInformation::where('id',$id)->update($data);
             Session::flash('flash_message','Information Successfully Updated !');
@@ -262,5 +280,15 @@ class GeneralInformationController extends Controller
             ->make(True);
         }
         return view ('employee.generalInformation.report');
+    }
+
+    /**
+     * document page
+     */
+    public function document($id)
+    {
+        $data['generalInformation'] = GeneralInformation::findOrFail($id);
+        $data['documents'] = DocumentHistory::where('general_information_id', $id)->get();
+        return view('employee.generalInformation.document', $data);
     }
 }

@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('gratuity',10)->nullable();
             $table->string('amount_loan_taken',10)->nullable();
             $table->string('reason_amount_loan_taken')->nullable();
+            $table->string('pension_document')->nullable()->comment('pension document');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\DocumentTitleEnum;
 use App\Enum\Status;
 use App\Http\Requests\EmployeePensionPrl\PensionCreateRequest;
 use App\Http\Requests\EmployeePensionPrl\PensionUpdateRequest;
 use App\Http\Requests\EmployeeTransfer\CreateRequest;
+use App\Http\Requests\EmployeeTransfer\ReleaseRequest;
 use App\Http\Requests\EmployeeTransfer\UpdateRequest;
 use App\Http\Requests\TransferApplication\ApplicationCreateRequest;
 use App\Http\Requests\TransferApplication\ApplicationUpdateRequest;
@@ -75,8 +77,14 @@ class EmployeeController extends Controller
             'release_date' => $request->transferred_date
         ]);
 
+        $data = $request->all();
+
+        if (Arr::has($data, 'transfer_document')) {
+            $data['transfer_document'] = (Arr::pull($data, 'transfer_document'))->store('transferLetters');
+        }
+
         try{
-            tap($employee->employeeTransfer()->create($request->all()), function($query) use ($employee){
+            tap($employee->employeeTransfer()->create($data), function($query) use ($employee){
                 $query->generalInformation()->update([
                     'present_designation_id' => $query->designation_id,
                     'present_workstation_id' => $query->workstation_id,
@@ -84,7 +92,7 @@ class EmployeeController extends Controller
                 ]);
 
                 $employee->transferStatus()->update([
-                    'present_joining_date' => $query->joining_date,
+                    // 'present_joining_date' => $query->joining_date,
                     'workstation_id' => $employee->present_workstation_id,
                     'designation_id' => $employee->present_designation_id,
                     'previous_joining_date' => $employee->transferStatus->present_joining_date,
@@ -92,10 +100,19 @@ class EmployeeController extends Controller
                     'discipline' => $query->discipline
                 ]);
 
+
                 DesignationWorkstation::where([['workstation_id', $query->workstation_id], ['designation_id', $query->designation_id]])->update([
                     'general_information_id' => $employee->id,
-                    'joining_date' => $query->joining_date
+                    // 'joining_date' => $query->joining_date
                 ]);
+
+                if (!empty($query->transfer_document) || $query->transfer_document != '') {
+                    $query->documents()->create([
+                        'general_information_id' => $query->general_information_id,
+                        'document_title' => DocumentTitleEnum::Transfer_Letter->toString(),
+                        'document' => $query->transfer_document
+                    ]);
+                }
             });
             Session::flash('flash_message','Transferred Successfully Done !');
             return redirect()->route('employee-transferred-list')->with('status_color','success');
@@ -175,7 +192,14 @@ class EmployeeController extends Controller
     {
         try{
             $employeeTransfer = EmployeeTransfer::findOrFail($id);
-            $employeeTransfer->update($request->all());
+
+            $data = $request->all();
+
+            if (Arr::has($data, 'transfer_document')) {
+                $data['transfer_document'] = (Arr::pull($data, 'transfer_document'))->store('transferLetters');
+            }
+
+            $employeeTransfer->update($data);
             $employee = GeneralInformation::findOrFail($employeeTransfer->general_information_id);
 
             DesignationWorkstation::where([['workstation_id', $employee->present_workstation_id], ['designation_id', $employee->present_designation_id]])->update([
@@ -189,14 +213,23 @@ class EmployeeController extends Controller
                 'salary_scale_id' => $request->salary_scale_id,
             ]);
 
-            $employee->transferStatus()->update([
-                'present_joining_date' => $request->joining_date,
-            ]);
+            // $employee->transferStatus()->update([
+            //     'present_joining_date' => $request->joining_date,
+            // ]);
 
             DesignationWorkstation::where([['workstation_id', $request->workstation_id], ['designation_id', $request->designation_id]])->update([
                 'general_information_id' => $employee->id,
-                'joining_date' => $request->joining_date
+                // 'joining_date' => $request->joining_date
             ]);
+
+            if (!empty($data['transfer_document'])) {
+                $employeeTransfer->documents()->create([
+                    'general_information_id' => $employeeTransfer->general_information_id,
+                    'document_title' => DocumentTitleEnum::Transfer_Letter->toString(),
+                    'document' => $employeeTransfer->transfer_document
+                ]);
+            }
+
             Session::flash('flash_message','Transferred Record Successfully Updated !');
             return redirect()->route('employee-transferred-list')->with('status_color','success');
         }catch(\Exception $exception){
@@ -211,13 +244,63 @@ class EmployeeController extends Controller
         return view ('employee.transferInformation.release',$data);
     }
 
-    public function employeeReleaseUpdate(Request $request, $id)
+    public function employeeReleaseUpdate(ReleaseRequest $request, $id)
     {
         try{
-            EmployeeTransfer::where('id',$id)->update(['release_date' => $request->release_date]);
+
+            $data = $request->all();
+            if (Arr::has($data, 'release_document')) {
+                $data['release_document'] = (Arr::pull($data, 'release_document'))->store('releaseLetters');
+            }
+
+            if (Arr::has($data, 'join_document')) {
+                $data['join_document'] = (Arr::pull($data, 'join_document'))->store('joinLetters');
+            }
+
+            $transfer = EmployeeTransfer::findOrFail($id);
+
+            $newTransfer = EmployeeTransfer::where('general_information_id', $transfer->general_information_id)->where('id', '>', $transfer->id)->first();
+
+            $transfer->update(
+                [
+                    'release_date' => $request->release_date,
+                    'release_document' => $data['release_document'] ?? $transfer->release_document
+                ]
+            );
+
+            $newTransfer->update(
+                [
+                    'joining_date' => $request->joining_date,
+                    'join_document' => $data['join_document'] ?? $newTransfer->join_document
+                ]
+            );
+
+            $transfer->generalInformation->transferStatus()->update(['present_joining_date' => $request->joining_date]);
+
+            DesignationWorkstation::where([['workstation_id', $transfer->workstation_id], ['designation_id', $transfer->designation_id]])->update([
+                'joining_date' => $transfer->joining_date
+            ]);
+
+            if(!empty($data['release_document'])){
+                $transfer->documents()->create([
+                    'general_information_id' => $transfer->general_information_id,
+                    'document_title' => DocumentTitleEnum::Release_Letter->toString(),
+                    'document' => $data['release_document']
+                ]);
+            }
+
+            if(!empty($data['join_document'])){
+                $newTransfer->documents()->create([
+                    'general_information_id' => $newTransfer->general_information_id,
+                    'document_title' => DocumentTitleEnum::Joining_Letter->toString(),
+                    'document' => $data['join_document']
+                ]);
+            }
+
             Session::flash('flash_message','Transferred Record Successfully Updated !');
             return redirect()->route('employee-transferred-list')->with('status_color','success');
         }catch(\Exception $exception){
+            dd($exception->getMessage());
             Session::flash('flash_message','Something Error Found !');
             return redirect()->back()->with('status_color','danger');
         }
@@ -343,9 +426,23 @@ class EmployeeController extends Controller
     public function employeePensionPrlFormStore(PensionCreateRequest $request, $id)
     {
         try{
+            $data = $request->all();
+
+            if (Arr::has($data, 'pension_document')) {
+                $data['pension_document'] = (Arr::pull($data, 'pension_document'))->store('pensionDocuments');
+            }
+
             $employee = GeneralInformation::findOrFail($id);
-            $employee->employeePensionPrl()->create($request->all());
+            $pension = $employee->employeePensionPrl()->create($data);
             $employee->update(['status'=>Status::getFromName('Inactive')]);
+
+            if (!empty($pension->pension_document) || $pension->pension_document != '') {
+                $pension->documents()->create([
+                    'general_information_id' => $pension->general_information_id,
+                    'document_title' => DocumentTitleEnum::Pension_Letter->toString(),
+                    'document' => $pension->pension_document
+                ]);
+            }
             Session::flash('flash_message','Pension and Prl Successfully Done !');
             return redirect()->route('employee-pension-prl-list')->with('status_color','success');
         }catch(\Exception $exception){
@@ -425,8 +522,23 @@ class EmployeeController extends Controller
         $data = $request->all();
         $method = Arr::pull($data, '_method');
         $token = Arr::pull($data, '_token');
+
+        if (Arr::has($data, 'pension_document')) {
+            $data['pension_document'] = (Arr::pull($data, 'pension_document'))->store('pensionDocuments');
+        }
+
         try{
-            EmployeePensionPrl::where('id',$id)->update($data);
+            $pension = EmployeePensionPrl::findOrFail($id);
+            $pension->update($data);
+
+            if (!empty($data['pension_document'])) {
+                $pension->documents()->create([
+                    'general_information_id' => $pension->general_information_id,
+                    'document_title' => DocumentTitleEnum::Pension_Letter->toString(),
+                    'document' => $pension->pension_document
+                ]);
+            }
+
             Session::flash('flash_message','Pension/Prl Successfully Updated !');
             return redirect()->route('employee-pension-prl-list')->with('status_color','success');
         }catch(\Exception $exception){

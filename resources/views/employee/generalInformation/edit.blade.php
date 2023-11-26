@@ -345,6 +345,22 @@
               <div class="col-md-4">
                 <div class="field-wrapper">
                   <div class="input-group">
+                    <input type="text"
+                    name="nid"
+                    class="form-control @error('nid') is-invalid @enderror"
+                    value="{{$generalInformation->nid??old('nid')}}"
+                    placeholder="০১***********"
+                    autocomplete="off">
+                  </div>
+                  <div class="field-placeholder">এনআইডি নাম্বার</div>
+                </div>
+                @error('nid')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
+              </div>
+              <div class="col-md-4">
+                <div class="field-wrapper">
+                  <div class="input-group">
                     <input type="email"
                     name="email"
                     class="form-control @error('email') is-invalid @enderror"
@@ -454,12 +470,12 @@
                   <div class="field-placeholder">ছবি (পাসপোর্ট সাইজের)</div>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-12">
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="file" name="signature" class="form-control" value="" autocomplete="off">
+                    <input type="file" name="document" class="form-control" value="" autocomplete="off">
                   </div>
-                  <div class="field-placeholder">সাক্ষর</div>
+                  <div class="field-placeholder">ডকুমেন্ট</div>
                 </div>
               </div>
             </div>

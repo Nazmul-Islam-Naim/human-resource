@@ -37,6 +37,7 @@ class PensionCreateRequest extends FormRequest
             'gratuity' => ['nullable', 'max:10'],
             'amount_loan_taken' => ['nullable', 'max:10'],
             'reason_amount_loan_taken' => ['nullable', 'max:255'],
+            'pension_document' => ['nullable', 'mimes:pdf']
         ];
     }
 }

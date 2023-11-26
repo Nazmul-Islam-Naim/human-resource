@@ -24,18 +24,19 @@
         @include('common.message')
         @include('common.commonFunction')
       </div>
-  
+
       <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-          
+
             <div class="row">
               <div class="col-md-12">
                 <div class="card">
                   <div class="card-header">
                     <div class="card-title">কর্মকর্তা/কর্মচারীর বিস্তারিত</div>
                     <div class="graph-day-selection" role="group">
-                      <a href="{{ route('generalInformations.index' ) }}" class="btn"><i class="icon-list"></i></a>
-                      <a href="{{ route('generalInformations.edit', $generalInformation->id) }}" class="btn"><i class="icon-edit1"></i></a>
-                      <a onclick="printReport();" href="javascript:0;"><i class="icon-print"></i></a>
+                      <a href="{{ route('generalInformations.documents', $generalInformation->id ) }}" class="btn" title="File"><i class="icon-file"></i></a>
+                      <a href="{{ route('generalInformations.index' ) }}" class="btn" title="List"><i class="icon-list"></i></a>
+                      <a href="{{ route('generalInformations.edit', $generalInformation->id) }}" class="btn" title="Edit"><i class="icon-edit1"></i></a>
+                      <a onclick="printReport();" href="javascript:0;" title="Print"><i class="icon-print"></i></a>
                     </div>
                   </div>
                   <div class="card-body">
@@ -43,7 +44,7 @@
                       <div class="col-md-12" id="printReport">
                         <div class="table-responsive">
                           <table class="table table-bordered " style="width: 100%; font-size: 14px;" cellspacing="0" cellpadding="0">
-                            <tbody>  
+                            <tbody>
                               <tr>
                                 <td colspan="4" style=" text-align:center">
                                   <h3>ইসলামিক ফাউন্ডেশন</h3>
@@ -77,7 +78,7 @@
                               </tr>
                               <tr>
                                 <td colspan="4" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:justify; ">বর্তমান পদের নাম ও কর্মস্থলঃ {{$generalInformation->presentDesignation->title ?? ''}}, {{$generalInformation->presentWorkStation->name ?? ''}}</td>
-                                <td colspan="4" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:justify; ">বর্তমান পদবী ও বেতন স্কেলঃ  {{$generalInformation->presentDesignation->title ?? ''}}, {{$generalInformation->salaryScale->name ?? ''}}</td>
+                                <td colspan="4" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:justify; ">বর্তমান পদবী ও বেতন স্কেলঃ  {{$generalInformation->presentDesignation->title ?? ''}}, {{$generalInformation->salaryScale->name ?? ''}} ({{$generalInformation->salaryScale->salary ?? ''}})</td>
                               </tr>
                               <tr>
                                 <td colspan="4" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; ">চাকুরীতে যোগদানের তারিখ ও পদের নামঃ  {{$numTo->bnNum(date('d',strtotime($generalInformation->joining_date)))}}/
@@ -90,16 +91,19 @@
                                 <td colspan="4" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:justify; ">বর্তমান ঠিকানাঃ {{$generalInformation->present_address}}</td>
                               </tr>
                               <tr>
+                                <td colspan="4" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:justify; ">এনআইডিঃ {{$generalInformation->nid}}</td>
                                 <td colspan="4" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:justify; ">মোবাইলঃ {{$generalInformation->mobile}}</td>
+                              </tr>
+                              <tr>
                                 <td colspan="4" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:justify; ">ইমেইলঃ {{$generalInformation->email}}</td>
-                              </tr>
-                              <tr>
                                 <td colspan="4" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:justify; ">লিঙ্গঃ {{SexEnum::getFromValue($generalInformation->sex ?? '1')->name}}</td>
-                                <td colspan="4" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:justify; ">বৈবাহিক অবস্থাঃ {{MaritialStatusEnum::getFromValue($generalInformation->maritial_status ?? '1')->name}}</td>
                               </tr>
                               <tr>
+                                <td colspan="4" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:justify; ">বৈবাহিক অবস্থাঃ {{MaritialStatusEnum::getFromValue($generalInformation->maritial_status ?? '1')->name}}</td>
                                 <td colspan="4" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:justify; ">স্বামী/স্ত্রীর নাম ও পেশাঃ  {{$generalInformation->spouse_name_in_bangla}}, {{$generalInformation->occupation->name ?? ''}}</td>
-                                <td colspan="4" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:justify; ">স্ত্রীর জেলার নামঃ {{$generalInformation->spouseDistrict->name ?? ''}}</td>
+                              </tr>
+                              <tr>
+                                <td colspan="8" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; white-space: unset; text-align:justify; ">স্ত্রীর জেলার নামঃ {{$generalInformation->spouseDistrict->name ?? ''}}</td>
                               </tr>
                               <tr style="border:none; text-align: center; height:50px">
                                 <td colspan="8" style="border:none; text-align: center;"><b>খ. শিক্ষাসংক্রান্ত তথ্যাদি</b></td>
@@ -273,7 +277,7 @@
                                     <td rowspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">পদের নাম</td>
                                     <td rowspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">কর্মস্থলের নাম</td>
                                     <td colspan="3" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">কার্যকাল</td>
-                                    <td rowspan="2" colspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">মন্তব্য</td> 
+                                    <td rowspan="2" colspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">মন্তব্য</td>
                                   </tr>
                                   <tr style="background-color: #eee">
                                     <td colspan="2" style="border: 1px solid #ddd; padding: 3px 3px;margin-left:0px; text-align:center">হতে</td>
@@ -313,4 +317,4 @@
   </div>
 </div>
 <!-- /.content -->
-@endsection 
+@endsection

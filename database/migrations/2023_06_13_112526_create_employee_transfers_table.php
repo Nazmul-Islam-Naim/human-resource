@@ -22,10 +22,13 @@ return new class extends Migration
             $table->string('total_taken_leave',10)->nullable();
             $table->string('allowance',10)->nullable();
             $table->date('transferred_date')->nullable();
-            $table->date('joining_date');
+            $table->date('joining_date')->nullable();
             $table->date('release_date')->nullable();
             $table->string('discipline')->nullable();
             $table->string('comment')->nullable();
+            $table->string('transfer_document')->nullable()->comment('transfer document');
+            $table->string('release_document')->nullable()->comment('release document');
+            $table->string('join_document')->nullable()->comment('join document');
             $table->timestamps();
         });
     }

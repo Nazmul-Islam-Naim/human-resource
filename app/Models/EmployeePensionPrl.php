@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class EmployeePensionPrl extends Model
 {
@@ -26,6 +27,7 @@ class EmployeePensionPrl extends Model
         'gratuity',
         'amount_loan_taken',
         'reason_amount_loan_taken',
+        'pension_document',
         'status'
     ];
 
@@ -33,5 +35,8 @@ class EmployeePensionPrl extends Model
 
     public function generalInformation(){
         return $this->belongsTo(GeneralInformation::class);
+    }
+    public function documents():MorphMany {
+        return $this->morphMany(DocumentHistory::class, 'documentable');
     }
 }

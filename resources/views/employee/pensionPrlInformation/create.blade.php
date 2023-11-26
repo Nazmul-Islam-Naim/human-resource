@@ -26,8 +26,8 @@
             <!-- Row start -->
             <div class="row gutters">
               <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12 mt-2 mb-3">
-                <p>নামঃ {{ $generalInformation->name_in_bangla }} || 
-                  জেলাঃ {{ $generalInformation->district->name ?? '' }} || 
+                <p>নামঃ {{ $generalInformation->name_in_bangla }} ||
+                  জেলাঃ {{ $generalInformation->district->name ?? '' }} ||
                   মোবাইলঃ {{ $generalInformation->mobile }} ||
                   জন্ম তারিখঃ  {{$numTo->bnNum(date('d',strtotime($generalInformation->birth_date)))}}/
                   {{$numTo->bnNum(date('m',strtotime($generalInformation->birth_date)))}}/{{$numTo->bnNum(date('Y',strtotime($generalInformation->birth_date)))}} খ্রিঃ ||
@@ -38,11 +38,11 @@
                 <!-- Field wrapper start -->
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="text" 
-                    name="last_basic_salary" 
-                    class="form-control @error('last_basic_salary') is-invalid @enderror" 
+                    <input type="text"
+                    name="last_basic_salary"
+                    class="form-control @error('last_basic_salary') is-invalid @enderror"
                     value="{{old('last_basic_salary')}}"
-                    placeholder="২২৫০০" 
+                    placeholder="২২৫০০"
                     required="" autocomplete="off">
                   </div>
                   <div class="field-placeholder">সর্বশেষ মূল বেতন <span class="text-danger">*</span></div>
@@ -56,11 +56,11 @@
                 <!-- Field wrapper start -->
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="text" 
-                    name="leave_average_pay" 
-                    class="form-control @error('leave_average_pay') is-invalid @enderror" 
+                    <input type="text"
+                    name="leave_average_pay"
+                    class="form-control @error('leave_average_pay') is-invalid @enderror"
                     value="{{old('leave_average_pay')}}"
-                    placeholder="৩০০" 
+                    placeholder="৩০০"
                     required="" autocomplete="off">
                   </div>
                   <div class="field-placeholder">গড় বেতনে ছুটি<span class="text-danger">*</span></div>
@@ -74,11 +74,11 @@
                 <!-- Field wrapper start -->
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="text" 
-                    name="leave_half_pay" 
-                    class="form-control @error('leave_half_pay') is-invalid @enderror" 
+                    <input type="text"
+                    name="leave_half_pay"
+                    class="form-control @error('leave_half_pay') is-invalid @enderror"
                     value="{{old('leave_half_pay')}}"
-                    placeholder="১৫০০" 
+                    placeholder="১৫০০"
                     required="" autocomplete="off">
                   </div>
                   <div class="field-placeholder">অর্ধগড় বেতনে ছুটি <span class="text-danger">*</span></div>
@@ -92,11 +92,11 @@
                 <!-- Field wrapper start -->
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="text" 
-                    name="due_provident_fund" 
-                    class="form-control @error('due_provident_fund') is-invalid @enderror" 
+                    <input type="text"
+                    name="due_provident_fund"
+                    class="form-control @error('due_provident_fund') is-invalid @enderror"
                     value="{{old('due_provident_fund')}}"
-                    placeholder="২৫০০" 
+                    placeholder="২৫০০"
                     autocomplete="off">
                   </div>
                   <div class="field-placeholder">পাওনা প্রেভিডেন্ট ফান্ড</div>
@@ -110,11 +110,11 @@
                 <!-- Field wrapper start -->
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="text" 
-                    name="leave_encashment_owed" 
-                    class="form-control @error('leave_encashment_owed') is-invalid @enderror" 
+                    <input type="text"
+                    name="leave_encashment_owed"
+                    class="form-control @error('leave_encashment_owed') is-invalid @enderror"
                     value="{{old('leave_encashment_owed')}}"
-                    placeholder="৩০০০" 
+                    placeholder="৩০০০"
                     autocomplete="off">
                   </div>
                   <div class="field-placeholder">ছুটি নগদায়ন পাওনা</div>
@@ -128,11 +128,11 @@
                 <!-- Field wrapper start -->
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="text" 
-                    name="amount_gratuity" 
-                    class="form-control @error('amount_gratuity') is-invalid @enderror" 
+                    <input type="text"
+                    name="amount_gratuity"
+                    class="form-control @error('amount_gratuity') is-invalid @enderror"
                     value="{{old('amount_gratuity')}}"
-                    placeholder="৩০০০" 
+                    placeholder="৩০০০"
                     autocomplete="off">
                   </div>
                   <div class="field-placeholder">গ্রাচ্যুটির পরিমান</div>
@@ -146,11 +146,11 @@
                 <!-- Field wrapper start -->
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="text" 
-                    name="audit_objected_amount" 
-                    class="form-control @error('audit_objected_amount') is-invalid @enderror" 
+                    <input type="text"
+                    name="audit_objected_amount"
+                    class="form-control @error('audit_objected_amount') is-invalid @enderror"
                     value="{{old('audit_objected_amount')}}"
-                    placeholder="৩০০০" 
+                    placeholder="৩০০০"
                     autocomplete="off">
                   </div>
                   <div class="field-placeholder">অডিট আপত্তিকৃত টাকার পরিমান</div>
@@ -164,11 +164,11 @@
                 <!-- Field wrapper start -->
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="text" 
-                    name="reason_audit_objections" 
-                    class="form-control @error('reason_audit_objections') is-invalid @enderror" 
+                    <input type="text"
+                    name="reason_audit_objections"
+                    class="form-control @error('reason_audit_objections') is-invalid @enderror"
                     value="{{old('reason_audit_objections')}}"
-                    placeholder="৩০০০" 
+                    placeholder="৩০০০"
                     autocomplete="off">
                   </div>
                   <div class="field-placeholder">অডিট আপত্তির কারন</div>
@@ -182,11 +182,11 @@
                 <!-- Field wrapper start -->
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="text" 
-                    name="total_amount_owed" 
-                    class="form-control @error('total_amount_owed') is-invalid @enderror" 
+                    <input type="text"
+                    name="total_amount_owed"
+                    class="form-control @error('total_amount_owed') is-invalid @enderror"
                     value="{{old('total_amount_owed')}}"
-                    placeholder="৩০০০" 
+                    placeholder="৩০০০"
                     autocomplete="off">
                   </div>
                   <div class="field-placeholder">মোট পাওনা টাকার পরিমান</div>
@@ -200,11 +200,11 @@
                 <!-- Field wrapper start -->
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="text" 
-                    name="amount_money_payable" 
-                    class="form-control @error('amount_money_payable') is-invalid @enderror" 
+                    <input type="text"
+                    name="amount_money_payable"
+                    class="form-control @error('amount_money_payable') is-invalid @enderror"
                     value="{{old('amount_money_payable')}}"
-                    placeholder="৪৫০০০" 
+                    placeholder="৪৫০০০"
                     autocomplete="off">
                   </div>
                   <div class="field-placeholder">পরিশোধযোগ্য টাকার পরিমান</div>
@@ -218,11 +218,11 @@
                 <!-- Field wrapper start -->
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="text" 
-                    name="provident_fund" 
-                    class="form-control @error('provident_fund') is-invalid @enderror" 
+                    <input type="text"
+                    name="provident_fund"
+                    class="form-control @error('provident_fund') is-invalid @enderror"
                     value="{{old('provident_fund')}}"
-                    placeholder="৩০০০" 
+                    placeholder="৩০০০"
                     autocomplete="off">
                   </div>
                   <div class="field-placeholder">প্রেভিডেন্ট ফান্ড</div>
@@ -236,11 +236,11 @@
                 <!-- Field wrapper start -->
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="text" 
-                    name="leave_encashment" 
-                    class="form-control @error('leave_encashment') is-invalid @enderror" 
+                    <input type="text"
+                    name="leave_encashment"
+                    class="form-control @error('leave_encashment') is-invalid @enderror"
                     value="{{old('leave_encashment')}}"
-                    placeholder="৩০০০" 
+                    placeholder="৩০০০"
                     autocomplete="off">
                   </div>
                   <div class="field-placeholder">ছুটি নগদায়ন</div>
@@ -254,11 +254,11 @@
                 <!-- Field wrapper start -->
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="text" 
-                    name="gratuity" 
-                    class="form-control @error('gratuity') is-invalid @enderror" 
+                    <input type="text"
+                    name="gratuity"
+                    class="form-control @error('gratuity') is-invalid @enderror"
                     value="{{old('gratuity')}}"
-                    placeholder="৩০০০" 
+                    placeholder="৩০০০"
                     autocomplete="off">
                   </div>
                   <div class="field-placeholder">গ্রাচ্যুটি</div>
@@ -272,11 +272,11 @@
                 <!-- Field wrapper start -->
                 <div class="field-wrapper">
                   <div class="input-group">
-                      <input type="text" 
-                      name="amount_loan_taken" 
-                      class="form-control @error('amount_loan_taken') is-invalid @enderror" 
+                      <input type="text"
+                      name="amount_loan_taken"
+                      class="form-control @error('amount_loan_taken') is-invalid @enderror"
                       value="{{old('amount_loan_taken')}}"
-                      placeholder="৫০০০০" 
+                      placeholder="৫০০০০"
                       autocomplete="off">
                   </div>
                   <div class="field-placeholder">গৃহীত লোনের পরিমান</div>
@@ -290,11 +290,11 @@
                 <!-- Field wrapper start -->
                 <div class="field-wrapper">
                   <div class="input-group">
-                    <input type="text" 
-                    name="reason_amount_loan_taken" 
-                    class="form-control @error('reason_amount_loan_taken') is-invalid @enderror" 
+                    <input type="text"
+                    name="reason_amount_loan_taken"
+                    class="form-control @error('reason_amount_loan_taken') is-invalid @enderror"
                     value="{{old('reason_amount_loan_taken')}}"
-                    placeholder="লোনের কারন" 
+                    placeholder="লোনের কারন"
                     autocomplete="off">
                   </div>
                   <div class="field-placeholder">লোনের কারন</div>
@@ -302,6 +302,16 @@
                 @error('reason_amount_loan_taken')
                     <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
+                <!-- Field wrapper end -->
+              </div>
+              <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <!-- Field wrapper start -->
+                <div class="field-wrapper">
+                  <div class="input-group">
+                    <input type="file" name="pension_document" class="form-control" value="" autocomplete="off">
+                  </div>
+                  <div class="field-placeholder">ডকুমেন্ট</div>
+                </div>
                 <!-- Field wrapper end -->
               </div>
             </div>
@@ -320,4 +330,4 @@
   <!-- Content wrapper end -->
 </div>
 <!-- Content wrapper scroll end -->
-@endsection 
+@endsection

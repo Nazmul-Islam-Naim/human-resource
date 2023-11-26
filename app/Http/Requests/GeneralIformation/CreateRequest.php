@@ -43,6 +43,7 @@ class CreateRequest extends FormRequest
             'order_no' => ['nullable'],
             'permanent_address' => ['nullable'],
             'present_address' => ['nullable'],
+            'nid' => ['nullable', 'max:20'],
             'mobile' => ['nullable', 'max:15'],
             'email' => ['nullable', 'max:30'],
             'sex' => ['required'],
@@ -51,7 +52,7 @@ class CreateRequest extends FormRequest
             'occupation_id' => ['nullable'],
             'spouse_district_id' => ['nullable'],
             'photo' => ['nullable','image'],
-            'signature' => ['nullable','image']
+            'document' => ['nullable', 'mimes:pdf']
         ];
     }
 }

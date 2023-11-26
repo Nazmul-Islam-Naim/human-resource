@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class GeneralInformation extends Model
@@ -13,8 +14,8 @@ class GeneralInformation extends Model
     protected $fillable = [
         'employee_id', 'name_in_bangla', 'name_in_english', 'fathers_name_in_bangla', 'mothers_name_in_bangla', 'district_id', 'maritial_status', 'birth_date', 'prl_date',
         'present_designation_id', 'present_workstation_id', 'salary_scale_id', 'joining_type', 'joining_date', 'joining_designation_id', 'main_designation_id', 'permanent_date', 'order_no',
-        'permanent_address', 'present_address', 'mobile', 'email', 'sex', 'maritial_status', 'spouse_name_in_bangla', 'occupation_id', 'spouse_district_id',
-        'photo', 'signature', 'status'
+        'permanent_address', 'present_address', 'nid', 'mobile', 'email', 'sex', 'maritial_status', 'spouse_name_in_bangla', 'occupation_id', 'spouse_district_id',
+        'photo', 'document', 'status'
     ];
 
     // relationship
@@ -101,6 +102,14 @@ class GeneralInformation extends Model
 
     public function transferStatus(){
         return $this->hasOne(TransferStatus::class);
+    }
+
+    public function documents() {
+        return $this->hasMany(DocumentHistory::class);
+    }
+
+    public function offerLetters():MorphMany {
+        return $this->morphMany(DocumentHistory::class, 'documentable');
     }
 
 }

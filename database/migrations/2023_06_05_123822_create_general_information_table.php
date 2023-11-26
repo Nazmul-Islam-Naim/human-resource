@@ -32,6 +32,7 @@ return new class extends Migration
             $table->string('order_no')->nullable()->comment('job permanent order number');
             $table->text('permanent_address')->nullable();
             $table->text('present_address')->nullable();
+            $table->string('nid',20)->nullable();
             $table->string('mobile',15)->nullable();
             $table->string('email',30)->nullable();
             $table->tinyInteger('sex')->default(1)->comment('1= male, 2= female, 3= others');
@@ -40,7 +41,7 @@ return new class extends Migration
             $table->foreignId('occupation_id')->nullable()->comment('spouse occupation')->constrained('occupations')->onDelete('cascade');
             $table->foreignId('spouse_district_id')->nullable()->constrained('districts')->onDelete('cascade');
             $table->string('photo')->nullable()->comment('passport size');
-            $table->string('signature')->nullable();
+            $table->string('document')->nullable()->comment('offer_letter');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
